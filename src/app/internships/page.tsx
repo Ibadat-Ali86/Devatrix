@@ -21,7 +21,6 @@ import {
   Check, 
   HelpCircle, 
   Smartphone, 
-  Server, 
   BarChart3, 
   PieChart, 
   FileText,
@@ -50,7 +49,6 @@ export default function InternshipsPage() {
   const categories = [
     "All",
     "Web & Full-Stack",
-    "Backend & Cloud",
     "Artificial Intelligence",
     "Data Science",
     "Data Analytics",
@@ -83,33 +81,6 @@ export default function InternshipsPage() {
         "Distinguished 'Top Performer' Gold Badge for High Achievers",
         "Official Letter of Recommendation (LOR) for Top Performers",
         "Direct fast-track interview for junior developer roles"
-      ]
-    },
-    {
-      id: "backend-cloud",
-      title: "Backend & Cloud Architecture",
-      category: "Backend & Cloud",
-      badge: "Scalable Microservices",
-      icon: Server,
-      desc: "Architect scalable backend services, schema design in PostgreSQL, caching strategies with Redis, and containerized microservices in Docker.",
-      skills: ["Node.js / Express", "Python FastAPI", "PostgreSQL", "Redis Caching", "Docker"],
-      duration: "6 Weeks (Intensive Virtual Sprint)",
-      commitment: "6 to 8 Hours / Week (Flexible)",
-      prerequisites: [
-        "Understanding of server-side programming and HTTP lifecycle",
-        "Basic SQL relational queries and schema principles",
-        "Familiarity with Postman or curl for API debugging"
-      ],
-      deliverables: [
-        { week: "Weeks 1–2", title: "Database Architecture & Prisma ORM", desc: "Model relational schemas, seed realistic datasets, and write optimized SQL queries." },
-        { week: "Weeks 3–4", title: "JWT Authentication & Rate-Limiting", desc: "Implement secure session tokens, password hashing, and Redis-backed request throttling." },
-        { week: "Weeks 5–6", title: "Containerized Microservice & Cloud Deploy", desc: "Write multi-stage Dockerfiles and deploy your containerized service to cloud infrastructure." }
-      ],
-      outcomes: [
-        "Verified Devatrix Certificate of Completion",
-        "Distinguished 'Top Performer' Gold Badge for High Achievers",
-        "Comprehensive API documentation (Swagger/OpenAPI)",
-        "Eligibility for backend engineer hiring pipelines"
       ]
     },
     {
@@ -329,7 +300,7 @@ export default function InternshipsPage() {
     },
     {
       q: "How will my submission be verified?",
-      a: "Once you submit the application form on our dedicated portal, your details are instantly registered in our database and forwarded to our evaluation team. You will immediately receive a unique Candidate ID (CID) to track your review status."
+      a: "Once you submit the online application form, your details are instantly registered in our database and forwarded to our evaluation team. You will immediately receive a unique Candidate ID (CID) to track your review status."
     }
   ];
 
@@ -580,14 +551,14 @@ export default function InternshipsPage() {
                 Ready to Accelerate Your Engineering Career?
               </h3>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Applications are reviewed on a rolling basis. Submit your details on our dedicated application portal to secure your spot.
+                Applications are reviewed on a rolling basis. Submit your details to secure your spot in the upcoming cohort.
               </p>
             </div>
             <Link
               href="/internships/apply"
               className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-brand-500 hover:bg-brand-600 text-obsidian-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-brand-500/25 shrink-0"
             >
-              <span>Go to Application Portal</span>
+              <span>Click to Apply</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

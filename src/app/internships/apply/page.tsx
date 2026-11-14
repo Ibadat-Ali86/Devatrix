@@ -17,7 +17,6 @@ import {
 
 const trackList = [
   "Frontend & Full-Stack Web Engineering",
-  "Backend & Cloud Architecture",
   "Artificial Intelligence & Custom Agents",
   "Data Science & Predictive Modeling",
   "Data Analytics & Business Intelligence",
@@ -452,7 +451,7 @@ export default function InternshipApplyPage() {
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
       <Navbar />
       <main className="flex-1 pt-20">
-        <Suspense fallback={<div className="py-24 text-center text-xs font-mono text-slate-500">Loading Application Portal...</div>}>
+        <Suspense fallback={<div className="py-24 text-center text-xs font-mono text-slate-500">Loading Application Form...</div>}>
           <ApplyFormContent />
         </Suspense>
       </main>
