@@ -15,7 +15,7 @@ export default function EnterpriseHero() {
   ];
 
   return (
-    <section className="relative min-h-[92vh] sm:min-h-screen flex flex-col justify-between pt-16 sm:pt-28 pb-0 bg-[#061833] text-white overflow-hidden">
+    <section className="relative min-h-0 sm:min-h-screen flex flex-col justify-start sm:justify-between pt-16 sm:pt-28 pb-0 bg-[#061833] text-white overflow-hidden">
       
       {/* Ambient Lighting & Geometric Curve (Systems Limited inspired) */}
       <div className="absolute top-0 -right-6 sm:right-0 w-[115%] sm:w-full lg:w-2/3 h-full pointer-events-none overflow-hidden">
@@ -69,8 +69,8 @@ export default function EnterpriseHero() {
       </div>
 
       {/* Main Hero Content - Locked to left on both mobile and laptop, leaving the right side empty */}
-      <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 relative z-10 w-full my-auto py-2 sm:py-4">
-        <div className="w-[64%] sm:w-full max-w-[64%] sm:max-w-2xl lg:max-w-3xl space-y-2.5 sm:space-y-5">
+      <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 relative z-10 w-full my-0 sm:my-auto pt-2 pb-2.5 sm:py-4">
+        <div className="w-[64%] sm:w-full max-w-[64%] sm:max-w-2xl lg:max-w-3xl space-y-2 sm:space-y-5">
           
           {/* Tagline Pill */}
           <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-0.5 sm:py-1.5 rounded-full bg-white/5 border border-white/10 text-[7px] sm:text-xs font-mono font-medium text-slate-300 backdrop-blur-sm">
@@ -128,7 +128,7 @@ export default function EnterpriseHero() {
       </div>
 
       {/* Integrated Capabilities & Solutions Bar - Exactly 6 cards across in one row on all screen sizes */}
-      <div className="relative z-10 w-full pt-2 pb-3 sm:pt-4 sm:pb-5 border-t border-white/10 mt-auto bg-black/35 backdrop-blur-md">
+      <div className="relative z-10 w-full pt-2 pb-3 sm:pt-4 sm:pb-5 border-t border-white/10 mt-3 sm:mt-auto bg-black/35 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
           <p className="text-[8px] sm:text-[11px] font-mono uppercase tracking-widest text-slate-400 text-center mb-1.5 sm:mb-3 font-semibold">
             ENGINEERED WITH MODERN TECHNOLOGIES & BEST PRACTICES
