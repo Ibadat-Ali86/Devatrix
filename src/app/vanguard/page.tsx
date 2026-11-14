@@ -56,7 +56,7 @@ export default function VanguardPage() {
     <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans">
       <Navbar />
 
-      <main className="flex-1 pt-20 sm:pt-24">
+      <main className="flex-1 pt-14 sm:pt-24">
         
         {/* Header (Cinematic Dark Tech Hero) */}
         <section className="relative py-20 border-b border-white/5 bg-obsidian-950 text-white overflow-hidden">

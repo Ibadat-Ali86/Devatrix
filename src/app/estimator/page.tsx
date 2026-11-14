@@ -10,7 +10,7 @@ export default function EstimatorPage() {
     <div className="min-h-screen bg-obsidian-950 text-slate-100 flex flex-col">
       <Navbar />
 
-      <main className="flex-1 pt-28 pb-20">
+      <main className="flex-1 pt-14 sm:pt-28 pb-12 sm:pb-20">
         
         {/* Header */}
         <section className="relative py-16 sm:py-20 border-b border-white/5 bg-gradient-to-b from-obsidian-900 to-obsidian-950 overflow-hidden">

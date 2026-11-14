@@ -61,7 +61,7 @@ export default function WorkPage() {
     <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
       <Navbar />
 
-      <main className="flex-1 pt-20">
+      <main className="flex-1 pt-14 sm:pt-20">
         
         {/* Enterprise Hero Banner (#061833) */}
         <section className="relative py-20 bg-[#061833] text-white overflow-hidden border-b border-white/10">

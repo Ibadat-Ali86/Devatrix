@@ -21,12 +21,12 @@ export default function Navbar() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#061833] border-b border-white/10 shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+      <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-14 sm:h-20">
           
           {/* Brand Logo Lockup */}
-          <Link href="/" className="flex items-center gap-3.5 group">
-            <div className="relative w-11 h-11 flex items-center justify-center shrink-0">
+          <Link href="/" className="flex items-center gap-2.5 sm:gap-3.5 group">
+            <div className="relative w-8 h-8 sm:w-11 sm:h-11 flex items-center justify-center shrink-0">
               <Image
                 src="/logo-transparent.png"
                 alt="Devatrix Logo"
@@ -37,10 +37,10 @@ export default function Navbar() {
               />
             </div>
             <div className="flex flex-col justify-center">
-              <span className="text-2xl font-black tracking-tight text-white font-sans leading-none">
+              <span className="text-base sm:text-2xl font-black tracking-tight text-white font-sans leading-none">
                 Devatrix
               </span>
-              <span className="text-[10px] tracking-widest uppercase text-slate-300 font-semibold mt-1 font-sans">
+              <span className="text-[7.5px] sm:text-[10px] tracking-widest uppercase text-slate-300 font-semibold mt-0.5 sm:mt-1 font-sans">
                 Technologies
               </span>
             </div>
@@ -88,10 +88,10 @@ export default function Navbar() {
           <div className="flex md:hidden items-center">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg bg-white/5 text-slate-200 hover:text-white focus:outline-none"
+              className="p-1.5 sm:p-2 rounded-lg bg-white/5 text-slate-200 hover:text-white focus:outline-none"
               aria-label="Toggle Navigation Menu"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
             </button>
           </div>
 
