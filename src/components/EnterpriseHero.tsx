@@ -18,16 +18,17 @@ export default function EnterpriseHero() {
     <section className="relative min-h-0 sm:min-h-screen flex flex-col justify-start sm:justify-between pt-16 sm:pt-28 pb-0 bg-[#061833] text-white overflow-hidden">
       
       {/* Ambient Lighting & Geometric Curve (Systems Limited inspired) */}
-      <div className="absolute top-0 -right-6 sm:right-0 w-[115%] sm:w-full lg:w-2/3 h-full pointer-events-none overflow-hidden">
-        {/* Ambient Gradient Glows */}
-        <div className="absolute -top-32 -right-32 w-[600px] h-[600px] bg-brand-500/15 rounded-full blur-[140px]"></div>
-        <div className="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-blue-600/15 rounded-full blur-[160px]"></div>
+      <div className="absolute top-0 right-0 w-[55%] sm:w-full lg:w-2/3 h-full pointer-events-none overflow-hidden">
+        {/* Ambient Gradient Glows - Confined to upper-right corner on mobile */}
+        <div className="absolute -top-12 -right-12 sm:-top-32 sm:-right-32 w-[180px] h-[180px] sm:w-[600px] sm:h-[600px] bg-brand-500/25 sm:bg-brand-500/15 rounded-full blur-[60px] sm:blur-[140px]"></div>
+        <div className="absolute top-1/4 right-0 sm:top-1/3 sm:right-1/4 w-[160px] h-[160px] sm:w-[500px] sm:h-[500px] bg-blue-600/25 sm:bg-blue-600/15 rounded-full blur-[60px] sm:blur-[160px]"></div>
         
         {/* Elegant Abstract 3D Ribbon / Flow */}
         <svg 
-          className="absolute inset-0 w-full h-full opacity-60" 
+          className="absolute inset-0 w-full h-full opacity-70 sm:opacity-60" 
           viewBox="0 0 800 800" 
           fill="none" 
+          preserveAspectRatio="xMaxYMid meet"
           xmlns="http://www.w3.org/2000/svg"
         >
           <g opacity="0.85">
@@ -70,7 +71,7 @@ export default function EnterpriseHero() {
 
       {/* Main Hero Content - Locked to left on both mobile and laptop, leaving the right side empty */}
       <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 relative z-10 w-full my-0 sm:my-auto pt-2 pb-2.5 sm:py-4">
-        <div className="w-[64%] sm:w-full max-w-[64%] sm:max-w-2xl lg:max-w-3xl space-y-2 sm:space-y-5">
+        <div className="w-[60%] sm:w-full max-w-[60%] sm:max-w-2xl lg:max-w-3xl space-y-2 sm:space-y-5">
           
           {/* Tagline Pill */}
           <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-0.5 sm:py-1.5 rounded-full bg-white/5 border border-white/10 text-[7px] sm:text-xs font-mono font-medium text-slate-300 backdrop-blur-sm">
