@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Devatrix Technologies - Platform & Portal Technical Documentation</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 18mm 14mm 18mm 14mm;
+      @bottom-right {
+        content: counter(page);
+      }
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #1e293b;
+      background: #ffffff;
+      line-height: 1.55;
+      font-size: 13px;
+    }
+
+    /* Print page-break controls */
+    .page-break {
+      page-break-after: always;
+      break-after: page;
+    }
+    .avoid-break {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    /* Cover Page */
+    .cover-page {
+      height: 100vh;
+      min-height: 250mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 40px 30px;
+      background: linear-gradient(135deg, #030712 0%, #0b132b 50%, #0f172a 100%);
+      color: #ffffff;
+      border-radius: 8px;
+      page-break-after: always;
+    }
+    .cover-top {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      padding-bottom: 25px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 5px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-radius: 9999px;
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      margin-bottom: 16px;
+    }
+    .gold-badge {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+    .cover-title {
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      color: #f8fafc;
+      margin-bottom: 12px;
+    }
+    .cover-title span {
+      background: linear-gradient(90deg, #60a5fa, #38bdf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .cover-subtitle {
+      font-size: 15px;
+      color: #94a3b8;
+      max-width: 600px;
+      line-height: 1.5;
+    }
+    .cover-metadata {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 30px;
+    }
+    .cover-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      font-size: 12px;
+    }
+    .meta-item strong {
+      color: #94a3b8;
+      display: block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 2px;
+    }
+    .meta-item span {
+      color: #f1f5f9;
+      font-weight: 600;
+    }
+    .cover-footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #64748b;
+    }
+
+    /* Headings */
+    h1 {
+      font-size: 22px;
+      font-weight: 800;
+      color: #0b132b;
+      border-bottom: 2px solid #3b82f6;
+      padding-bottom: 6px;
+      margin-top: 24px;
+      margin-bottom: 14px;
+    }
+    h2 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-top: 14px;
+      margin-bottom: 6px;
+    }
+
+    p {
+      margin-bottom: 10px;
+      color: #334155;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 16px 0;
+      font-size: 11.5px;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 7px 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #0b132b;
+      color: #ffffff;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+    tr:nth-child(even) td {
+      background-color: #f8fafc;
+    }
+
+    /* Callout Alert Boxes */
+    .callout {
+      border-left: 4px solid #3b82f6;
+      background: #eff6ff;
+      padding: 10px 14px;
+      border-radius: 0 6px 6px 0;
+      margin: 14px 0;
+      font-size: 12px;
+    }
+    .callout-title {
+      font-weight: 700;
+      color: #1d4ed8;
+      margin-bottom: 3px;
+    }
+    .callout-gold {
+      border-left-color: #f59e0b;
+      background: #fffbeb;
+    }
+    .callout-gold .callout-title {
+      color: #b45309;
+    }
+
+    /* Swatches Grid */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .swatch-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      overflow: hidden;
+      font-size: 11px;
+    }
+    .swatch-color {
+      height: 32px;
+    }
+    .swatch-info {
+      padding: 5px 8px;
+      background: #f8fafc;
+    }
+    .swatch-info strong {
+      display: block;
+      color: #0f172a;
+    }
+    .swatch-info span {
+      color: #64748b;
+      font-family: monospace;
+      font-size: 10px;
+    }
+
+    /* Code Blocks */
+    pre {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 12px 14px;
+      border-radius: 6px;
+      font-family: "Consolas", "Courier New", monospace;
+      font-size: 11px;
+      line-height: 1.45;
+      overflow-x: auto;
+      margin: 12px 0;
+      border: 1px solid #1e293b;
+    }
+    code {
+      font-family: "Consolas", "Courier New", monospace;
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-size: 11px;
+    }
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+
+    /* Grid cards */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin: 12px 0;
+    }
+    .feature-box {
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 10px 12px;
+      background: #f8fafc;
+    }
+    .feature-box.gold-accent {
+      border-color: #fde68a;
+      background: #fffdf5;
+    }
+    .feature-box strong {
+      color: #0f172a;
+      font-size: 12.5px;
+      display: block;
+      margin-bottom: 3px;
+    }
+    .feature-box p {
+      font-size: 11.5px;
+      color: #475569;
+      margin: 0;
+    }
+
+    ul, ol {
+      margin-left: 20px;
+      margin-bottom: 10px;
+    }
+    li {
+      margin-bottom: 4px;
+      color: #334155;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- COVER PAGE -->
+  <div class="cover-page">
+    <div class="cover-top">
+      <div class="badge gold-badge">Corporate Technical Documentation</div>
+      <div class="cover-title">
+        Devatrix Technologies<br>
+        <span>Platform & Portal Architecture</span>
+      </div>
+      <div class="cover-subtitle">
+        Comprehensive Engineering Guide for the Devatrix Public Web Platform and the Autonomous Candidate & Cohort Management Portal.
+      </div>
+    </div>
+
+    <div class="cover-metadata">
+      <div class="cover-meta-grid">
+        <div class="meta-item">
+          <strong>Entity & Model</strong>
+          <span>Devatrix Technologies • Remote-First</span>
+        </div>
+        <div class="meta-item">
+          <strong>Founding Year & Base</strong>
+          <span>Established 2022 • Lahore, Pakistan</span>
+        </div>
+        <div class="meta-item">
+          <strong>Official WhatsApp</strong>
+          <span>+92 315 6179410</span>
+        </div>
+        <div class="meta-item">
+          <strong>Primary Email</strong>
+          <span>devatrixtechnologies@gmail.com</span>
+        </div>
+        <div class="meta-item">
+          <strong>GitHub Codebase</strong>
+          <span>umairulhassancs/Devatrix (main)</span>
+        </div>
+        <div class="meta-item">
+          <strong>Document Version</strong>
+          <span>v1.0.0 (Production Verified)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cover-footer">
+      <span>© 2022–2026 Devatrix Technologies. All Rights Reserved.</span>
+      <span>Engineered with Next.js 14, TypeScript & Tailwind CSS</span>
+    </div>
+  </div>
+
+  <!-- TABLE OF CONTENTS & EXECUTIVE SUMMARY -->
+  <div>
+    <h1>Executive Summary & System Scope</h1>
+    <p>
+      <strong>Devatrix Technologies</strong> is a modern software house founded in <strong>2022</strong> in <strong>Lahore, Pakistan</strong>. 
+      Operating under a high-performance remote-first structure, Devatrix delivers enterprise web platforms, custom machine learning workflows, 
+      applied artificial intelligence agents, scalable backend architectures, and high-impact cross-platform mobile applications.
+    </p>
+
+    <div class="callout callout-gold avoid-break">
+      <div class="callout-title">Core Corporate Accomplishments</div>
+      <strong>90+ Projects Delivered</strong> across fintech, healthcare, SaaS, and e-commerce with a <strong>99.4% production uptime SLA</strong> 
+      and over <strong>$14M+ in enterprise client value unlocked</strong> across 12+ international scaling partners.
+    </div>
+
+    <h2>Document Architecture</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Document Part</th>
+          <th>Primary Scope</th>
+          <th>Target Infrastructure</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Part I: Web Platform Architecture</strong></td>
+          <td>Corporate website, brand design system, theme tokens, navbar/footer, 11 production routes, 7 internship tracks, and dual persistence forms.</td>
+          <td>Next.js 14 App Router, Vercel Edge, Local JSON Storage, Google Sheets Webhook.</td>
+        </tr>
+        <tr>
+          <td><strong>Part II: Future Portal Blueprint</strong></td>
+          <td>Decoupled candidate & intern portal, 6-week milestone tracking, automated GitHub commit syncing, Top Performer honors, and certificate generation.</td>
+          <td>Standalone Next.js app (portal.devatrix.com), Supabase/PostgreSQL, R2 Storage, Inngest queues.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="avoid-break">
+      <h2>Verified Corporate Channels</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Channel</th>
+            <th>Handle / Identifier</th>
+            <th>Direct Access Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Official WhatsApp</strong></td>
+            <td>+92 315 6179410</td>
+            <td><code>https://wa.me/923156179410</code></td>
+          </tr>
+          <tr>
+            <td><strong>Official Email</strong></td>
+            <td>devatrixtechnologies@gmail.com</td>
+            <td><code>mailto:devatrixtechnologies@gmail.com</code></td>
+          </tr>
+          <tr>
+            <td><strong>LinkedIn Company Page</strong></td>
+            <td>Devatrix Technologies</td>
+            <td><code>https://www.linkedin.com/company/devatrix-technologies/</code></td>
+          </tr>
+          <tr>
+            <td><strong>Instagram Profile</strong></td>
+            <td>@devatrix_technologies</td>
+            <td><code>https://www.instagram.com/devatrix_technologies</code></td>
+          </tr>
+          <tr>
+            <td><strong>GitHub Repository</strong></td>
+            <td>umairulhassancs/Devatrix</td>
+            <td><code>https://github.com/umairulhassancs/Devatrix</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- PART I: WEB PLATFORM ARCHITECTURE -->
+  <div>
+    <h1>Part I: Web Platform Architecture</h1>
+
+    <h2>1. Design System & Theme Tokens</h2>
+    <p>
+      The Devatrix interface implements an executive dark aesthetic composed of deep midnight navy tones, 
+      subtle glassmorphism, high-contrast typography, and amber distinction accents.
+    </p>
+
+    <h3>1.1 Theme Color Palette</h3>
+    <div class="swatch-grid avoid-break">
+      <div class="swatch-card">
+        <div class="swatch-color" style="background: #030712;"></div>
+        <div class="swatch-info">
+          <strong>Deep Void</strong>
+          <span>#030712 (gray-950)</span>
+        </div>
+      </div>
+      <div class="swatch-card">
+        <div class="swatch-color" style="background: #0b132b;"></div>
+        <div class="swatch-info">
+          <strong>Midnight Navy</strong>
+          <span>#0B132B (navy-950)</span>
+        </div>
+      </div>
+      <div class="swatch-card">
+        <div class="swatch-color" style="background: #0f172a;"></div>
+        <div class="swatch-info">
+          <strong>Surface Dark</strong>
+          <span>#0F172A (slate-900)</span>
+        </div>
+      </div>
+      <div class="swatch-card">
+        <div class="swatch-color" style="background: #1e293b;"></div>
+        <div class="swatch-info">
+          <strong>Elevated Slate</strong>
+          <span>#1E293B (slate-800)</span>
+        </div>
+      </div>
+      <div class="swatch-card">
+        <div class="swatch-color" style="background: #3b82f6;"></div>
+        <div class="swatch-info">
+          <strong>Primary Accent</strong>
+          <span>#3B82F6 (blue-500)</span>
+        </div>
+      </div>
+      <div class="swatch-card">
+        <div class="swatch-color" style="background: #2563eb;"></div>
+        <div class="swatch-info">
+          <strong>Deep Accent</strong>
+          <span>#2563EB (blue-600)</span>
+        </div>
+      </div>
+      <div class="swatch-card">
+        <div class="swatch-color" style="background: #f59e0b;"></div>
+        <div class="swatch-info">
+          <strong>Merit Gold</strong>
+          <span>#F59E0B (amber-500)</span>
+        </div>
+      </div>
+      <div class="swatch-card">
+        <div class="swatch-color" style="background: #d97706;"></div>
+        <div class="swatch-info">
+          <strong>Deep Amber</strong>
+          <span>#D97706 (amber-600)</span>
+        </div>
+      </div>
+    </div>
+
+    <h3>1.2 Typography & Micro-Interactions</h3>
+    <ul>
+      <li><strong>Primary Font Family</strong>: <code>Geist Sans</code> with fallback to system UI sans-serif.</li>
+      <li><strong>HUD & Telemetry Font</strong>: <code>Geist Mono</code> for candidate IDs, code snippets, and operational metrics.</li>
+      <li><strong>Glassmorphism Standard</strong>: <code>rgba(15, 23, 42, 0.75)</code> background with <code>backdrop-filter: blur(16px)</code> and <code>border: 1px solid rgba(255, 255, 255, 0.08)</code>.</li>
+      <li><strong>Responsive Breakpoints</strong>: Mobile (&lt; 640px), Tablet (768px), Desktop (1024px), Wide Screen (1280px+).</li>
+    </ul>
+
+    <h2>2. Global Layout Components</h2>
+    <div class="avoid-break">
+      <h3>2.1 Persistent Navigation Header (<code>Navbar.tsx</code>)</h3>
+      <p>
+        The navigation bar floats at the top with automated scroll-aware backdrop blur. It houses the Devatrix logo, 
+        an "EST. 2022" corporate marker, eight primary route links, a highlighted "Internships" portal pill, 
+        a mobile drawer toggle, and an "Initialize Project" CTA button routing to <code>/contact</code>.
+      </p>
+
+      <h3>2.2 Persistent Footer (<code>Footer.tsx</code>)</h3>
+      <p>
+        Provides global navigation, legal governance links (Privacy Policy, Terms of Service), social links (WhatsApp, Email, LinkedIn, Instagram), 
+        and the corporate tagline: <em>"MODERN SOFTWARE HOUSE • LAHORE, PAKISTAN (REMOTE-FIRST) • EST. 2022"</em> along with live operational telemetry.
+      </p>
+    </div>
+
+    <h2>3. Production Route Inventory</h2>
+    <table class="avoid-break">
+      <thead>
+        <tr>
+          <th>Route Path</th>
+          <th>Component Page</th>
+          <th>Key Purpose & Features</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>/</code></td>
+          <td><code>src/app/page.tsx</code></td>
+          <td>Homepage with Enterprise Hero, Trust Ticker, 6 Modern Tech HUD cards, Core Capabilities, and Executive CTA.</td>
+        </tr>
+        <tr>
+          <td><code>/services</code></td>
+          <td><code>src/app/services/page.tsx</code></td>
+          <td>6 Core Engineering Services (SaaS, AI Chatbots, ML/Data Science, Cloud DevOps, High-Throughput APIs, Web/Mobile).</td>
+        </tr>
+        <tr>
+          <td><code>/work</code></td>
+          <td><code>src/app/work/page.tsx</code></td>
+          <td>Case studies detailing challenges, engineering architecture, and quantifiable business outcomes.</td>
+        </tr>
+        <tr>
+          <td><code>/about</code></td>
+          <td><code>src/app/about/page.tsx</code></td>
+          <td>Company origins (2022), Lahore base, remote-first principles, and leadership philosophy.</td>
+        </tr>
+        <tr>
+          <td><code>/vanguard</code></td>
+          <td><code>src/app/vanguard/page.tsx</code></td>
+          <td>Elite acceleration program for rapid software delivery and senior architectural execution.</td>
+        </tr>
+        <tr>
+          <td><code>/verify</code></td>
+          <td><code>src/app/verify/page.tsx</code></td>
+          <td>Public credential verification engine for certificate IDs (e.g. <code>DEV-INT-2026-XXXX</code>).</td>
+        </tr>
+        <tr>
+          <td><code>/estimator</code></td>
+          <td><code>src/app/estimator/page.tsx</code></td>
+          <td>Interactive project scope, timeline, and cost estimation calculator.</td>
+        </tr>
+        <tr>
+          <td><code>/contact</code></td>
+          <td><code>src/app/contact/page.tsx</code></td>
+          <td>Project inquiry form with direct WhatsApp and email routing.</td>
+        </tr>
+        <tr>
+          <td><code>/privacy</code> & <code>/terms</code></td>
+          <td><code>src/app/privacy/page.tsx</code> & <code>src/app/terms/page.tsx</code></td>
+          <td>Legal policies, data retention standards, intellectual property governance, and remote SLAs.</td>
+        </tr>
+        <tr>
+          <td><code>/internships</code></td>
+          <td><code>src/app/internships/page.tsx</code></td>
+          <td>Flagship 6-week internship portal with 7 specialized tracks, 4 merit cards, and syllabus modals.</td>
+        </tr>
+        <tr>
+          <td><code>/internships/apply</code></td>
+          <td><code>src/app/internships/apply/page.tsx</code></td>
+          <td>Dedicated application route with track pre-selection, optional CV upload, and ID generation.</td>
+        </tr>
+        <tr>
+          <td><code>/careers</code></td>
+          <td><code>src/app/careers/page.tsx</code></td>
+          <td>Open roles categorized across 4 standardized experience tiers (<1yr, 1-3yr, 3-5yr, 5+yr).</td>
+        </tr>
+        <tr>
+          <td><code>/careers/apply</code></td>
+          <td><code>src/app/careers/apply/page.tsx</code></td>
+          <td>Dedicated job application portal with role query support, salary history/expectations, and CV handling.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- INTERNSHIPS & CAREERS DETAILS -->
+  <div>
+    <h1>Internships & Careers Architecture</h1>
+
+    <h2>1. The 7 Specialized 6-Week Internship Tracks</h2>
+    <p>
+      Every internship track has been standardized to a rigorous <strong>6-Week Duration</strong> (6 to 8 Hours/Week) 
+      organized into three two-week milestone sprints with real production deliverables.
+    </p>
+
+    <div class="feature-grid avoid-break">
+      <div class="feature-box">
+        <strong>1. Frontend & Full-Stack Engineering</strong>
+        <p>Next.js 14, React 18, TypeScript, Tailwind CSS, Server Actions, REST APIs, and Vercel edge deployment.</p>
+      </div>
+      <div class="feature-box">
+        <strong>2. Backend & Cloud Architecture</strong>
+        <p>Node.js, Python, PostgreSQL, Redis caching, Docker containerization, and microservice APIs.</p>
+      </div>
+      <div class="feature-box">
+        <strong>3. AI & Custom Chatbots / Agents</strong>
+        <p>OpenAI API, LangChain, RAG vector pipelines, Pinecone, tool calling, and autonomous agent loops.</p>
+      </div>
+      <div class="feature-box">
+        <strong>4. Data Science & Predictive Modeling</strong>
+        <p>Python, Pandas, Scikit-Learn, exploratory data analysis, feature engineering, and model deployment.</p>
+      </div>
+      <div class="feature-box">
+        <strong>5. Data Analytics & Business Intelligence</strong>
+        <p>Advanced SQL, ETL data pipelines, KPI dashboarding, metric modeling, and automated executive reporting.</p>
+      </div>
+      <div class="feature-box">
+        <strong>6. React Native Mobile App Development</strong>
+        <p>React Native, Expo, mobile state management, native device APIs, push notifications, and offline caching.</p>
+      </div>
+      <div class="feature-box">
+        <strong>7. Flutter Mobile App Development</strong>
+        <p>Dart, Flutter Framework, Provider/Bloc state management, Material 3, and cross-platform compilation.</p>
+      </div>
+      <div class="feature-box gold-accent">
+        <strong>Standardized 3-Phase Milestone Structure</strong>
+        <p>Weeks 1–2: Architecture & Foundation • Weeks 3–4: Core Deliverables • Weeks 5–6: Production & CI/CD.</p>
+      </div>
+    </div>
+
+    <h2>2. The 4 Merit Feature Highlight Cards</h2>
+    <p>
+      The internships portal highlights 4 core benefits with <strong>amber badges and gold accent borders</strong>:
+    </p>
+    <div class="feature-grid avoid-break">
+      <div class="feature-box gold-accent">
+        <span class="badge gold-badge" style="margin-bottom: 4px; font-size: 9px;">CAREER TOOLKIT</span>
+        <strong>Resume & Technical Interview Mastery</strong>
+        <p>Guided portfolio reviews, ATS-optimized CV structuring, and live mock technical interview coaching.</p>
+      </div>
+      <div class="feature-box gold-accent">
+        <span class="badge gold-badge" style="margin-bottom: 4px; font-size: 9px;">DIRECT MENTORSHIP</span>
+        <strong>Senior Engineering Guidance</strong>
+        <p>Weekly 1-on-1 pull request reviews, architectural teardowns, and direct mentorship from staff engineers.</p>
+      </div>
+      <div class="feature-box gold-accent">
+        <span class="badge gold-badge" style="margin-bottom: 4px; font-size: 9px;">PREMIUM DISTINCTION</span>
+        <strong>Merit-Based 'Top Performer' Honors</strong>
+        <p>Top performers earn a prestigious gold badge on verified credentials plus an executive Letter of Recommendation.</p>
+      </div>
+      <div class="feature-box gold-accent">
+        <span class="badge gold-badge" style="margin-bottom: 4px; font-size: 9px;">CAREER ACCELERATOR</span>
+        <strong>Direct Job Placement Pathway</strong>
+        <p>Exemplary cohort graduates are fast-tracked directly into Junior Software Engineer positions at Devatrix.</p>
+      </div>
+    </div>
+
+    <h2>3. Form Architecture & Data Lifecycle</h2>
+    <pre><code>// Unique Tracking ID Generation Algorithm
+const randomPin = Math.floor(1000 + Math.random() * 9000);
+const trackingId = `DEV-INT-2026-${randomPin}`; // Careers: DEV-JOB-2026-${randomPin}</code></pre>
+
+    <div class="avoid-break">
+      <h3>Data Persistence Workflow</h3>
+      <ol>
+        <li><strong>Client Submission</strong>: Candidate submits multipart form via <code>fetch()</code> with state spinners and validation.</li>
+        <li><strong>Server Processing (API Route)</strong>:
+          <ul>
+            <li>Validates required inputs (Full Name, Email, WhatsApp, Track/Role).</li>
+            <li>Generates unique tracking ID (<code>DEV-INT-2026-XXXX</code> or <code>DEV-JOB-2026-XXXX</code>).</li>
+            <li>If a resume file is uploaded, writes securely to <code>public/uploads/resumes/</code> with timestamped filename.</li>
+            <li>Appends application object into <code>data/internship-applications.json</code> or <code>data/career-applications.json</code>.</li>
+            <li>Invokes Google Sheets Webhook asynchronously in an isolated try-catch block to prevent webhook failures from blocking the user response.</li>
+            <li>Returns HTTP 200 with the tracking ID and timestamp.</li>
+          </ul>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- PART II: FUTURE PORTAL ARCHITECTURE -->
+  <div>
+    <h1>Part II: Future Independent Portal System Architecture</h1>
+
+    <div class="callout avoid-break">
+      <div class="callout-title">Architectural Boundary & Independence</div>
+      As established in planning, the <strong>Devatrix Portal</strong> is a completely separate, standalone software platform 
+      (hosted independently at <code>portal.devatrix.com</code>). It does not share the marketing website's codebase, maintaining its 
+      own authenticated database, session store, and API services.
+    </div>
+
+    <h2>1. System Modules & Functional Breakdown</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Module</th>
+          <th>Core Capabilities</th>
+          <th>Primary Beneficiaries</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Identity & Access (RBAC)</strong></td>
+          <td>OAuth (GitHub & Google), Passwordless Magic Links, Role guards: Applicant, Intern, Mentor, Admin.</td>
+          <td>All platform users</td>
+        </tr>
+        <tr>
+          <td><strong>Admissions Kanban HUD</strong></td>
+          <td>Visual pipeline: Screening &rarr; Assessment &rarr; Interview &rarr; Enrolled &rarr; Rejected.</td>
+          <td>HR Leads & Admins</td>
+        </tr>
+        <tr>
+          <td><strong>Milestone Delivery Engine</strong></td>
+          <td>3-Phase task submissions, GitHub repository commit tracking, automated CI checks, mentor feedback scoring.</td>
+          <td>Interns & Mentors</td>
+        </tr>
+        <tr>
+          <td><strong>Automated Credential Engine</strong></td>
+          <td>Generates vector PDF certificates with QR code, cryptographic hash, and "Top Performer" gold seals.</td>
+          <td>Graduating Interns</td>
+        </tr>
+        <tr>
+          <td><strong>Executive LOR Generator</strong></td>
+          <td>Produces official Letters of Recommendation for top 10% performers on corporate letterhead.</td>
+          <td>Top Performers</td>
+        </tr>
+        <tr>
+          <td><strong>Notification Stream</strong></td>
+          <td>Automated WhatsApp alerts (Twilio API) and transactional emails (Resend/SendGrid) for milestone deadlines.</td>
+          <td>Candidates & Mentors</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>2. Complete PostgreSQL Database Schema</h2>
+    <p>Below is the complete production DDL schema optimized for Supabase / PostgreSQL:</p>
+
+    <pre><code>-- 1. Core Users Table
+CREATE TABLE users (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    email VARCHAR(255) UNIQUE NOT NULL,
+    full_name VARCHAR(255) NOT NULL,
+    whatsapp VARCHAR(50) NOT NULL,
+    role VARCHAR(50) DEFAULT 'APPLICANT' CHECK (role IN ('APPLICANT', 'INTERN', 'MENTOR', 'ADMIN')),
+    github_username VARCHAR(100),
+    avatar_url TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- 2. Cohort Definitions
+CREATE TABLE cohorts (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    code VARCHAR(50) UNIQUE NOT NULL, -- e.g. COHORT-2026-Q1
+    title VARCHAR(100) NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    is_active BOOLEAN DEFAULT TRUE
+);
+
+-- 3. Cohort Enrollments
+CREATE TABLE cohort_enrollments (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    cohort_id UUID REFERENCES cohorts(id),
+    user_id UUID REFERENCES users(id),
+    track VARCHAR(100) NOT NULL,
+    github_repo_url TEXT,
+    mentor_id UUID REFERENCES users(id),
+    is_completed BOOLEAN DEFAULT FALSE,
+    earned_top_performer BOOLEAN DEFAULT FALSE,
+    final_grade NUMERIC(5,2)
+);
+
+-- 4. 3-Phase Milestone Submissions
+CREATE TABLE milestone_submissions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    enrollment_id UUID REFERENCES cohort_enrollments(id) ON DELETE CASCADE,
+    phase_number INT CHECK (phase_number IN (1, 2, 3)),
+    pull_request_url TEXT NOT NULL,
+    live_demo_url TEXT,
+    documentation_url TEXT,
+    score NUMERIC(5,2),
+    mentor_feedback TEXT,
+    reviewed_by UUID REFERENCES users(id),
+    reviewed_at TIMESTAMP WITH TIME ZONE
+);
+
+-- 5. Verified Credentials & Certificates
+CREATE TABLE credentials (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    credential_id VARCHAR(50) UNIQUE NOT NULL, -- e.g. DEV-INT-2026-XXXX
+    enrollment_id UUID REFERENCES cohort_enrollments(id),
+    recipient_name VARCHAR(255) NOT NULL,
+    track_title VARCHAR(100) NOT NULL,
+    is_top_performer BOOLEAN DEFAULT FALSE,
+    certificate_pdf_url TEXT NOT NULL,
+    lor_pdf_url TEXT,
+    qr_code_url TEXT NOT NULL,
+    cryptographic_hash VARCHAR(64) NOT NULL
+);</code></pre>
+
+    <div class="avoid-break">
+      <h2>3. Future Implementation Roadmap</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Sprint</th>
+            <th>Duration</th>
+            <th>Milestones & Deliverables</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Sprint 1</strong></td>
+            <td>Weeks 1–2</td>
+            <td>Standalone repository scaffolding, Supabase PostgreSQL setup, Auth guards (GitHub/Google OAuth), portal deployment.</td>
+          </tr>
+          <tr>
+            <td><strong>Sprint 2</strong></td>
+            <td>Weeks 3–4</td>
+            <td>Application pipeline Kanban dashboard, Google Sheets two-way synchronization, and automated notification triggers.</td>
+          </tr>
+          <tr>
+            <td><strong>Sprint 3</strong></td>
+            <td>Weeks 5–6</td>
+            <td>3-Phase milestone task submission forms, GitHub PR webhooks listener, and mentor grading workflow.</td>
+          </tr>
+          <tr>
+            <td><strong>Sprint 4</strong></td>
+            <td>Weeks 7–8</td>
+            <td>Automated PDF certificate and LOR generation, QR code verification matching the public <code>/verify</code> engine.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top: 30px; text-align: center; color: #64748b; font-size: 11px;">
+      — End of Official Technical Documentation —<br>
+      <strong>Devatrix Technologies • Lahore, Pakistan • Founded 2022</strong>
+    </div>
+  </div>
+
+</body>
+</html>
