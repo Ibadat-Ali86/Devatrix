@@ -29,17 +29,17 @@ export default function TrustTicker() {
           TRUSTED BY LEADERS IN FINANCIAL SERVICES, HEALTHCARE, & GLOBAL INFRASTRUCTURE
         </p>
 
-        {/* Client Logos / Identity Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        {/* Client Logos / Identity Grid - 3 columns on mobile, 6 on desktop */}
+        <div className="grid grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-4">
           {clients.map((client) => (
             <div
               key={client.name}
-              className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 hover:border-brand-500/50 hover:bg-white hover:shadow-md transition-all flex flex-col justify-center text-center group"
+              className="p-2 sm:p-4 rounded-lg sm:rounded-xl bg-slate-50 border border-slate-200/80 hover:border-brand-500/50 hover:bg-white hover:shadow-md transition-all flex flex-col justify-center text-center group"
             >
-              <span className="text-sm font-bold text-slate-900 group-hover:text-brand-700 font-mono tracking-tight transition-colors">
+              <span className="text-[10px] sm:text-sm font-bold text-slate-900 group-hover:text-brand-700 font-mono tracking-tight transition-colors truncate">
                 {client.name}
               </span>
-              <span className="text-[10px] text-slate-500 font-mono mt-0.5">
+              <span className="text-[8px] sm:text-[10px] text-slate-500 font-mono mt-0.5 truncate">
                 {client.sector}
               </span>
             </div>

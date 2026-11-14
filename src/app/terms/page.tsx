@@ -12,30 +12,30 @@ export default function TermsPage() {
       <main className="flex-1 pt-20">
         
         {/* Hero Banner (#061833) */}
-        <section className="relative py-20 bg-[#061833] text-white overflow-hidden border-b border-white/10">
+        <section className="relative py-12 sm:py-20 bg-[#061833] text-white overflow-hidden border-b border-white/10">
           <div className="absolute top-0 right-1/4 w-[500px] h-[300px] bg-brand-500/15 rounded-full blur-[140px] pointer-events-none"></div>
           <div className="absolute bottom-0 left-1/4 w-[400px] h-[250px] bg-blue-600/15 rounded-full blur-[120px] pointer-events-none"></div>
 
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-4">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-mono font-medium text-slate-300">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-3 sm:space-y-4">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] sm:text-xs font-mono font-medium text-slate-300">
               <FileCheck className="w-3.5 h-3.5 text-brand-500" />
               <span>TERMS & CONDITIONS</span>
             </div>
-            <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+            <h1 className="text-2xl sm:text-5xl font-black text-white tracking-tight leading-tight">
               Terms of Service
             </h1>
-            <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal">
+            <p className="text-xs sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal">
               Standards and conditions governing technical engineering engagements with Devatrix Technologies LLC.
             </p>
-            <div className="text-xs font-mono text-slate-400">
+            <div className="text-[10px] sm:text-xs font-mono text-slate-400">
               Last Updated: November 2026 • Established 2022
             </div>
           </div>
         </section>
 
         {/* Content Body */}
-        <section className="py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="prose prose-slate max-w-none space-y-12 text-slate-700 leading-relaxed text-sm sm:text-base">
+        <section className="py-10 sm:py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="prose prose-slate max-w-none space-y-8 sm:space-y-12 text-slate-700 leading-relaxed text-xs sm:text-base">
             
             <div className="space-y-4">
               <h2 className="text-2xl font-bold text-slate-900 font-sans">

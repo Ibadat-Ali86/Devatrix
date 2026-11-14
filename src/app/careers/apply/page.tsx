@@ -265,22 +265,22 @@ function CareerApplyFormContent() {
             )}
 
             {/* Full Name & Email */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="grid grid-cols-2 gap-2.5 sm:gap-5">
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5 font-sans">
+                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
                   Full Name *
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Asad Qureshi"
+                  placeholder="Asad Qureshi"
                   value={formData.fullName}
                   onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 sm:px-4 sm:py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
                 />
               </div>
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5 font-sans">
+                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
                   Email Address *
                 </label>
                 <input
@@ -289,16 +289,16 @@ function CareerApplyFormContent() {
                   placeholder="asad@example.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 sm:px-4 sm:py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
                 />
               </div>
             </div>
 
             {/* Phone & Current Location */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="grid grid-cols-2 gap-2.5 sm:gap-5">
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5 font-sans">
-                  Phone / WhatsApp Number *
+                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
+                  Phone / WhatsApp *
                 </label>
                 <input
                   type="tel"
@@ -306,34 +306,34 @@ function CareerApplyFormContent() {
                   placeholder="+92 3XX XXXXXXX"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 sm:px-4 sm:py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
                 />
               </div>
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5 font-sans">
-                  Current Location / City *
+                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
+                  Location / City *
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Lahore, Pakistan or Remote"
+                  placeholder="Lahore / Remote"
                   value={formData.location}
                   onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 sm:px-4 sm:py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
                 />
               </div>
             </div>
 
-            {/* Target Role & Total Experience - Defined explicitly per user specification */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {/* Target Role & Total Experience */}
+            <div className="grid grid-cols-2 gap-2.5 sm:gap-5">
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5 font-sans">
-                  Target Role / Discipline *
+                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
+                  Target Role *
                 </label>
                 <select
                   value={formData.role}
                   onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-2 sm:px-4 sm:py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-[11px] sm:text-sm"
                 >
                   {roleOptions.map((opt) => (
                     <option key={opt} value={opt}>
@@ -343,61 +343,61 @@ function CareerApplyFormContent() {
                 </select>
               </div>
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5 font-sans">
-                  Total Professional Experience *
+                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
+                  Experience Tier *
                 </label>
                 <select
                   value={formData.experience}
                   onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
-                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-2 sm:px-4 sm:py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-[11px] sm:text-sm"
                 >
-                  <option value="Fresher / Entry-Level (< 1 Year)">Fresher / Entry-Level (&lt; 1 Year)</option>
-                  <option value="1 to 3 Years (Junior Engineer)">1 to 3 Years (Junior Engineer)</option>
-                  <option value="3 to 5 Years (Mid-Level Engineer)">3 to 5 Years (Mid-Level Engineer)</option>
-                  <option value="5+ Years (Senior / Lead Architect)">5+ Years (Senior / Lead Architect)</option>
+                  <option value="Fresher / Entry-Level (< 1 Year)">Fresher (&lt; 1 Year)</option>
+                  <option value="1 to 3 Years (Junior Engineer)">1-3 Years (Junior)</option>
+                  <option value="3 to 5 Years (Mid-Level Engineer)">3-5 Years (Mid-Level)</option>
+                  <option value="5+ Years (Senior / Lead Architect)">5+ Years (Senior/Lead)</option>
                 </select>
               </div>
             </div>
 
             {/* Previous Company & Job Title */}
             <div>
-              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5 font-sans">
+              <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
                 Previous / Current Company & Job Title
               </label>
               <input
                 type="text"
-                placeholder="e.g. Software Engineer at Systems Ltd / Freelance"
+                placeholder="Software Engineer at Systems Ltd / Freelance"
                 value={formData.previousCompany}
                 onChange={(e) => setFormData({ ...formData, previousCompany: e.target.value })}
-                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 sm:px-4 sm:py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
               />
             </div>
 
             {/* Previous Salary & Expected Salary */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="grid grid-cols-2 gap-2.5 sm:gap-5">
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5 font-sans">
-                  Current / Previous Salary (PKR / Mo)
+                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
+                  Current Salary (PKR)
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g. 200,000 PKR or Confidential"
+                  placeholder="200,000 PKR"
                   value={formData.previousSalary}
                   onChange={(e) => setFormData({ ...formData, previousSalary: e.target.value })}
-                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 sm:px-4 sm:py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
                 />
               </div>
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5 font-sans">
-                  Expected Salary (PKR / Mo) *
+                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
+                  Expected Salary (PKR) *
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="e.g. 300,000 PKR / Negotiable"
+                  placeholder="300,000 PKR"
                   value={formData.expectedSalary}
                   onChange={(e) => setFormData({ ...formData, expectedSalary: e.target.value })}
-                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 sm:px-4 sm:py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
                 />
               </div>
             </div>

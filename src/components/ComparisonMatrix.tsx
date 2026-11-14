@@ -72,17 +72,17 @@ export default function ComparisonMatrix() {
         <div className="rounded-2xl border border-slate-200 bg-white shadow-xl overflow-hidden">
           
           {/* Header Row */}
-          <div className="grid grid-cols-1 md:grid-cols-12 border-b border-slate-200 text-xs font-mono">
-            <div className="p-4 sm:p-5 md:col-span-4 bg-slate-50 font-bold uppercase tracking-wider text-slate-600 flex items-center">
+          <div className="grid grid-cols-12 border-b border-slate-200 text-[10px] sm:text-xs font-mono">
+            <div className="p-2 sm:p-5 col-span-4 bg-slate-50 font-bold uppercase tracking-wider text-slate-600 flex items-center">
               Dimension / Deliverable
             </div>
-            <div className="p-4 sm:p-5 md:col-span-4 bg-rose-50/70 text-rose-800 font-bold uppercase tracking-wider border-t md:border-t-0 md:border-l border-slate-200 flex items-center gap-2">
-              <X className="w-4 h-4 text-rose-600" />
-              <span>Legacy Agency Model (Buying Hours)</span>
+            <div className="p-2 sm:p-5 col-span-4 bg-rose-50/70 text-rose-800 font-bold uppercase tracking-wider border-l border-slate-200 flex items-center gap-1.5 sm:gap-2">
+              <X className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-rose-600 shrink-0" />
+              <span className="truncate">Legacy Agency Model</span>
             </div>
-            <div className="p-4 sm:p-5 md:col-span-4 bg-amber-50/80 text-amber-900 font-bold uppercase tracking-wider border-t md:border-t-0 md:border-l border-slate-200 flex items-center gap-2">
-              <Zap className="w-4 h-4 text-brand-600 fill-brand-500/20" />
-              <span>Devatrix AI-Native Model (Outcomes)</span>
+            <div className="p-2 sm:p-5 col-span-4 bg-amber-50/80 text-amber-900 font-bold uppercase tracking-wider border-l border-slate-200 flex items-center gap-1.5 sm:gap-2">
+              <Zap className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-brand-600 fill-brand-500/20 shrink-0" />
+              <span className="truncate">Devatrix AI Model</span>
             </div>
           </div>
 
@@ -91,30 +91,30 @@ export default function ComparisonMatrix() {
             {comparisonRows.map((row, idx) => (
               <div 
                 key={row.metric} 
-                className="grid grid-cols-1 md:grid-cols-12 text-sm hover:bg-slate-50/70 transition-colors"
+                className="grid grid-cols-12 text-[10px] sm:text-sm hover:bg-slate-50/70 transition-colors"
               >
                 {/* Metric Title & Advantage Tag */}
-                <div className="p-4 sm:p-5 md:col-span-4 flex flex-col justify-center bg-white">
-                  <span className="font-bold text-slate-900">{row.metric}</span>
-                  <span className="inline-block mt-1 text-[11px] font-mono text-brand-700 font-semibold">
-                    ⚡ Advantage: {row.advantage}
+                <div className="p-2 sm:p-5 col-span-4 flex flex-col justify-center bg-white">
+                  <span className="font-bold text-slate-900 leading-snug">{row.metric}</span>
+                  <span className="inline-block mt-0.5 sm:mt-1 text-[8px] sm:text-[11px] font-mono text-brand-700 font-semibold truncate">
+                    ⚡ {row.advantage}
                   </span>
                 </div>
 
                 {/* Legacy Column */}
-                <div className="p-4 sm:p-5 md:col-span-4 text-slate-600 bg-rose-50/[0.25] md:border-l border-slate-150 flex items-start gap-2.5">
-                  <span className="w-4 h-4 mt-0.5 rounded-full bg-rose-100 border border-rose-300 flex items-center justify-center shrink-0">
-                    <X className="w-2.5 h-2.5 text-rose-600" />
+                <div className="p-2 sm:p-5 col-span-4 text-slate-600 bg-rose-50/[0.25] border-l border-slate-150 flex items-start gap-1 sm:gap-2.5">
+                  <span className="w-3.5 h-3.5 sm:w-4 sm:h-4 mt-0.5 rounded-full bg-rose-100 border border-rose-300 flex items-center justify-center shrink-0">
+                    <X className="w-2 sm:w-2.5 h-2 sm:h-2.5 text-rose-600" />
                   </span>
-                  <span className="text-xs sm:text-sm leading-relaxed">{row.legacy}</span>
+                  <span className="text-[9px] sm:text-sm leading-relaxed">{row.legacy}</span>
                 </div>
 
                 {/* Devatrix Column */}
-                <div className="p-4 sm:p-5 md:col-span-4 text-slate-900 bg-amber-50/[0.3] md:border-l border-slate-150 flex items-start gap-2.5 font-medium">
-                  <span className="w-4 h-4 mt-0.5 rounded-full bg-brand-100 border border-brand-300 flex items-center justify-center shrink-0">
-                    <Check className="w-2.5 h-2.5 text-brand-700 font-bold" />
+                <div className="p-2 sm:p-5 col-span-4 text-slate-900 bg-amber-50/[0.3] border-l border-slate-150 flex items-start gap-1 sm:gap-2.5 font-medium">
+                  <span className="w-3.5 h-3.5 sm:w-4 sm:h-4 mt-0.5 rounded-full bg-brand-100 border border-brand-300 flex items-center justify-center shrink-0">
+                    <Check className="w-2 sm:w-2.5 h-2 sm:h-2.5 text-brand-700 font-bold" />
                   </span>
-                  <span className="text-xs sm:text-sm leading-relaxed text-slate-800">{row.devatrix}</span>
+                  <span className="text-[9px] sm:text-sm leading-relaxed text-slate-800">{row.devatrix}</span>
                 </div>
               </div>
             ))}

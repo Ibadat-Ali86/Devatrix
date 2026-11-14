@@ -112,39 +112,40 @@ export default function ServicesPage() {
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* 2x2 Grid on all screens */}
+            <div className="grid grid-cols-2 gap-3 sm:gap-8">
               {serviceDetails.map((service) => {
                 const Icon = service.icon;
                 return (
                   <div
                     key={service.title}
-                    className="p-8 sm:p-10 rounded-2xl bg-white border border-slate-200 hover:border-brand-500/40 hover:shadow-xl transition-all shadow-sm flex flex-col justify-between"
+                    className="p-4 sm:p-10 rounded-xl sm:rounded-2xl bg-white border border-slate-200 hover:border-brand-500/40 hover:shadow-xl transition-all shadow-sm flex flex-col justify-between"
                   >
                     <div>
-                      <div className="w-12 h-12 rounded-xl bg-brand-50 border border-brand-200 flex items-center justify-center p-3 text-brand-600 mb-6">
+                      <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-brand-50 border border-brand-200 flex items-center justify-center p-1.5 sm:p-3 text-brand-600 mb-3 sm:mb-6">
                         <Icon className="w-full h-full" />
                       </div>
 
-                      <span className="text-xs font-mono font-bold text-brand-700 uppercase tracking-wider block mb-1">
+                      <span className="text-[8.5px] sm:text-xs font-mono font-bold text-brand-700 uppercase tracking-wider block mb-1">
                         {service.tagline}
                       </span>
-                      <h3 className="text-2xl font-bold text-slate-900 mb-4 font-sans">
+                      <h3 className="text-sm sm:text-2xl font-bold text-slate-900 mb-2 sm:mb-4 font-sans leading-tight">
                         {service.title}
                       </h3>
 
-                      <p className="text-sm text-slate-600 leading-relaxed font-normal mb-6">
+                      <p className="text-[11px] sm:text-sm text-slate-600 leading-relaxed font-normal mb-3 sm:mb-6 line-clamp-3 sm:line-clamp-none">
                         {service.desc}
                       </p>
                     </div>
 
-                    <div className="pt-6 border-t border-slate-100">
-                      <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 mb-3">
-                        Key Engineering Deliverables:
+                    <div className="pt-3 sm:pt-6 border-t border-slate-100">
+                      <h4 className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-700 mb-2 sm:mb-3">
+                        Deliverables:
                       </h4>
-                      <ul className="space-y-2.5">
+                      <ul className="space-y-1.5 sm:space-y-2.5">
                         {service.deliverables.map((item) => (
-                          <li key={item} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700">
-                            <CheckCircle2 className="w-4 h-4 text-brand-600 shrink-0 mt-0.5" />
+                          <li key={item} className="flex items-start gap-1.5 sm:gap-2.5 text-[9.5px] sm:text-sm text-slate-700 leading-tight">
+                            <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-brand-600 shrink-0 mt-0.5" />
                             <span>{item}</span>
                           </li>
                         ))}

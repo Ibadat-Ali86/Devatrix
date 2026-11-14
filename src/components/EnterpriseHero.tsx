@@ -79,71 +79,71 @@ export default function EnterpriseHero() {
           </div>
 
           {/* Primary Headline (Exact Brand Theme) */}
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1] font-sans">
+          <h1 className="text-2xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.15] font-sans">
             Software Solutions <br />
             That Create <span className="text-brand-500">Real Value</span>
           </h1>
 
           {/* Subheadline */}
-          <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl font-normal font-sans">
+          <p className="text-xs sm:text-base text-slate-300 leading-relaxed max-w-2xl font-normal font-sans">
             A modern engineering studio delivering custom web, mobile, cloud architectures, and practical AI solutions with an uncompromising focus on quality, reliability, and client success.
           </p>
 
           {/* Dual CTAs */}
-          <div className="pt-2 flex flex-wrap items-center gap-3.5">
+          <div className="pt-1 sm:pt-2 flex flex-row items-center gap-2.5 sm:gap-3.5">
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-brand-500 hover:bg-brand-600 text-obsidian-950 font-bold text-xs sm:text-sm tracking-wide uppercase transition-all shadow-lg shadow-brand-500/25 hover:shadow-brand-500/40 hover:brightness-105 font-sans group"
+              className="inline-flex items-center gap-2 px-4 sm:px-7 py-2.5 sm:py-3.5 rounded-full bg-brand-500 hover:bg-brand-600 text-obsidian-950 font-bold text-[11px] sm:text-sm tracking-wide uppercase transition-all shadow-lg shadow-brand-500/25 hover:shadow-brand-500/40 hover:brightness-105 font-sans group shrink-0"
             >
               <span>Get in Touch</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
 
             <Link
               href="/services"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-white/5 hover:bg-white/10 text-white border border-white/15 hover:border-white/30 font-semibold text-xs sm:text-sm tracking-wide transition-all backdrop-blur-sm font-sans"
+              className="inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-7 py-2.5 sm:py-3.5 rounded-full bg-white/5 hover:bg-white/10 text-white border border-white/15 hover:border-white/30 font-semibold text-[11px] sm:text-sm tracking-wide transition-all backdrop-blur-sm font-sans shrink-0"
             >
               <span>Our Services</span>
-              <ChevronRight className="w-4 h-4 text-slate-400" />
+              <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400" />
             </Link>
           </div>
 
           {/* Key Value Pillars - 90+ Projects Delivered */}
-          <div className="pt-5 grid grid-cols-3 gap-6 border-t border-white/10 max-w-lg">
+          <div className="pt-3 sm:pt-5 grid grid-cols-3 gap-3 sm:gap-6 border-t border-white/10 max-w-lg">
             <div>
-              <div className="text-xl sm:text-2xl font-extrabold text-white font-sans">100%</div>
-              <div className="text-xs text-slate-400 mt-0.5 font-sans">Client IP Ownership</div>
+              <div className="text-lg sm:text-2xl font-extrabold text-white font-sans">100%</div>
+              <div className="text-[10px] sm:text-xs text-slate-400 mt-0.5 font-sans">Client IP Ownership</div>
             </div>
             <div>
-              <div className="text-xl sm:text-2xl font-extrabold text-brand-500 font-sans">90+</div>
-              <div className="text-xs text-slate-400 mt-0.5 font-sans">Projects Delivered</div>
+              <div className="text-lg sm:text-2xl font-extrabold text-brand-500 font-sans">90+</div>
+              <div className="text-[10px] sm:text-xs text-slate-400 mt-0.5 font-sans">Projects Delivered</div>
             </div>
             <div>
-              <div className="text-xl sm:text-2xl font-extrabold text-blue-400 font-sans">Agile</div>
-              <div className="text-xs text-slate-400 mt-0.5 font-sans">Milestone-Gated Sprints</div>
+              <div className="text-lg sm:text-2xl font-extrabold text-blue-400 font-sans">Agile</div>
+              <div className="text-[10px] sm:text-xs text-slate-400 mt-0.5 font-sans">Milestone Sprints</div>
             </div>
           </div>
 
         </div>
       </div>
 
-      {/* Integrated Capabilities & Solutions Bar (Flush at bottom, no dead blue gap) */}
-      <div className="relative z-10 w-full pt-4 pb-5 border-t border-white/10 mt-auto bg-black/35 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-[11px] font-mono uppercase tracking-widest text-slate-400 text-center mb-3 font-semibold">
+      {/* Integrated Capabilities & Solutions Bar - Exactly 6 cards across in one row on all screen sizes */}
+      <div className="relative z-10 w-full pt-3 pb-4 sm:pt-4 sm:pb-5 border-t border-white/10 mt-auto bg-black/35 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+          <p className="text-[9px] sm:text-[11px] font-mono uppercase tracking-widest text-slate-400 text-center mb-2 sm:mb-3 font-semibold">
             ENGINEERED WITH MODERN TECHNOLOGIES & BEST PRACTICES
           </p>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 items-stretch">
+          <div className="grid grid-cols-6 gap-1 sm:gap-3 items-stretch">
             {techStack.map((tech) => (
               <div 
                 key={tech.name}
-                className="h-[70px] sm:h-[74px] flex flex-col justify-center text-center px-2.5 py-2 rounded-xl bg-white/[0.03] border border-white/10 hover:border-brand-500/40 hover:bg-white/[0.06] transition-all group shadow-sm"
+                className="h-[52px] sm:h-[74px] flex flex-col justify-center text-center px-1 sm:px-2.5 py-1 sm:py-2 rounded-lg sm:rounded-xl bg-white/[0.03] border border-white/10 hover:border-brand-500/40 hover:bg-white/[0.06] transition-all group shadow-sm"
               >
-                <div className="text-xs sm:text-[13px] font-bold text-slate-200 group-hover:text-brand-400 transition-colors font-sans truncate w-full">
+                <div className="text-[7.5px] sm:text-[13px] font-bold text-slate-200 group-hover:text-brand-400 transition-colors font-sans truncate w-full leading-tight">
                   {tech.name}
                 </div>
-                <div className="text-[10px] text-slate-400 font-mono mt-1 truncate w-full">
+                <div className="text-[6.5px] sm:text-[10px] text-slate-400 font-mono mt-0.5 truncate w-full">
                   {tech.tag}
                 </div>
               </div>

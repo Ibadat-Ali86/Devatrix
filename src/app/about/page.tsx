@@ -95,34 +95,35 @@ export default function AboutPage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* 3 Pillars in a row on all screens */}
+          <div className="grid grid-cols-3 gap-2.5 sm:gap-8">
             {operationalPillars.map((item) => (
               <div
                 key={item.title}
-                className="p-8 rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-500/40 hover:bg-white hover:shadow-xl transition-all flex flex-col justify-between"
+                className="p-3 sm:p-8 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-500/40 hover:bg-white hover:shadow-xl transition-all flex flex-col justify-between"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-xs font-mono font-bold text-brand-700 bg-brand-50 px-2.5 py-1 rounded-md border border-brand-200">
+                  <div className="flex items-center justify-between mb-2 sm:mb-4">
+                    <span className="text-[7.5px] sm:text-xs font-mono font-bold text-brand-700 bg-brand-50 px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-md border border-brand-200 truncate">
                       {item.badge}
                     </span>
-                    <span className="text-xs text-slate-500 font-mono font-medium">
+                    <span className="text-[7.5px] sm:text-xs text-slate-500 font-mono font-medium truncate">
                       {item.role}
                     </span>
                   </div>
 
-                  <h3 className="text-2xl font-bold text-slate-900 font-sans mb-3">
+                  <h3 className="text-xs sm:text-2xl font-bold text-slate-900 font-sans mb-1.5 sm:mb-3 leading-tight">
                     {item.title}
                   </h3>
 
-                  <p className="text-sm text-slate-600 leading-relaxed font-normal mb-6">
+                  <p className="text-[10px] sm:text-sm text-slate-600 leading-relaxed font-normal mb-2 sm:mb-6 line-clamp-3 sm:line-clamp-none">
                     {item.desc}
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-slate-200 text-xs text-slate-600">
-                  <span className="text-slate-900 font-bold block mb-1">Key Focus:</span>
-                  <span>{item.focus}</span>
+                <div className="pt-2 sm:pt-4 border-t border-slate-200 text-[8.5px] sm:text-xs text-slate-600">
+                  <span className="text-slate-900 font-bold block mb-0.5">Focus:</span>
+                  <span className="line-clamp-2">{item.focus}</span>
                 </div>
               </div>
             ))}

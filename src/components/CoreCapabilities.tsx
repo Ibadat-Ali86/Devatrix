@@ -69,31 +69,31 @@ export default function CoreCapabilities() {
           </p>
         </div>
 
-        {/* 6-Card Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* 6-Card Services Grid - 2 columns on mobile, 3 on desktop */}
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-8">
           {capabilities.map((item) => {
             const Icon = item.icon;
             return (
               <div
                 key={item.title}
-                className="p-8 rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-500/50 hover:bg-white hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
+                className="p-3.5 sm:p-8 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-500/50 hover:bg-white hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
               >
                 <div>
-                  <div className="w-12 h-12 rounded-xl bg-brand-50 border border-brand-200 flex items-center justify-center p-3 text-brand-600 mb-6 group-hover:scale-110 group-hover:bg-brand-500 group-hover:text-obsidian-950 transition-all">
+                  <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-brand-50 border border-brand-200 flex items-center justify-center p-1.5 sm:p-3 text-brand-600 mb-3 sm:mb-6 group-hover:scale-110 group-hover:bg-brand-500 group-hover:text-obsidian-950 transition-all">
                     <Icon className="w-full h-full" />
                   </div>
 
-                  <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-brand-600 transition-colors font-sans">
+                  <h3 className="text-sm sm:text-xl font-bold text-slate-900 mb-1.5 sm:mb-3 group-hover:text-brand-600 transition-colors font-sans leading-tight">
                     {item.title}
                   </h3>
 
-                  <p className="text-sm text-slate-600 leading-relaxed font-normal mb-6">
+                  <p className="text-[11px] sm:text-sm text-slate-600 leading-relaxed font-normal mb-3 sm:mb-6 line-clamp-3 sm:line-clamp-none">
                     {item.desc}
                   </p>
                 </div>
 
                 <div>
-                  <div className="flex flex-wrap gap-1.5 pt-4 border-t border-slate-200 mb-4">
+                  <div className="hidden sm:flex flex-wrap gap-1.5 pt-4 border-t border-slate-200 mb-4">
                     {item.tags.map((t) => (
                       <span
                         key={t}
@@ -106,10 +106,10 @@ export default function CoreCapabilities() {
 
                   <Link
                     href="/services"
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-700 group-hover:text-brand-800 transition-colors font-sans"
+                    className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-bold text-brand-700 group-hover:text-brand-800 transition-colors font-sans pt-1 sm:pt-0"
                   >
                     <span>Learn More</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </div>
               </div>

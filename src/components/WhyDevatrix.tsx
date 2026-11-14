@@ -52,20 +52,20 @@ export default function WhyDevatrix() {
             </div>
           </div>
 
-          {/* Right Column: 4 Pillars 2x2 Grid */}
-          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {/* Right Column: 4 Pillars 2x2 Grid on all screens */}
+          <div className="lg:col-span-7 grid grid-cols-2 gap-2.5 sm:gap-6">
             {pillars.map((pillar) => (
               <div
                 key={pillar.title}
-                className="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-500/40 hover:bg-white hover:shadow-lg transition-all"
+                className="p-3.5 sm:p-6 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-500/40 hover:bg-white hover:shadow-lg transition-all"
               >
-                <div className="w-8 h-8 rounded-lg bg-brand-50 border border-brand-200 flex items-center justify-center text-brand-600 mb-4">
-                  <CheckCircle2 className="w-5 h-5" />
+                <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg bg-brand-50 border border-brand-200 flex items-center justify-center text-brand-600 mb-2 sm:mb-4">
+                  <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
-                <h3 className="text-lg font-bold text-slate-900 mb-2 font-sans">
+                <h3 className="text-xs sm:text-lg font-bold text-slate-900 mb-1 sm:mb-2 font-sans leading-tight">
                   {pillar.title}
                 </h3>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                <p className="text-[10px] sm:text-sm text-slate-600 leading-relaxed font-normal">
                   {pillar.desc}
                 </p>
               </div>

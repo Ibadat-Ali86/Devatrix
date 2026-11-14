@@ -89,22 +89,22 @@ export default function ContactPage() {
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-5 text-sm">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div className="grid grid-cols-2 gap-3 sm:gap-5">
                       <div>
-                        <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5">
-                          Your Full Name *
+                        <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5">
+                          Full Name *
                         </label>
                         <input
                           type="text"
                           required
-                          placeholder="e.g. Alex Mercer"
+                          placeholder="Alex Mercer"
                           value={formData.name}
                           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                          className="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors"
+                          className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 sm:px-4 sm:py-3 text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors"
                         />
                       </div>
                       <div>
-                        <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5">
+                        <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5">
                           Work Email *
                         </label>
                         <input
@@ -113,15 +113,15 @@ export default function ContactPage() {
                           placeholder="name@company.com"
                           value={formData.email}
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          className="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors"
+                          className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 sm:px-4 sm:py-3 text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors"
                         />
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div className="grid grid-cols-2 gap-3 sm:gap-5">
                       <div>
-                        <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5">
-                          Company Name *
+                        <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5">
+                          Company *
                         </label>
                         <input
                           type="text"
@@ -129,23 +129,23 @@ export default function ContactPage() {
                           placeholder="Acme Global Inc"
                           value={formData.company}
                           onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                          className="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors"
+                          className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 sm:px-4 sm:py-3 text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors"
                         />
                       </div>
                       <div>
-                        <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5">
-                          Service of Interest
+                        <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5">
+                          Service
                         </label>
                         <select
                           value={formData.service}
                           onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                          className="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors"
+                          className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 sm:px-4 sm:py-3 text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors"
                         >
-                          <option value="Custom Software Development">Custom Software Development</option>
-                          <option value="Enterprise Cloud & DevOps">Enterprise Cloud & DevOps</option>
+                          <option value="Custom Software Development">Custom Software</option>
+                          <option value="Enterprise Cloud & DevOps">Cloud & DevOps</option>
                           <option value="AI & Machine Learning">AI & Machine Learning</option>
-                          <option value="Web & Mobile Applications">Web & Mobile Applications</option>
-                          <option value="Dedicated Engineering Pods">Dedicated Engineering Pods</option>
+                          <option value="Web & Mobile Applications">Web & Mobile Apps</option>
+                          <option value="Dedicated Engineering Pods">Engineering Pods</option>
                         </select>
                       </div>
                     </div>

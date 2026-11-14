@@ -91,17 +91,17 @@ export default function VanguardPage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-3 gap-2 sm:gap-6">
             {syllabus.map((s) => (
               <div
                 key={s.month}
-                className="p-8 rounded-2xl bg-white border border-slate-200 hover:border-brand-500/40 hover:shadow-xl transition-all space-y-4 shadow-sm"
+                className="p-2.5 sm:p-8 rounded-xl sm:rounded-2xl bg-white border border-slate-200 hover:border-brand-500/40 hover:shadow-xl transition-all space-y-2 sm:space-y-4 shadow-xs sm:shadow-sm"
               >
-                <span className="text-xs font-mono font-bold px-2.5 py-1 rounded bg-brand-50 text-brand-900 border border-brand-200">
+                <span className="text-[9px] sm:text-xs font-mono font-bold px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded bg-brand-50 text-brand-900 border border-brand-200">
                   {s.month}
                 </span>
-                <h3 className="text-lg font-bold text-slate-900 font-mono">{s.title}</h3>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">{s.topics}</p>
+                <h3 className="text-xs sm:text-lg font-bold text-slate-900 font-mono line-clamp-2">{s.title}</h3>
+                <p className="text-[10px] sm:text-sm text-slate-600 leading-relaxed font-normal line-clamp-3 sm:line-clamp-none">{s.topics}</p>
               </div>
             ))}
           </div>
@@ -145,7 +145,7 @@ export default function VanguardPage() {
                     />
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
                     <div>
                       <label className="text-slate-700 font-bold block mb-1">Academic / University Email</label>
                       <input
@@ -154,7 +154,7 @@ export default function VanguardPage() {
                         placeholder="bilal@isb.nu.edu.pk"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-slate-900 focus:outline-none focus:border-brand-500 shadow-xs"
+                        className="w-full bg-white border border-slate-300 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-slate-900 focus:outline-none focus:border-brand-500 shadow-xs"
                       />
                     </div>
                     <div>
@@ -162,7 +162,7 @@ export default function VanguardPage() {
                       <select
                         value={formData.university}
                         onChange={(e) => setFormData({ ...formData, university: e.target.value })}
-                        className="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-slate-900 focus:outline-none focus:border-brand-500 shadow-xs"
+                        className="w-full bg-white border border-slate-300 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-slate-900 focus:outline-none focus:border-brand-500 shadow-xs truncate"
                       >
                         <option value="FAST-NUCES">FAST-NUCES (All Campuses)</option>
                         <option value="NUST">NUST (SEECS / SCME)</option>

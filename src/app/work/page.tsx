@@ -84,74 +84,74 @@ export default function WorkPage() {
         </section>
 
         {/* Case Studies Deep Dive List */}
-        <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+        <section className="py-12 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-16">
           {caseStudies.map((study) => (
             <div
               key={study.title}
-              className="p-8 sm:p-12 rounded-3xl bg-slate-50 border border-slate-200 hover:border-brand-500/40 hover:bg-white hover:shadow-xl transition-all duration-300 shadow-sm"
+              className="p-4 sm:p-12 rounded-2xl sm:rounded-3xl bg-slate-50 border border-slate-200 hover:border-brand-500/40 hover:bg-white hover:shadow-xl transition-all duration-300 shadow-sm"
             >
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-200 mb-8">
+              <div className="flex flex-row items-center justify-between gap-4 pb-4 sm:pb-6 border-b border-slate-200 mb-4 sm:mb-8">
                 <div>
-                  <span className="text-xs font-mono font-bold text-brand-700 bg-brand-50 px-3 py-1 rounded-md border border-brand-200 uppercase tracking-wider block w-fit mb-2">
+                  <span className="text-[9px] sm:text-xs font-mono font-bold text-brand-700 bg-brand-50 px-2 sm:px-3 py-0.5 sm:py-1 rounded-md border border-brand-200 uppercase tracking-wider block w-fit mb-1.5 sm:mb-2">
                     {study.sector}
                   </span>
-                  <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-sans">
+                  <h2 className="text-base sm:text-3xl font-extrabold text-slate-900 font-sans leading-tight">
                     {study.title}
                   </h2>
                 </div>
                 <div className="text-right shrink-0">
-                  <div className="text-3xl sm:text-4xl font-extrabold text-brand-600 font-sans">
+                  <div className="text-xl sm:text-4xl font-extrabold text-brand-600 font-sans">
                     {study.metric}
                   </div>
-                  <div className="text-xs text-slate-500 font-semibold mt-0.5">
+                  <div className="text-[9px] sm:text-xs text-slate-500 font-semibold mt-0.5">
                     {study.metricLabel}
                   </div>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                <div className="lg:col-span-8 space-y-4">
-                  <p className="text-base text-slate-700 leading-relaxed font-normal">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8 items-start">
+                <div className="lg:col-span-8 space-y-3 sm:space-y-4">
+                  <p className="text-xs sm:text-base text-slate-700 leading-relaxed font-normal">
                     {study.summary}
                   </p>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                    <div className="p-4 rounded-xl bg-white border border-slate-200">
-                      <span className="text-xs font-bold text-slate-900 uppercase tracking-wider block mb-1">
+                  <div className="grid grid-cols-2 gap-2.5 sm:gap-4 pt-2">
+                    <div className="p-3 sm:p-4 rounded-xl bg-white border border-slate-200">
+                      <span className="text-[10px] sm:text-xs font-bold text-slate-900 uppercase tracking-wider block mb-1">
                         The Challenge:
                       </span>
-                      <p className="text-xs text-slate-600 leading-relaxed">
+                      <p className="text-[10px] sm:text-xs text-slate-600 leading-relaxed">
                         {study.challenge}
                       </p>
                     </div>
 
-                    <div className="p-4 rounded-xl bg-white border border-slate-200">
-                      <span className="text-xs font-bold text-brand-700 uppercase tracking-wider block mb-1">
+                    <div className="p-3 sm:p-4 rounded-xl bg-white border border-slate-200">
+                      <span className="text-[10px] sm:text-xs font-bold text-brand-700 uppercase tracking-wider block mb-1">
                         The Solution & Impact:
                       </span>
-                      <p className="text-xs text-slate-600 leading-relaxed">
+                      <p className="text-[10px] sm:text-xs text-slate-600 leading-relaxed">
                         {study.outcome}
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="lg:col-span-4 space-y-4">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                <div className="lg:col-span-4 space-y-2 sm:space-y-4">
+                  <h4 className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-500">
                     Technology Stack
                   </h4>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     {study.tags.map((t) => (
                       <span
                         key={t}
-                        className="text-xs font-mono px-3 py-1 rounded-lg bg-white border border-slate-200 text-slate-700 font-medium"
+                        className="text-[9px] sm:text-xs font-mono px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg bg-white border border-slate-200 text-slate-700 font-medium"
                       >
                         {t}
                       </span>
                     ))}
                   </div>
 
-                  <div className="pt-4">
+                  <div className="pt-2 sm:pt-4">
                     <Link
                       href="/contact"
                       className="inline-flex items-center gap-2 text-xs font-bold text-brand-700 hover:text-brand-800 transition-colors uppercase tracking-wider"

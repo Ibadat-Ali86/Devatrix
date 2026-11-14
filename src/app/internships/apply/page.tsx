@@ -248,22 +248,22 @@ function ApplyFormContent() {
               </div>
             )}
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="grid grid-cols-2 gap-2.5 sm:gap-5">
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5 font-sans">
+                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
                   Full Name *
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Hamza Ahmed"
+                  placeholder="Hamza Ahmed"
                   value={formData.fullName}
                   onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 sm:px-4 sm:py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
                 />
               </div>
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5 font-sans">
+                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
                   Email Address *
                 </label>
                 <input
@@ -272,14 +272,14 @@ function ApplyFormContent() {
                   placeholder="hamza@gmail.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 sm:px-4 sm:py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="grid grid-cols-2 gap-2.5 sm:gap-5">
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5 font-sans">
+                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
                   WhatsApp Number *
                 </label>
                 <input
@@ -288,33 +288,33 @@ function ApplyFormContent() {
                   placeholder="+92 3XX XXXXXXX"
                   value={formData.whatsapp}
                   onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
-                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 sm:px-4 sm:py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
                 />
               </div>
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5 font-sans">
-                  University / Degree & Grad Year *
+                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
+                  University & Grad Year *
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="e.g. FAST / NUST / UET (CS 2025)"
+                  placeholder="FAST (CS 2026)"
                   value={formData.university}
                   onChange={(e) => setFormData({ ...formData, university: e.target.value })}
-                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 sm:px-4 sm:py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="grid grid-cols-2 gap-2.5 sm:gap-5">
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5 font-sans">
+                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
                   Track of Interest *
                 </label>
                 <select
                   value={formData.track}
                   onChange={(e) => setFormData({ ...formData, track: e.target.value })}
-                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-2 sm:px-4 sm:py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-[11px] sm:text-sm"
                 >
                   {trackList.map((t) => (
                     <option key={t} value={t}>
@@ -324,70 +324,70 @@ function ApplyFormContent() {
                 </select>
               </div>
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5 font-sans">
-                  Internship Duration
+                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
+                  Duration
                 </label>
                 <input
                   type="text"
                   readOnly
-                  value="6 Weeks (Intensive Virtual Sprint)"
-                  className="w-full bg-slate-100 border border-slate-300 rounded-xl px-4 py-3 text-slate-800 font-medium text-xs sm:text-sm cursor-not-allowed select-none"
+                  value="6 Weeks Sprint"
+                  className="w-full bg-slate-100 border border-slate-300 rounded-xl px-3 py-2 sm:px-4 sm:py-3 text-slate-800 font-medium text-xs sm:text-sm cursor-not-allowed select-none"
                 />
               </div>
             </div>
 
             {/* Resume / CV Upload & Link Section (Optional) */}
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block font-sans">
+            <div className="space-y-1.5 sm:space-y-2">
+              <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block font-sans">
                 Resume / CV (Optional)
               </label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
                 <div>
                   <input
                     type="file"
                     accept=".pdf,.doc,.docx"
                     onChange={(e) => setResumeFile(e.target.files?.[0] || null)}
-                    className="w-full text-xs text-slate-600 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-slate-200 file:text-slate-800 hover:file:bg-slate-300 cursor-pointer bg-slate-50 border border-slate-300 rounded-xl p-1.5"
+                    className="w-full text-[10px] sm:text-xs text-slate-600 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] sm:file:text-xs file:font-bold file:bg-slate-200 file:text-slate-800 hover:file:bg-slate-300 cursor-pointer bg-slate-50 border border-slate-300 rounded-xl p-1"
                   />
                 </div>
                 <div>
                   <input
                     type="url"
-                    placeholder="Or paste Google Drive / Dropbox link (Optional)"
+                    placeholder="Or Google Drive link"
                     value={formData.resumeUrl}
                     onChange={(e) => setFormData({ ...formData, resumeUrl: e.target.value })}
-                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
                   />
                 </div>
               </div>
-              <p className="text-[11px] text-slate-500 font-normal">
+              <p className="text-[9.5px] sm:text-[11px] text-slate-500 font-normal">
                 Upload PDF/DOC (up to 10MB) or provide a public cloud link.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="grid grid-cols-2 gap-2.5 sm:gap-5">
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5 font-sans">
-                  GitHub Profile Link (Optional)
+                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
+                  GitHub Profile (Optional)
                 </label>
                 <input
                   type="url"
-                  placeholder="https://github.com/yourhandle (Optional)"
+                  placeholder="https://github.com/..."
                   value={formData.githubUrl}
                   onChange={(e) => setFormData({ ...formData, githubUrl: e.target.value })}
-                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 sm:px-4 sm:py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
                 />
               </div>
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5 font-sans">
-                  LinkedIn Profile Link (Optional)
+                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
+                  LinkedIn Profile (Optional)
                 </label>
                 <input
                   type="url"
-                  placeholder="https://linkedin.com/in/yourhandle (Optional)"
+                  placeholder="https://linkedin.com/in/..."
                   value={formData.linkedinUrl}
                   onChange={(e) => setFormData({ ...formData, linkedinUrl: e.target.value })}
-                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 sm:px-4 sm:py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
                 />
               </div>
             </div>

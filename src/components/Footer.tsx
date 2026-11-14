@@ -8,11 +8,11 @@ export default function Footer() {
     <footer className="bg-[#040E20] border-t border-white/10 pt-16 pb-12 text-white font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Top 4-Column Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-white/10">
+        {/* Top Multi-Column Grid - 2 columns on mobile, 5 on desktop */}
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-6 sm:gap-10 pb-12 border-b border-white/10">
           
           {/* Brand Column */}
-          <div className="lg:col-span-2 space-y-4">
+          <div className="col-span-2 lg:col-span-2 space-y-4">
             <Link href="/" className="flex items-center gap-3">
               <div className="relative w-9 h-9 flex items-center justify-center shrink-0">
                 <Image

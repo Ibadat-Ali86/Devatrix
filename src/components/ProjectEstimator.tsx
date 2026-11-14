@@ -258,32 +258,34 @@ export default function ProjectEstimator() {
                   />
                 </div>
 
-                <div>
-                  <label className="text-[11px] font-mono text-slate-300 block mb-1">
-                    Corporate Email
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    placeholder="alex@enterprise.com"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full bg-obsidian-950 border border-white/10 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-500 font-mono"
-                  />
-                </div>
+                <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
+                  <div>
+                    <label className="text-[10px] sm:text-[11px] font-mono text-slate-300 block mb-1">
+                      Corporate Email
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      placeholder="alex@enterprise.com"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="w-full bg-obsidian-950 border border-white/10 rounded-lg px-2.5 sm:px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-500 font-mono"
+                    />
+                  </div>
 
-                <div>
-                  <label className="text-[11px] font-mono text-slate-300 block mb-1">
-                    Company Legal Entity Name
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Acme FinTech Corp LLC"
-                    value={formData.company}
-                    onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                    className="w-full bg-obsidian-950 border border-white/10 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-500 font-mono"
-                  />
+                  <div>
+                    <label className="text-[10px] sm:text-[11px] font-mono text-slate-300 block mb-1">
+                      Company Legal Name
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Acme Corp"
+                      value={formData.company}
+                      onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                      className="w-full bg-obsidian-950 border border-white/10 rounded-lg px-2.5 sm:px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-500 font-mono"
+                    />
+                  </div>
                 </div>
 
                 {/* Bilateral NDA Checkbox */}

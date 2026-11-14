@@ -131,19 +131,20 @@ export default function CareersPage() {
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Perks Grid - 2 columns on mobile, 4 on desktop */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-6">
               {perks.map((perk) => {
                 const Icon = perk.icon;
                 return (
                   <div
                     key={perk.title}
-                    className="p-6 rounded-2xl bg-white border border-slate-200 hover:border-brand-500/40 hover:shadow-lg transition-all space-y-3"
+                    className="p-3.5 sm:p-6 rounded-xl sm:rounded-2xl bg-white border border-slate-200 hover:border-brand-500/40 hover:shadow-lg transition-all space-y-2 sm:space-y-3"
                   >
-                    <div className="w-10 h-10 rounded-xl bg-brand-50 border border-brand-200 flex items-center justify-center p-2 text-brand-600">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-brand-50 border border-brand-200 flex items-center justify-center p-1.5 sm:p-2 text-brand-600">
                       <Icon className="w-full h-full" />
                     </div>
-                    <h3 className="text-lg font-bold text-slate-900 font-sans">{perk.title}</h3>
-                    <p className="text-xs text-slate-600 leading-relaxed font-normal">{perk.desc}</p>
+                    <h3 className="text-xs sm:text-lg font-bold text-slate-900 font-sans leading-tight">{perk.title}</h3>
+                    <p className="text-[10px] sm:text-xs text-slate-600 leading-relaxed font-normal">{perk.desc}</p>
                   </div>
                 );
               })}
