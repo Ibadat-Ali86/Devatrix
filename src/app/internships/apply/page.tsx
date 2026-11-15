@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect, useRef, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
@@ -18,9 +18,10 @@ import {
 
 const trackList = [
   "Frontend & Full-Stack Web Engineering",
-  "Artificial Intelligence & Custom Agents",
-  "Data Science & Predictive Modeling",
+  "Applied AI & Agent Engineering",
+  "Machine Learning & Data Science",
   "Data Analytics & Business Intelligence",
+  "AI Engineer & Forward Deployed Engineer (FDE)",
   "React Native Mobile App Development",
   "Flutter Mobile App Development"
 ];
@@ -44,6 +45,7 @@ function ApplyFormContent() {
   });
 
   const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const submissionId = useRef<string | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [submittedCandidate, setSubmittedCandidate] = useState<{
     fullName: string;
@@ -71,6 +73,8 @@ function ApplyFormContent() {
 
     try {
       const submission = new FormData();
+      if (!submissionId.current) submissionId.current = crypto.randomUUID();
+      submission.append("submissionId", submissionId.current);
       submission.append("fullName", formData.fullName);
       submission.append("email", formData.email);
       submission.append("whatsapp", formData.whatsapp);
@@ -91,6 +95,7 @@ function ApplyFormContent() {
       const data = await res.json();
 
       if (res.ok && data.success) {
+        submissionId.current = null;
         setFormStatus("success");
         setSubmittedCandidate({
           fullName: formData.fullName,

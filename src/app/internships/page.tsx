@@ -50,6 +50,7 @@ export default function InternshipsPage() {
     "All",
     "Web & Full-Stack",
     "Artificial Intelligence",
+    "AI Engineering & FDE",
     "Data Science",
     "Data Analytics",
     "Mobile Apps"
@@ -85,83 +86,122 @@ export default function InternshipsPage() {
     },
     {
       id: "ai-agents",
-      title: "Artificial Intelligence & Custom Agents",
+      title: "Applied AI & Agent Engineering",
       category: "Artificial Intelligence",
-      badge: "RAG & LLM Agents",
+      badge: "LLM Apps, RAG & Evaluation",
       icon: Cpu,
-      desc: "Engineer retrieval-augmented generation (RAG) pipelines, conversational chatbot integration, vector embeddings, and LLM prompt orchestration.",
-      skills: ["Python", "FastAPI", "Vector Search (Pinecone / Chroma)", "LangChain", "OpenAI / Claude APIs"],
+      desc: "Build and evaluate a focused LLM application: connect a model API, ground answers in source material, add tool use, and ship a tested service.",
+      skills: ["Python", "LLM APIs", "Prompt & Output Validation", "RAG & Vector Search", "FastAPI", "Evaluation & Guardrails"],
       duration: "6 Weeks (Intensive Virtual Sprint)",
       commitment: "6 to 8 Hours / Week (Flexible)",
       prerequisites: [
-        "Intermediate Python programming proficiency (functions, OOP, async)",
-        "Basic understanding of REST APIs and JSON data exchange",
-        "Interest in LLMs, embeddings, and generative AI architectures"
+        "Working Python fundamentals: functions, modules, and virtual environments",
+        "Basic HTTP, REST API, JSON, and Git knowledge",
+        "A laptop able to run Python projects; model API use may require a provider account"
       ],
       deliverables: [
-        { week: "Weeks 1–2", title: "Document Ingestion & Semantic Embeddings", desc: "Parse PDF/markdown documents, generate chunk embeddings, and index into a vector store." },
-        { week: "Weeks 3–4", title: "Conversational RAG Pipeline with Memory", desc: "Implement a context-aware conversational agent with citation grounding and hallucination guards." },
-        { week: "Weeks 5–6", title: "Enterprise Chatbot UI & Public API", desc: "Package the model behind a FastAPI server and connect to a sleek web interface." }
+        { week: "Week 1", title: "Model APIs & Reliable Outputs", desc: "Call a hosted model from Python, manage configuration safely, validate structured responses, and record a small baseline evaluation set." },
+        { week: "Week 2", title: "Search & Grounded Answers", desc: "Prepare a small document collection, compare chunking and retrieval choices, and return answers with source references." },
+        { week: "Week 3", title: "Tools, Workflows & Guardrails", desc: "Add one bounded tool or workflow, validate inputs, handle failures, and require human review for consequential actions." },
+        { week: "Week 4", title: "Service & Test Design", desc: "Expose the application through FastAPI, write tests for core paths, and handle timeouts and provider errors." },
+        { week: "Week 5", title: "Evaluation & Deployment", desc: "Measure answer quality, latency, and token use on a fixed test set; package and deploy the service with logs and safe secret handling." },
+        { week: "Week 6", title: "Capstone & Technical Review", desc: "Demonstrate a documented AI application with reproducible tests, known limitations, and a short evaluation report." }
       ],
       outcomes: [
-        "Verified Devatrix Certificate of Completion",
-        "Distinguished 'Top Performer' Gold Badge for High Achievers",
-        "Technical portfolio asset demonstrating modern AI orchestration",
-        "Priority evaluation for Devatrix AI Labs projects"
+        "A deployed, tested LLM application with a documented evaluation set",
+        "Experience with retrieval, tool use, output validation, and failure handling",
+        "A Git repository and concise architecture and limitations write-up",
+        "Completion recognition based on the published program requirements"
       ]
     },
     {
       id: "data-science",
-      title: "Data Science & Predictive Modeling",
+      title: "Machine Learning & Data Science",
       category: "Data Science",
-      badge: "Machine Learning & EDA",
+      badge: "Python, Statistics & ML",
       icon: BarChart3,
-      desc: "Perform exploratory data analysis (EDA), engineer data pipelines, train machine learning models, and evaluate predictive accuracy on real datasets.",
-      skills: ["Python", "Pandas & NumPy", "Scikit-Learn", "Feature Engineering", "Predictive Modeling"],
+      desc: "Take a supervised learning problem from data checks and a baseline through model validation, error analysis, and a reproducible final report.",
+      skills: ["Python", "Pandas & NumPy", "Statistics", "Scikit-learn", "Feature Engineering", "Model Evaluation"],
       duration: "6 Weeks (Intensive Virtual Sprint)",
       commitment: "6 to 8 Hours / Week (Flexible)",
       prerequisites: [
-        "Foundational Python programming (loops, dictionaries, functions)",
-        "Core understanding of statistics (distributions, correlation, regression)",
-        "Curiosity to build predictive models and evaluate accuracy metrics"
+        "Python basics: data types, functions, and working in notebooks",
+        "High-school algebra and introductory statistics are helpful",
+        "Comfort with CSV files and willingness to explain analytical choices"
       ],
       deliverables: [
-        { week: "Weeks 1–2", title: "Data Wrangling & Statistical Exploration", desc: "Ingest structured datasets, treat outliers, impute missing values, and calculate statistical correlations." },
-        { week: "Weeks 3–4", title: "Feature Engineering & Model Training", desc: "Build supervised classification and regression pipelines using Scikit-Learn and cross-validation." },
-        { week: "Weeks 5–6", title: "Predictive Analytics & Model Evaluation", desc: "Evaluate precision, recall, and ROC curves, and document insights in a production Jupyter notebook." }
+        { week: "Week 1", title: "Problem Framing & Data Quality", desc: "Define a prediction question and target, inspect a provided dataset, and document missing values, leakage risks, and assumptions." },
+        { week: "Week 2", title: "Exploration & Baselines", desc: "Use Pandas and visual summaries to understand distributions; build a simple baseline before more complex models." },
+        { week: "Week 3", title: "Features & Reproducible Pipelines", desc: "Prepare numeric and categorical features with Scikit-learn pipelines and keep transformations inside the training workflow." },
+        { week: "Week 4", title: "Model Training & Validation", desc: "Train suitable classification or regression models, select metrics tied to the problem, and validate with held-out data or cross-validation." },
+        { week: "Week 5", title: "Error Analysis & Interpretation", desc: "Inspect false positives and missed cases, compare model behavior across relevant groups, and explain limits without overstating results." },
+        { week: "Week 6", title: "Capstone & Reproducible Report", desc: "Deliver a clean notebook or Python package, saved evaluation results, and a short report covering performance and next steps." }
       ],
       outcomes: [
-        "Verified Devatrix Certificate of Completion",
-        "Distinguished 'Top Performer' Gold Badge for High Achievers",
-        "End-to-end Machine Learning model repository on GitHub",
-        "Direct interview fast-track for junior Data Science roles"
+        "A reproducible supervised-learning project with a defensible baseline",
+        "Practice selecting metrics, validating models, and analyzing errors",
+        "A Git repository with data provenance, assumptions, and limitations documented",
+        "Completion recognition based on the published program requirements"
       ]
     },
     {
       id: "data-analytics",
       title: "Data Analytics & Business Intelligence",
       category: "Data Analytics",
-      badge: "SQL & KPI Dashboards",
+      badge: "SQL, Power BI & KPI Reporting",
       icon: PieChart,
-      desc: "Extract actionable business insights, write advanced SQL aggregation queries, and design interactive executive dashboards in Power BI and Excel.",
-      skills: ["SQL Queries & Joins", "Power BI / Tableau", "Excel / Google Sheets", "KPI Dashboards", "Data Storytelling"],
+      desc: "Turn a business question into a trusted analysis: query and model data, define clear KPIs, build a usable Power BI report, and explain findings.",
+      skills: ["SQL", "Excel", "Power Query", "Power BI", "Data Modeling", "DAX Fundamentals", "Data Storytelling"],
       duration: "6 Weeks (Intensive Virtual Sprint)",
       commitment: "6 to 8 Hours / Week (Flexible)",
       prerequisites: [
-        "Basic understanding of spreadsheets (Excel / Google Sheets formulas)",
-        "Interest in business metrics, user retention, and conversion funnels",
-        "Foundational curiosity in querying relational databases with SQL"
+        "Basic spreadsheet skills such as formulas, sorting, and filtering",
+        "No prior SQL required; clear reasoning and attention to detail are expected",
+        "Access to Power BI Desktop is recommended for the dashboard capstone"
       ],
       deliverables: [
-        { week: "Weeks 1–2", title: "Relational Queries & SQL Data Modeling", desc: "Write complex SQL joins, aggregations, window functions, and CTEs to extract business metrics." },
-        { week: "Weeks 3–4", title: "Exploratory Data Analysis & Funnel Metrics", desc: "Analyze customer churn, conversion funnels, and revenue metrics across historical records." },
-        { week: "Weeks 5–6", title: "Executive Business Dashboard & Report", desc: "Build an interactive Power BI dashboard and draft an actionable executive presentation." }
+        { week: "Week 1", title: "Business Questions & Spreadsheet Analysis", desc: "Translate a brief into measurable questions; inspect and clean a small dataset in Excel." },
+        { week: "Week 2", title: "SQL for Analysis", desc: "Use SELECT, filters, joins, aggregations, CASE, and introductory CTEs to answer questions from relational data." },
+        { week: "Week 3", title: "Data Quality & KPI Definitions", desc: "Check duplicates, missing values, and metric edge cases; write clear KPI definitions and assumptions." },
+        { week: "Week 4", title: "Power Query & BI Data Models", desc: "Transform data in Power Query and build a simple star-schema model with appropriate relationships." },
+        { week: "Week 5", title: "Power BI Measures & Reporting", desc: "Create core DAX measures, select readable visuals, and add filters that support common stakeholder questions." },
+        { week: "Week 6", title: "Dashboard Review & Insight Brief", desc: "Present a checked dashboard, explain two evidence-backed findings, and list caveats and recommended follow-up analysis." }
       ],
       outcomes: [
-        "Verified Devatrix Certificate of Completion",
-        "Distinguished 'Top Performer' Gold Badge for High Achievers",
-        "Interactive business intelligence portfolio dashboard",
-        "Fast-track interview pipeline for Data Analyst positions"
+        "A Power BI report with documented measures, data model, and assumptions",
+        "Practice with SQL joins, data checks, KPI definitions, and business communication",
+        "A short insight brief that distinguishes evidence from recommendation",
+        "Completion recognition based on the published program requirements"
+      ]
+    },
+    {
+      id: "ai-fde",
+      title: "AI Engineer & Forward Deployed Engineer (FDE)",
+      category: "AI Engineering & FDE",
+      badge: "Applied AI Delivery",
+      icon: Cpu,
+      desc: "Build a bounded AI solution around a real workflow: discover requirements, integrate APIs and data, evaluate behavior, and deploy a documented pilot.",
+      skills: ["Python", "REST APIs", "LLM Integration", "Customer Discovery", "Docker", "Evaluation & Observability", "Technical Handover"],
+      duration: "6 Weeks (Intensive Virtual Sprint)",
+      commitment: "6 to 8 Hours / Week (Flexible)",
+      prerequisites: [
+        "Working knowledge of Python or TypeScript and Git",
+        "Basic web APIs, JSON, and command-line familiarity",
+        "Interest in translating user workflows into practical software; prior LLM experience is helpful, not required"
+      ],
+      deliverables: [
+        { week: "Week 1", title: "Workflow Discovery & Success Measures", desc: "Interview a project stakeholder or use a supplied brief; map the current workflow, constraints, users, and measurable success criteria." },
+        { week: "Week 2", title: "Solution Design & Data Integration", desc: "Propose a small architecture, identify data and access boundaries, and connect a sample API or approved dataset." },
+        { week: "Week 3", title: "Applied AI Prototype", desc: "Build a scoped AI feature with validated inputs and outputs, clear fallback behavior, and human review where needed." },
+        { week: "Week 4", title: "Evaluation & System Integration", desc: "Create representative test cases, assess quality and failure modes, and integrate the feature into a usable service or workflow." },
+        { week: "Week 5", title: "Deployment & Operational Checks", desc: "Package and deploy a pilot using Docker or an approved platform; add basic logs, configuration checks, and a rollback note." },
+        { week: "Week 6", title: "Customer Demo & Handover", desc: "Present the working pilot against agreed measures and hand over setup instructions, limitations, support notes, and next steps." }
+      ],
+      outcomes: [
+        "A deployed pilot tied to a defined workflow and success criteria",
+        "Experience combining AI application work with integration and delivery",
+        "A test set, demo, and handover guide that make the work reviewable",
+        "Completion recognition based on the published program requirements"
       ]
     },
     {

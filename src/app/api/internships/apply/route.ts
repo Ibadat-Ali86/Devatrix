@@ -1,6 +1,45 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
-import { randomUUID } from "crypto";
+import { randomBytes, randomInt, randomUUID } from "crypto";
+
+function generateTrackingCode(): string {
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let code: string;
+  do {
+    code = Array.from({ length: 6 }, () => alphabet[randomInt(alphabet.length)]).join("");
+  } while (!/[A-Z]/.test(code) || !/[0-9]/.test(code));
+  return code;
+}
+
+async function ensureApplicantAccount(supabase: SupabaseClient, email: string): Promise<string | null> {
+  const candidateId = randomUUID();
+  const reserved = await supabase.from("intern_accounts").insert({ user_id: candidateId, email }).select("user_id").single();
+  let userId = reserved.data?.user_id as string | undefined;
+  if (reserved.error) {
+    if (reserved.error.code !== "23505") return null;
+    const existing = await supabase.from("intern_accounts").select("user_id").eq("email", email).maybeSingle();
+    if (existing.error || !existing.data) return null;
+    userId = existing.data.user_id as string;
+  }
+  if (!userId) return null;
+
+  const matchesReservation = (user: { id: string; email?: string; app_metadata: Record<string, unknown> } | null) =>
+    user?.id === userId && user.email?.toLowerCase() === email && user.app_metadata?.devatrix_applicant_id === userId;
+  let auth = await supabase.auth.admin.getUserById(userId);
+  if (auth.data.user) return matchesReservation(auth.data.user) ? userId : null;
+  if (auth.error?.status !== 404) return null;
+
+  // This bootstrap password is never returned, logged, or stored by the app.
+  // A future one-time setup link will let the verified applicant choose a password.
+  const created = await supabase.auth.admin.createUser({
+    id: userId, email, password: randomBytes(32).toString("base64url"), email_confirm: false,
+    app_metadata: { devatrix_applicant_id: userId },
+  });
+  if (created.data.user) return matchesReservation(created.data.user) ? userId : null;
+  // Another submission may have created the same reserved account concurrently.
+  auth = await supabase.auth.admin.getUserById(userId);
+  return matchesReservation(auth.data.user) ? userId : null;
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -26,7 +65,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const fields = ["fullName", "email", "whatsapp", "university", "track", "duration", "githubUrl", "linkedinUrl", "portfolioUrl", "resumeUrl", "statement"] as const;
+    const fields = ["fullName", "email", "whatsapp", "university", "track", "duration", "githubUrl", "linkedinUrl", "portfolioUrl", "resumeUrl", "statement", "submissionId"] as const;
     const values = Object.fromEntries(fields.map((field) => {
       const value = form ? form.get(field) : (json as Record<string, unknown>)[field];
       return [field, typeof value === "string" ? value.trim() : ""];
@@ -37,6 +76,9 @@ export async function POST(req: NextRequest) {
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email) || fields.some((field) => values[field].length > (field === "statement" ? 5000 : 500))) {
       return NextResponse.json({ success: false, error: "Please check your email and the length of your answers." }, { status: 400 });
+    }
+    if (values.submissionId && !/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(values.submissionId)) {
+      return NextResponse.json({ success: false, error: "Please refresh the page and try again." }, { status: 400 });
     }
     for (const field of ["githubUrl", "linkedinUrl", "portfolioUrl", "resumeUrl"] as const) {
       if (values[field]) {
@@ -53,12 +95,18 @@ export async function POST(req: NextRequest) {
     const secret = process.env.SUPABASE_SECRET_KEY;
     if (!url || !secret) throw new Error("Application storage is not configured");
     const supabase = createClient(url, secret, { auth: { persistSession: false, autoRefreshToken: false } });
-    const id = randomUUID();
+    const id = values.submissionId || randomUUID();
     const timestamp = new Date().toISOString();
-    const { error } = await supabase.from("internship_applications").insert({
+    const email = values.email.toLowerCase();
+    const userId = await ensureApplicantAccount(supabase, email);
+    if (!userId) {
+      console.error("Internship account provisioning failed");
+      return NextResponse.json({ success: false, error: "Unable to submit your application. Please try again or contact our team." }, { status: 503 });
+    }
+    const application = {
       id,
       full_name: values.fullName,
-      email: values.email.toLowerCase(),
+      email,
       whatsapp: values.whatsapp,
       university: values.university,
       track: values.track,
@@ -69,13 +117,27 @@ export async function POST(req: NextRequest) {
       resume_url: values.resumeUrl || null,
       statement: values.statement,
       created_at: timestamp,
-    });
+    };
+    let error = null;
+    let saved = null;
+    for (let attempt = 0; attempt < 5; attempt++) {
+      const result = await supabase.rpc("register_internship_application", {
+        p_user_id: userId,
+        p_application: { ...application, tracking_code: generateTrackingCode() },
+      });
+      error = result.error;
+      saved = result.data;
+      if (!error || error.code !== "23505" || !error.details?.includes("(tracking_code)")) break;
+    }
     if (error) {
       console.error("Internship application database error", { code: error.code });
+      if (error.code === "P0002") {
+        return NextResponse.json({ success: false, error: "This request conflicts with a previous submission. Refresh the page to start a new application." }, { status: 409 });
+      }
       return NextResponse.json({ success: false, error: "Unable to submit your application. Please try again." }, { status: 503 });
     }
     const webhook = process.env.GOOGLE_SHEET_WEBHOOK_URL;
-    if (webhook) {
+    if (webhook && saved === "created") {
       fetch(webhook, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
