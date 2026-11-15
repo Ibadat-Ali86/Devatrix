@@ -75,12 +75,12 @@ export default function DevatrixLogo({
             >
               DEVATRIX
             </span>
-            <span className="text-[10px] px-1.5 py-0.5 rounded bg-brand-500/10 text-brand-500 border border-brand-500/20 font-mono font-bold tracking-wider uppercase">
+            <span className="text-xs px-1.5 py-0.5 rounded bg-brand-500/10 text-brand-500 border border-brand-500/20 font-mono font-bold tracking-wider uppercase">
               AI-NATIVE
             </span>
           </div>
           <span 
-            className={`text-[10px] tracking-widest uppercase font-mono font-semibold ${
+            className={`text-xs tracking-widest uppercase font-mono font-semibold ${
               variant === "light" ? "text-slate-500" : "text-slate-400"
             }`}
           >

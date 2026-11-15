@@ -132,7 +132,7 @@ export default function CareersPage() {
             </div>
 
             {/* Perks Grid - 2 columns on mobile, 4 on desktop */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-6">
               {perks.map((perk) => {
                 const Icon = perk.icon;
                 return (
@@ -144,7 +144,7 @@ export default function CareersPage() {
                       <Icon className="w-full h-full" />
                     </div>
                     <h3 className="text-xs sm:text-lg font-bold text-slate-900 font-sans leading-tight">{perk.title}</h3>
-                    <p className="text-[10px] sm:text-xs text-slate-600 leading-relaxed font-normal">{perk.desc}</p>
+                    <p className="text-xs sm:text-xs text-slate-600 leading-relaxed font-normal">{perk.desc}</p>
                   </div>
                 );
               })}

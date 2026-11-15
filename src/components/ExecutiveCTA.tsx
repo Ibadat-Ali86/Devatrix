@@ -42,7 +42,7 @@ export default function ExecutiveCTA() {
         </div>
 
         {/* Engineering Hub & Delivery Strip */}
-        <div className="pt-8 sm:pt-12 border-t border-white/10 flex flex-wrap items-center justify-center gap-3 sm:gap-8 text-[10px] sm:text-xs text-slate-300 font-sans">
+        <div className="pt-8 sm:pt-12 border-t border-white/10 flex flex-wrap items-center justify-center gap-3 sm:gap-8 text-xs sm:text-xs text-slate-300 font-sans">
           <div className="flex items-center gap-2">
             <MapPin className="w-4 h-4 text-brand-500" />
             <span>Lahore, Pakistan (Engineering Hub)</span>

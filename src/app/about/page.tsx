@@ -40,23 +40,6 @@ export default function AboutPage() {
     },
   ];
 
-  const leadership = [
-    {
-      name: "Umair ul Hassan",
-      role: "Founder & Chief Technology Architect",
-      bio: "Veteran software architect with over a decade of experience designing high-concurrency distributed platforms and modern enterprise architectures.",
-    },
-    {
-      name: "Khurram Shehzad",
-      role: "VP of Enterprise Solutions",
-      bio: "18+ years leading large-scale digital modernization programs for tier-1 financial and commercial institutions.",
-    },
-    {
-      name: "Dr. Ayesha Malik",
-      role: "Head of Artificial Intelligence",
-      bio: "PhD in Machine Learning, directing our applied enterprise AI and autonomous workflow integration teams.",
-    },
-  ];
 
   return (
     <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
@@ -96,70 +79,67 @@ export default function AboutPage() {
           </div>
 
           {/* 3 Pillars in a row on all screens */}
-          <div className="grid grid-cols-3 gap-2.5 sm:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-8">
             {operationalPillars.map((item) => (
               <div
                 key={item.title}
-                className="p-3 sm:p-8 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-500/40 hover:bg-white hover:shadow-xl transition-all flex flex-col justify-between"
+                className="flex min-w-0 flex-col justify-between rounded-2xl border border-slate-200 bg-slate-50 p-5 transition-colors hover:border-brand-500/40 sm:p-7"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-2 sm:mb-4">
-                    <span className="text-[7.5px] sm:text-xs font-mono font-bold text-brand-700 bg-brand-50 px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-md border border-brand-200 truncate">
+                  <div className="mb-4 flex flex-wrap items-center gap-x-3 gap-y-2">
+                    <span className="max-w-full rounded-md border border-brand-200 bg-brand-50 px-2.5 py-1 text-xs font-mono font-bold leading-5 text-brand-700">
                       {item.badge}
                     </span>
-                    <span className="text-[7.5px] sm:text-xs text-slate-500 font-mono font-medium truncate">
+                    <span className="text-xs font-mono font-medium leading-5 text-slate-600">
                       {item.role}
                     </span>
                   </div>
 
-                  <h3 className="text-xs sm:text-2xl font-bold text-slate-900 font-sans mb-1.5 sm:mb-3 leading-tight">
+                  <h3 className="text-lg sm:text-2xl font-bold text-slate-900 font-sans mb-1.5 sm:mb-3 leading-tight">
                     {item.title}
                   </h3>
 
-                  <p className="text-[10px] sm:text-sm text-slate-600 leading-relaxed font-normal mb-2 sm:mb-6 line-clamp-3 sm:line-clamp-none">
+                  <p className="text-sm text-slate-600 leading-relaxed font-normal mb-6">
                     {item.desc}
                   </p>
                 </div>
 
-                <div className="pt-2 sm:pt-4 border-t border-slate-200 text-[8.5px] sm:text-xs text-slate-600">
+                <div className="pt-2 sm:pt-4 border-t border-slate-200 text-xs sm:text-xs text-slate-600">
                   <span className="text-slate-900 font-bold block mb-0.5">Focus:</span>
-                  <span className="line-clamp-2">{item.focus}</span>
+                  <span className="leading-relaxed">{item.focus}</span>
                 </div>
               </div>
             ))}
           </div>
         </section>
 
-        {/* Leadership (Clean Light Pearl) */}
-        <section className="py-24 bg-slate-50 border-y border-slate-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-2xl mx-auto mb-16">
-              <span className="text-xs font-mono text-brand-600 font-bold uppercase tracking-widest block mb-2">
-                EXECUTIVE LEADERSHIP
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 font-sans">
-                Hands-On Engineering Leadership
+        {/* Collaboration approach */}
+        <section className="border-y border-slate-200 bg-slate-50 py-16 sm:py-24">
+          <div className="mx-auto grid max-w-7xl gap-10 px-5 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20 lg:px-8">
+            <div>
+              <h2 className="max-w-md text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+                Good software starts with a good working relationship.
               </h2>
+              <p className="mt-5 max-w-md text-base leading-7 text-slate-600">
+                From the first conversation to delivery, we focus on clear communication and decisions that support your goals.
+              </p>
+              <Link href="/contact" className="mt-6 inline-flex min-h-11 items-center gap-2 font-semibold text-slate-900 underline underline-offset-4 hover:text-brand-700">
+                Start a conversation <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {leadership.map((leader) => (
-                <div
-                  key={leader.name}
-                  className="p-8 rounded-2xl bg-white border border-slate-200 hover:border-brand-500/40 hover:shadow-xl transition-all space-y-4"
-                >
-                  <div className="w-14 h-14 rounded-2xl bg-brand-50 border border-brand-200 flex items-center justify-center font-mono font-black text-brand-700 text-lg">
-                    {leader.name.split(" ").map(n => n[0]).join("")}
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-900 font-sans">{leader.name}</h3>
-                    <div className="text-xs font-bold text-brand-700 mt-0.5">{leader.role}</div>
-                  </div>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                    {leader.bio}
-                  </p>
-                </div>
-              ))}
+            <div className="divide-y divide-slate-200 border-y border-slate-200">
+              <div className="py-6 sm:grid sm:grid-cols-[1fr_1.4fr] sm:gap-6">
+                <h3 className="text-lg font-semibold text-slate-900">Understand</h3>
+                <p className="mt-2 leading-7 text-slate-600 sm:mt-0">We begin with your goals, your users, and the challenges you want to solve.</p>
+              </div>
+              <div className="py-6 sm:grid sm:grid-cols-[1fr_1.4fr] sm:gap-6">
+                <h3 className="text-lg font-semibold text-slate-900">Build together</h3>
+                <p className="mt-2 leading-7 text-slate-600 sm:mt-0">We turn requirements into a practical plan and keep communication open as the work progresses.</p>
+              </div>
+              <div className="py-6 sm:grid sm:grid-cols-[1fr_1.4fr] sm:gap-6">
+                <h3 className="text-lg font-semibold text-slate-900">Deliver with care</h3>
+                <p className="mt-2 leading-7 text-slate-600 sm:mt-0">We focus on useful, maintainable software and a clear handover for the people using it.</p>
+              </div>
             </div>
           </div>
         </section>

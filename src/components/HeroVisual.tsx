@@ -72,7 +72,7 @@ export default function HeroVisual() {
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px]">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
               LIVE TOPOLOGY
             </span>
@@ -120,11 +120,11 @@ export default function HeroVisual() {
                     : "bg-white/[0.02] border-white/5 text-slate-400 hover:border-white/20"
                 }`}
               >
-                <div className="flex items-center justify-between text-[10px] mb-1">
+                <div className="flex items-center justify-between text-xs mb-1">
                   <span className="font-semibold truncate">{node.name}</span>
-                  <span className="text-[9px] text-slate-500">{node.ping}</span>
+                  <span className="text-xs text-slate-500">{node.ping}</span>
                 </div>
-                <div className="text-[10px] truncate opacity-90">{node.status}</div>
+                <div className="text-xs truncate opacity-90">{node.status}</div>
               </div>
             ))}
           </div>
@@ -133,7 +133,7 @@ export default function HeroVisual() {
 
         {/* Live Code & Telemetry Stream Streamer */}
         <div className="bg-obsidian-950 p-3.5 rounded-xl border border-white/5 font-mono text-[11px] space-y-1.5">
-          <div className="flex items-center justify-between text-slate-500 text-[10px] border-b border-white/5 pb-1">
+          <div className="flex items-center justify-between text-slate-500 text-xs border-b border-white/5 pb-1">
             <span>REAL-TIME KERNEL EVENTS</span>
             <span className="text-emerald-400 flex items-center gap-1">
               <CheckCircle2 className="w-3 h-3" /> 0 ERRORS DETECTED
@@ -163,15 +163,15 @@ export default function HeroVisual() {
         <div className="grid grid-cols-3 gap-2 mt-4 pt-3 border-t border-white/10 text-center font-mono">
           <div>
             <div className="text-lg font-bold text-white">99.998%</div>
-            <div className="text-[10px] text-slate-400 uppercase tracking-wider">SLA Guarantee</div>
+            <div className="text-xs text-slate-400 uppercase tracking-wider">SLA Guarantee</div>
           </div>
           <div>
             <div className="text-lg font-bold text-brand-400">14.2 ms</div>
-            <div className="text-[10px] text-slate-400 uppercase tracking-wider">p99 Latency</div>
+            <div className="text-xs text-slate-400 uppercase tracking-wider">p99 Latency</div>
           </div>
           <div>
             <div className="text-lg font-bold text-cyber-cyan">180K+</div>
-            <div className="text-[10px] text-slate-400 uppercase tracking-wider">TPS Throughput</div>
+            <div className="text-xs text-slate-400 uppercase tracking-wider">TPS Throughput</div>
           </div>
         </div>
 

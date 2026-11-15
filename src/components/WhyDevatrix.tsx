@@ -65,7 +65,7 @@ export default function WhyDevatrix() {
                 <h3 className="text-xs sm:text-lg font-bold text-slate-900 mb-1 sm:mb-2 font-sans leading-tight">
                   {pillar.title}
                 </h3>
-                <p className="text-[10px] sm:text-sm text-slate-600 leading-relaxed font-normal">
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
                   {pillar.desc}
                 </p>
               </div>

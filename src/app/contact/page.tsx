@@ -91,7 +91,7 @@ export default function ContactPage() {
                   <form onSubmit={handleSubmit} className="space-y-5 text-sm">
                     <div className="grid grid-cols-2 gap-3 sm:gap-5">
                       <div>
-                        <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5">
+                        <label className="text-xs sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5">
                           Full Name *
                         </label>
                         <input
@@ -104,7 +104,7 @@ export default function ContactPage() {
                         />
                       </div>
                       <div>
-                        <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5">
+                        <label className="text-xs sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5">
                           Work Email *
                         </label>
                         <input
@@ -120,7 +120,7 @@ export default function ContactPage() {
 
                     <div className="grid grid-cols-2 gap-3 sm:gap-5">
                       <div>
-                        <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5">
+                        <label className="text-xs sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5">
                           Company *
                         </label>
                         <input
@@ -133,7 +133,7 @@ export default function ContactPage() {
                         />
                       </div>
                       <div>
-                        <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5">
+                        <label className="text-xs sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5">
                           Service
                         </label>
                         <select
@@ -192,7 +192,7 @@ export default function ContactPage() {
                       <MapPin className="w-5 h-5 text-brand-600" />
                       <h4 className="text-lg font-bold text-slate-900">{deliveryHub.location}</h4>
                     </div>
-                    <span className="text-[10px] font-bold px-2.5 py-1 rounded bg-brand-50 text-brand-800 border border-brand-200">
+                    <span className="text-xs font-bold px-2.5 py-1 rounded bg-brand-50 text-brand-800 border border-brand-200">
                       {deliveryHub.label}
                     </span>
                   </div>
@@ -242,7 +242,7 @@ export default function ContactPage() {
                         className="inline-flex items-center gap-1.5 text-emerald-700 font-bold text-sm hover:underline"
                       >
                         <span>+92 315 6179410</span>
-                        <span className="text-[10px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded font-mono">Chat Online</span>
+                        <span className="text-xs bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded font-mono">Chat Online</span>
                       </a>
                     </div>
                   </div>

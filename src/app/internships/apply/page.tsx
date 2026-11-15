@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import BrandLoader from "@/components/BrandLoader";
 import { 
   GraduationCap, 
   ArrowRight, 
@@ -42,12 +43,9 @@ function ApplyFormContent() {
     statement: "",
   });
 
-  const [resumeFile, setResumeFile] = useState<File | null>(null);
-  const [copiedId, setCopiedId] = useState(false);
   const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [submittedCandidate, setSubmittedCandidate] = useState<{
-    candidateId: string;
     fullName: string;
     track: string;
   } | null>(null);
@@ -67,6 +65,7 @@ function ApplyFormContent() {
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (formStatus === "submitting") return;
     setFormStatus("submitting");
     setErrorMessage("");
 
@@ -83,9 +82,6 @@ function ApplyFormContent() {
       submission.append("portfolioUrl", formData.portfolioUrl);
       submission.append("resumeUrl", formData.resumeUrl);
       submission.append("statement", formData.statement);
-      if (resumeFile) {
-        submission.append("resumeFile", resumeFile);
-      }
 
       const res = await fetch("/api/internships/apply", {
         method: "POST",
@@ -97,7 +93,6 @@ function ApplyFormContent() {
       if (res.ok && data.success) {
         setFormStatus("success");
         setSubmittedCandidate({
-          candidateId: data.candidateId,
           fullName: formData.fullName,
           track: formData.track,
         });
@@ -110,12 +105,6 @@ function ApplyFormContent() {
       setFormStatus("error");
       setErrorMessage("Network error occurred while submitting your application. Please try again.");
     }
-  };
-
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedId(true);
-    setTimeout(() => setCopiedId(false), 2500);
   };
 
   return (
@@ -163,28 +152,6 @@ function ApplyFormContent() {
               </p>
             </div>
 
-            {/* Candidate ID Display Box */}
-            <div className="p-5 rounded-2xl bg-[#061833] text-white max-w-md mx-auto space-y-3 shadow-lg">
-              <span className="text-[11px] font-mono text-slate-400 block tracking-wider uppercase">
-                Official Assigned Candidate ID
-              </span>
-              <div className="flex items-center justify-center gap-3">
-                <span className="text-2xl font-mono font-black text-brand-400 tracking-wider">
-                  {submittedCandidate.candidateId}
-                </span>
-                <button
-                  onClick={() => copyToClipboard(submittedCandidate.candidateId)}
-                  className="px-3 py-1 rounded-md bg-white/10 hover:bg-white/20 text-xs font-mono text-white transition-colors"
-                  title="Copy Candidate ID"
-                >
-                  {copiedId ? "Copied!" : "Copy"}
-                </button>
-              </div>
-              <span className="text-[11px] text-slate-400 block">
-                Save this ID for reference when receiving your offer letter.
-              </span>
-            </div>
-
             {/* Next Steps Guidance */}
             <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 text-left max-w-lg mx-auto space-y-2 text-xs text-slate-700">
               <span className="font-bold text-slate-900 font-sans block text-sm mb-1">
@@ -192,7 +159,7 @@ function ApplyFormContent() {
               </span>
               <div className="flex items-start gap-2">
                 <span className="font-mono font-bold text-brand-600">1.</span>
-                <span>Our lead architects will review your background, skills, and submitted credentials.</span>
+                <span>Our team will review your background, skills, and application.</span>
               </div>
               <div className="flex items-start gap-2">
                 <span className="font-mono font-bold text-brand-600">2.</span>
@@ -207,7 +174,7 @@ function ApplyFormContent() {
             {/* Action Links */}
             <div className="pt-2 flex flex-wrap justify-center gap-4 text-xs">
               <a
-                href={`https://wa.me/923156179410?text=Hello%20Devatrix%20Technologies,%20I%20have%20submitted%20my%20internship%20application%20with%20Candidate%20ID:%20${submittedCandidate.candidateId}`}
+                href="https://wa.me/923156179410?text=Hello%20Devatrix%20Technologies%2C%20I%20have%20submitted%20an%20internship%20application."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition-colors shadow-md"
@@ -219,7 +186,6 @@ function ApplyFormContent() {
                 onClick={() => {
                   setFormStatus("idle");
                   setSubmittedCandidate(null);
-                  setResumeFile(null);
                   setFormData({
                     fullName: "",
                     email: "",
@@ -250,7 +216,7 @@ function ApplyFormContent() {
 
             <div className="grid grid-cols-2 gap-2.5 sm:gap-5">
               <div>
-                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
+                <label className="text-xs sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
                   Full Name *
                 </label>
                 <input
@@ -263,7 +229,7 @@ function ApplyFormContent() {
                 />
               </div>
               <div>
-                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
+                <label className="text-xs sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
                   Email Address *
                 </label>
                 <input
@@ -279,7 +245,7 @@ function ApplyFormContent() {
 
             <div className="grid grid-cols-2 gap-2.5 sm:gap-5">
               <div>
-                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
+                <label className="text-xs sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
                   WhatsApp Number *
                 </label>
                 <input
@@ -292,7 +258,7 @@ function ApplyFormContent() {
                 />
               </div>
               <div>
-                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
+                <label className="text-xs sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
                   University & Grad Year *
                 </label>
                 <input
@@ -308,7 +274,7 @@ function ApplyFormContent() {
 
             <div className="grid grid-cols-2 gap-2.5 sm:gap-5">
               <div>
-                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
+                <label className="text-xs sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
                   Track of Interest *
                 </label>
                 <select
@@ -324,7 +290,7 @@ function ApplyFormContent() {
                 </select>
               </div>
               <div>
-                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
+                <label className="text-xs sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
                   Duration
                 </label>
                 <input
@@ -338,7 +304,7 @@ function ApplyFormContent() {
 
             {/* Resume / CV Upload & Link Section (Optional) */}
             <div className="space-y-1.5 sm:space-y-2">
-              <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block font-sans">
+              <label className="text-xs sm:text-xs font-bold text-slate-700 uppercase tracking-wider block font-sans">
                 Resume / CV (Optional)
               </label>
               <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
@@ -346,8 +312,8 @@ function ApplyFormContent() {
                   <input
                     type="file"
                     accept=".pdf,.doc,.docx"
-                    onChange={(e) => setResumeFile(e.target.files?.[0] || null)}
-                    className="w-full text-[10px] sm:text-xs text-slate-600 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] sm:file:text-xs file:font-bold file:bg-slate-200 file:text-slate-800 hover:file:bg-slate-300 cursor-pointer bg-slate-50 border border-slate-300 rounded-xl p-1"
+                    disabled
+                    className="w-full text-xs sm:text-xs text-slate-600 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] sm:file:text-xs file:font-bold file:bg-slate-200 file:text-slate-800 hover:file:bg-slate-300 cursor-pointer bg-slate-50 border border-slate-300 rounded-xl p-1"
                   />
                 </div>
                 <div>
@@ -360,14 +326,14 @@ function ApplyFormContent() {
                   />
                 </div>
               </div>
-              <p className="text-[9.5px] sm:text-[11px] text-slate-500 font-normal">
-                Upload PDF/DOC (up to 10MB) or provide a public cloud link.
+              <p className="text-xs sm:text-[11px] text-slate-500 font-normal">
+                File uploads are coming later. You can provide a résumé link for now.
               </p>
             </div>
 
             <div className="grid grid-cols-2 gap-2.5 sm:gap-5">
               <div>
-                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
+                <label className="text-xs sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
                   GitHub Profile (Optional)
                 </label>
                 <input
@@ -379,7 +345,7 @@ function ApplyFormContent() {
                 />
               </div>
               <div>
-                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
+                <label className="text-xs sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
                   LinkedIn Profile (Optional)
                 </label>
                 <input
@@ -425,10 +391,7 @@ function ApplyFormContent() {
               className="w-full py-4 rounded-full bg-brand-500 hover:bg-brand-600 disabled:opacity-70 text-obsidian-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-brand-500/25 hover:brightness-105 flex items-center justify-center gap-2 font-sans"
             >
               {formStatus === "submitting" ? (
-                <span className="flex items-center gap-2">
-                  <span className="w-4 h-4 border-2 border-obsidian-950 border-t-transparent rounded-full animate-spin"></span>
-                  <span>Registering Application & Generating CID...</span>
-                </span>
+                <span>Sending application...</span>
               ) : (
                 <>
                   <span>Submit 6-Week Internship Application</span>
@@ -436,8 +399,9 @@ function ApplyFormContent() {
                 </>
               )}
             </button>
+            {formStatus === "submitting" && <BrandLoader context="application" />}
             <p className="text-[11px] text-center text-slate-500 font-normal">
-              By submitting, your application is saved to our talent database and syncs automatically with HR review systems.
+              By submitting, your application is saved for review by the Devatrix team.
             </p>
           </form>
         )}

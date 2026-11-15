@@ -300,7 +300,7 @@ export default function InternshipsPage() {
     },
     {
       q: "How will my submission be verified?",
-      a: "Once you submit the online application form, your details are instantly registered in our database and forwarded to our evaluation team. You will immediately receive a unique Candidate ID (CID) to track your review status."
+      a: "Once you submit the online application form, your application is received for review by our team."
     }
   ];
 
@@ -375,7 +375,7 @@ export default function InternshipsPage() {
               </h2>
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-6">
               {highlights.map((item) => (
                 <div
                   key={item.title}
@@ -386,13 +386,13 @@ export default function InternshipsPage() {
                       <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-brand-500 text-obsidian-950 shadow-sm flex items-center justify-center">
                         <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5" />
                       </div>
-                      <span className="text-[7.5px] sm:text-[9px] font-mono font-bold uppercase tracking-wider px-1.5 sm:px-2 py-0.5 rounded-full bg-brand-500 text-obsidian-950">
+                      <span className="text-xs sm:text-[9px] font-mono font-bold uppercase tracking-wider px-1.5 sm:px-2 py-0.5 rounded-full bg-brand-500 text-obsidian-950">
                         {item.badgeText}
                       </span>
                     </div>
 
                     <h3 className="text-xs sm:text-lg font-bold text-slate-900 font-sans leading-snug">{item.title}</h3>
-                    <p className="text-[10px] sm:text-xs text-slate-600 leading-relaxed font-normal">{item.desc}</p>
+                    <p className="text-xs sm:text-xs text-slate-600 leading-relaxed font-normal">{item.desc}</p>
                   </div>
                 </div>
               ))}
@@ -415,23 +415,23 @@ export default function InternshipsPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-6">
               {steps.map((st) => (
                 <div
                   key={st.step}
-                  className="p-3.5 sm:p-6 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-500/40 hover:bg-white hover:shadow-md transition-all relative flex flex-col justify-between"
+                  className="group relative flex min-w-0 flex-col rounded-2xl border border-slate-200 bg-slate-50 p-6 transition-colors hover:border-brand-400/60 hover:bg-white sm:p-7"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-2 sm:mb-4">
-                      <span className="text-base sm:text-2xl font-black font-mono text-brand-500">
+                      <span className="text-xl font-bold font-mono tracking-tight text-brand-600 sm:text-2xl">
                         {st.step}
                       </span>
-                      <span className="w-5 h-5 sm:w-7 sm:h-7 rounded-full bg-brand-50 border border-brand-200 flex items-center justify-center text-brand-600 text-[10px] sm:text-xs font-mono font-bold">
+                      <span className="w-5 h-5 sm:w-7 sm:h-7 rounded-full bg-brand-50 border border-brand-200 flex items-center justify-center text-brand-600 text-xs sm:text-xs font-mono font-bold">
                         ✓
                       </span>
                     </div>
-                    <h3 className="text-xs sm:text-lg font-bold text-slate-900 mb-1 sm:mb-2 font-sans">{st.title}</h3>
-                    <p className="text-[10px] sm:text-xs text-slate-600 leading-relaxed font-normal">{st.desc}</p>
+                    <h3 className="mb-2 text-lg font-bold leading-snug text-slate-900 font-sans">{st.title}</h3>
+                    <p className="text-sm leading-6 text-slate-600 font-normal">{st.desc}</p>
                   </div>
                 </div>
               ))}
@@ -471,7 +471,7 @@ export default function InternshipsPage() {
           </div>
 
           {/* Track Cards Grid - Exactly 3 columns on all screens (3 on top, 3 on bottom) */}
-          <div className="grid grid-cols-3 gap-2 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-6">
             {filteredTracks.map((t) => {
               const Icon = t.icon;
               return (
@@ -481,7 +481,7 @@ export default function InternshipsPage() {
                 >
                   <div>
                     <div className="flex items-center justify-between mb-2 sm:mb-4">
-                      <span className="text-[7.5px] sm:text-xs font-mono font-bold text-brand-700 bg-brand-50 px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-md border border-brand-200 truncate max-w-[80%]">
+                      <span className="text-xs sm:text-xs font-mono font-bold text-brand-700 bg-brand-50 px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-md border border-brand-200 truncate max-w-[80%]">
                         {t.badge}
                       </span>
                       <Icon className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-brand-600 shrink-0" />
@@ -490,11 +490,11 @@ export default function InternshipsPage() {
                     <h3 className="text-[11px] sm:text-xl font-bold text-slate-900 mb-1 sm:mb-2 font-sans leading-tight line-clamp-2">
                       {t.title}
                     </h3>
-                    <p className="text-[9px] sm:text-sm text-slate-600 leading-relaxed mb-2 sm:mb-6 font-normal line-clamp-2 sm:line-clamp-none">
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-2 sm:mb-6 font-normal line-clamp-2 sm:line-clamp-none">
                       {t.desc}
                     </p>
 
-                    <div className="space-y-1 sm:space-y-2 mb-2 sm:mb-6 pt-1.5 sm:pt-4 border-t border-slate-200 text-[8px] sm:text-xs text-slate-600">
+                    <div className="space-y-1 sm:space-y-2 mb-2 sm:mb-6 pt-1.5 sm:pt-4 border-t border-slate-200 text-xs sm:text-xs text-slate-600">
                       <div className="flex items-center justify-between font-mono">
                         <span className="text-slate-500">Duration:</span>
                         <span className="font-semibold text-slate-800">6 Weeks</span>
@@ -525,14 +525,14 @@ export default function InternshipsPage() {
                   <div className="pt-2 sm:pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-stretch sm:items-center gap-1 sm:gap-3">
                     <button
                       onClick={() => setModalTrack(t)}
-                      className="flex-1 py-1 sm:py-2.5 px-1 sm:px-3 rounded-lg sm:rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-200 text-[8px] sm:text-xs font-bold transition-colors flex items-center justify-center gap-1 shadow-sm"
+                      className="flex-1 py-1 sm:py-2.5 px-1 sm:px-3 rounded-lg sm:rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-200 text-xs sm:text-xs font-bold transition-colors flex items-center justify-center gap-1 shadow-sm"
                     >
                       <Info className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-brand-600 shrink-0" />
                       <span className="truncate">Syllabus</span>
                     </button>
                     <Link
                       href={`/internships/apply?track=${encodeURIComponent(t.title)}`}
-                      className="flex-1 py-1 sm:py-2.5 px-1 sm:px-3 rounded-lg sm:rounded-xl bg-brand-500 hover:bg-brand-600 text-obsidian-950 text-[8px] sm:text-xs font-bold transition-colors flex items-center justify-center gap-1 shadow-md shadow-brand-500/20"
+                      className="flex-1 py-1 sm:py-2.5 px-1 sm:px-3 rounded-lg sm:rounded-xl bg-brand-500 hover:bg-brand-600 text-obsidian-950 text-xs sm:text-xs font-bold transition-colors flex items-center justify-center gap-1 shadow-md shadow-brand-500/20"
                     >
                       <span className="truncate">Apply</span>
                       <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" />

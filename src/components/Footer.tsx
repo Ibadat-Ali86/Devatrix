@@ -27,7 +27,7 @@ export default function Footer() {
                 <span className="text-xl font-extrabold tracking-tight text-white font-sans">
                   Devatrix
                 </span>
-                <span className="text-[10px] tracking-widest uppercase text-slate-400 font-medium -mt-0.5">
+                <span className="text-xs tracking-widest uppercase text-slate-400 font-medium -mt-0.5">
                   Technologies
                 </span>
               </div>
@@ -145,7 +145,7 @@ export default function Footer() {
               <li>
                 <Link href="/internships" className="hover:text-brand-400 transition-colors text-brand-400 font-semibold flex items-center gap-1.5">
                   <span>Internships</span>
-                  <span className="text-[9px] uppercase px-1.5 py-0.2 rounded bg-brand-500/20 text-brand-300 font-mono">Open</span>
+                  <span className="text-xs uppercase px-1.5 py-0.2 rounded bg-brand-500/20 text-brand-300 font-mono">Open</span>
                 </Link>
               </li>
               <li>

@@ -72,7 +72,7 @@ export default function ComparisonMatrix() {
         <div className="rounded-2xl border border-slate-200 bg-white shadow-xl overflow-hidden">
           
           {/* Header Row */}
-          <div className="grid grid-cols-12 border-b border-slate-200 text-[10px] sm:text-xs font-mono">
+          <div className="grid grid-cols-12 border-b border-slate-200 text-xs sm:text-xs font-mono">
             <div className="p-2 sm:p-5 col-span-4 bg-slate-50 font-bold uppercase tracking-wider text-slate-600 flex items-center">
               Dimension / Deliverable
             </div>
@@ -91,12 +91,12 @@ export default function ComparisonMatrix() {
             {comparisonRows.map((row, idx) => (
               <div 
                 key={row.metric} 
-                className="grid grid-cols-12 text-[10px] sm:text-sm hover:bg-slate-50/70 transition-colors"
+                className="grid grid-cols-12 text-xs sm:text-sm hover:bg-slate-50/70 transition-colors"
               >
                 {/* Metric Title & Advantage Tag */}
                 <div className="p-2 sm:p-5 col-span-4 flex flex-col justify-center bg-white">
                   <span className="font-bold text-slate-900 leading-snug">{row.metric}</span>
-                  <span className="inline-block mt-0.5 sm:mt-1 text-[8px] sm:text-[11px] font-mono text-brand-700 font-semibold truncate">
+                  <span className="inline-block mt-0.5 sm:mt-1 text-xs sm:text-[11px] font-mono text-brand-700 font-semibold truncate">
                     ⚡ {row.advantage}
                   </span>
                 </div>
@@ -106,7 +106,7 @@ export default function ComparisonMatrix() {
                   <span className="w-3.5 h-3.5 sm:w-4 sm:h-4 mt-0.5 rounded-full bg-rose-100 border border-rose-300 flex items-center justify-center shrink-0">
                     <X className="w-2 sm:w-2.5 h-2 sm:h-2.5 text-rose-600" />
                   </span>
-                  <span className="text-[9px] sm:text-sm leading-relaxed">{row.legacy}</span>
+                  <span className="text-xs sm:text-sm leading-relaxed">{row.legacy}</span>
                 </div>
 
                 {/* Devatrix Column */}
@@ -114,7 +114,7 @@ export default function ComparisonMatrix() {
                   <span className="w-3.5 h-3.5 sm:w-4 sm:h-4 mt-0.5 rounded-full bg-brand-100 border border-brand-300 flex items-center justify-center shrink-0">
                     <Check className="w-2 sm:w-2.5 h-2 sm:h-2.5 text-brand-700 font-bold" />
                   </span>
-                  <span className="text-[9px] sm:text-sm leading-relaxed text-slate-800">{row.devatrix}</span>
+                  <span className="text-xs sm:text-sm leading-relaxed text-slate-800">{row.devatrix}</span>
                 </div>
               </div>
             ))}

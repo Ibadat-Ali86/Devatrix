@@ -126,7 +126,7 @@ export default function ServicesPage() {
                         <Icon className="w-full h-full" />
                       </div>
 
-                      <span className="text-[8.5px] sm:text-xs font-mono font-bold text-brand-700 uppercase tracking-wider block mb-1">
+                      <span className="text-xs sm:text-xs font-mono font-bold text-brand-700 uppercase tracking-wider block mb-1">
                         {service.tagline}
                       </span>
                       <h3 className="text-sm sm:text-2xl font-bold text-slate-900 mb-2 sm:mb-4 font-sans leading-tight">
@@ -139,12 +139,12 @@ export default function ServicesPage() {
                     </div>
 
                     <div className="pt-3 sm:pt-6 border-t border-slate-100">
-                      <h4 className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-700 mb-2 sm:mb-3">
+                      <h4 className="text-xs sm:text-xs font-bold uppercase tracking-wider text-slate-700 mb-2 sm:mb-3">
                         Deliverables:
                       </h4>
                       <ul className="space-y-1.5 sm:space-y-2.5">
                         {service.deliverables.map((item) => (
-                          <li key={item} className="flex items-start gap-1.5 sm:gap-2.5 text-[9.5px] sm:text-sm text-slate-700 leading-tight">
+                          <li key={item} className="flex items-start gap-1.5 sm:gap-2.5 text-xs sm:text-sm text-slate-700 leading-tight">
                             <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-brand-600 shrink-0 mt-0.5" />
                             <span>{item}</span>
                           </li>

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import BrandLoader from "@/components/BrandLoader";
 import { 
   Briefcase, 
   ArrowRight, 
@@ -77,6 +78,7 @@ function CareerApplyFormContent() {
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (formStatus === "submitting") return;
     setFormStatus("submitting");
     setErrorMessage("");
 
@@ -267,7 +269,7 @@ function CareerApplyFormContent() {
             {/* Full Name & Email */}
             <div className="grid grid-cols-2 gap-2.5 sm:gap-5">
               <div>
-                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
+                <label className="text-xs sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
                   Full Name *
                 </label>
                 <input
@@ -280,7 +282,7 @@ function CareerApplyFormContent() {
                 />
               </div>
               <div>
-                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
+                <label className="text-xs sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
                   Email Address *
                 </label>
                 <input
@@ -297,7 +299,7 @@ function CareerApplyFormContent() {
             {/* Phone & Current Location */}
             <div className="grid grid-cols-2 gap-2.5 sm:gap-5">
               <div>
-                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
+                <label className="text-xs sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
                   Phone / WhatsApp *
                 </label>
                 <input
@@ -310,7 +312,7 @@ function CareerApplyFormContent() {
                 />
               </div>
               <div>
-                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
+                <label className="text-xs sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
                   Location / City *
                 </label>
                 <input
@@ -327,7 +329,7 @@ function CareerApplyFormContent() {
             {/* Target Role & Total Experience */}
             <div className="grid grid-cols-2 gap-2.5 sm:gap-5">
               <div>
-                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
+                <label className="text-xs sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
                   Target Role *
                 </label>
                 <select
@@ -343,7 +345,7 @@ function CareerApplyFormContent() {
                 </select>
               </div>
               <div>
-                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
+                <label className="text-xs sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
                   Experience Tier *
                 </label>
                 <select
@@ -361,7 +363,7 @@ function CareerApplyFormContent() {
 
             {/* Previous Company & Job Title */}
             <div>
-              <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
+              <label className="text-xs sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
                 Previous / Current Company & Job Title
               </label>
               <input
@@ -376,7 +378,7 @@ function CareerApplyFormContent() {
             {/* Previous Salary & Expected Salary */}
             <div className="grid grid-cols-2 gap-2.5 sm:gap-5">
               <div>
-                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
+                <label className="text-xs sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
                   Current Salary (PKR)
                 </label>
                 <input
@@ -388,7 +390,7 @@ function CareerApplyFormContent() {
                 />
               </div>
               <div>
-                <label className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
+                <label className="text-xs sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1 sm:mb-1.5 font-sans">
                   Expected Salary (PKR) *
                 </label>
                 <input
@@ -497,10 +499,7 @@ function CareerApplyFormContent() {
               className="w-full py-4 rounded-full bg-brand-500 hover:bg-brand-600 disabled:opacity-70 text-obsidian-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-brand-500/25 hover:brightness-105 flex items-center justify-center gap-2 font-sans"
             >
               {formStatus === "submitting" ? (
-                <span className="flex items-center gap-2">
-                  <span className="w-4 h-4 border-2 border-obsidian-950 border-t-transparent rounded-full animate-spin"></span>
-                  <span>Registering Application...</span>
-                </span>
+                <span>Sending application...</span>
               ) : (
                 <>
                   <span>Submit Job Application</span>
@@ -508,6 +507,7 @@ function CareerApplyFormContent() {
                 </>
               )}
             </button>
+            {formStatus === "submitting" && <BrandLoader context="application" />}
             <p className="text-[11px] text-center text-slate-500 font-normal">
               Your details are securely stored in our confidential talent registry and reviewed by our Principal Architects.
             </p>

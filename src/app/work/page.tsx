@@ -92,7 +92,7 @@ export default function WorkPage() {
             >
               <div className="flex flex-row items-center justify-between gap-4 pb-4 sm:pb-6 border-b border-slate-200 mb-4 sm:mb-8">
                 <div>
-                  <span className="text-[9px] sm:text-xs font-mono font-bold text-brand-700 bg-brand-50 px-2 sm:px-3 py-0.5 sm:py-1 rounded-md border border-brand-200 uppercase tracking-wider block w-fit mb-1.5 sm:mb-2">
+                  <span className="text-xs sm:text-xs font-mono font-bold text-brand-700 bg-brand-50 px-2 sm:px-3 py-0.5 sm:py-1 rounded-md border border-brand-200 uppercase tracking-wider block w-fit mb-1.5 sm:mb-2">
                     {study.sector}
                   </span>
                   <h2 className="text-base sm:text-3xl font-extrabold text-slate-900 font-sans leading-tight">
@@ -103,7 +103,7 @@ export default function WorkPage() {
                   <div className="text-xl sm:text-4xl font-extrabold text-brand-600 font-sans">
                     {study.metric}
                   </div>
-                  <div className="text-[9px] sm:text-xs text-slate-500 font-semibold mt-0.5">
+                  <div className="text-xs sm:text-xs text-slate-500 font-semibold mt-0.5">
                     {study.metricLabel}
                   </div>
                 </div>
@@ -117,19 +117,19 @@ export default function WorkPage() {
 
                   <div className="grid grid-cols-2 gap-2.5 sm:gap-4 pt-2">
                     <div className="p-3 sm:p-4 rounded-xl bg-white border border-slate-200">
-                      <span className="text-[10px] sm:text-xs font-bold text-slate-900 uppercase tracking-wider block mb-1">
+                      <span className="text-xs sm:text-xs font-bold text-slate-900 uppercase tracking-wider block mb-1">
                         The Challenge:
                       </span>
-                      <p className="text-[10px] sm:text-xs text-slate-600 leading-relaxed">
+                      <p className="text-xs sm:text-xs text-slate-600 leading-relaxed">
                         {study.challenge}
                       </p>
                     </div>
 
                     <div className="p-3 sm:p-4 rounded-xl bg-white border border-slate-200">
-                      <span className="text-[10px] sm:text-xs font-bold text-brand-700 uppercase tracking-wider block mb-1">
+                      <span className="text-xs sm:text-xs font-bold text-brand-700 uppercase tracking-wider block mb-1">
                         The Solution & Impact:
                       </span>
-                      <p className="text-[10px] sm:text-xs text-slate-600 leading-relaxed">
+                      <p className="text-xs sm:text-xs text-slate-600 leading-relaxed">
                         {study.outcome}
                       </p>
                     </div>
@@ -137,14 +137,14 @@ export default function WorkPage() {
                 </div>
 
                 <div className="lg:col-span-4 space-y-2 sm:space-y-4">
-                  <h4 className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-500">
+                  <h4 className="text-xs sm:text-xs font-bold uppercase tracking-wider text-slate-500">
                     Technology Stack
                   </h4>
                   <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     {study.tags.map((t) => (
                       <span
                         key={t}
-                        className="text-[9px] sm:text-xs font-mono px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg bg-white border border-slate-200 text-slate-700 font-medium"
+                        className="text-xs sm:text-xs font-mono px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg bg-white border border-slate-200 text-slate-700 font-medium"
                       >
                         {t}
                       </span>
