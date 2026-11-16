@@ -40,7 +40,7 @@ export default function Navbar() {
               <span className="text-base sm:text-2xl font-black tracking-tight text-white font-sans leading-none">
                 Devatrix
               </span>
-              <span className="text-xs sm:text-[10px] tracking-widest uppercase text-slate-300 font-semibold mt-0.5 sm:mt-1 font-sans">
+              <span className="text-[7.5px] sm:text-[10px] tracking-widest uppercase text-slate-300 font-semibold mt-0.5 sm:mt-1 font-sans">
                 Technologies
               </span>
             </div>

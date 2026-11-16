@@ -464,7 +464,7 @@ export default function InternshipsPage() {
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-6">
               {highlights.map((item) => (
                 <div
                   key={item.title}
@@ -504,7 +504,7 @@ export default function InternshipsPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-6">
               {steps.map((st) => (
                 <div
                   key={st.step}
@@ -560,7 +560,7 @@ export default function InternshipsPage() {
           </div>
 
           {/* Track Cards Grid - Exactly 3 columns on all screens (3 on top, 3 on bottom) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-6">
+          <div className="grid grid-cols-3 gap-2 sm:gap-6">
             {filteredTracks.map((t) => {
               const Icon = t.icon;
               return (
@@ -570,7 +570,7 @@ export default function InternshipsPage() {
                 >
                   <div>
                     <div className="flex items-center justify-between mb-2 sm:mb-4">
-                      <span className="text-xs sm:text-xs font-mono font-bold text-brand-700 bg-brand-50 px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-md border border-brand-200 truncate max-w-[80%]">
+                      <span className="text-[8px] sm:text-xs font-mono font-bold text-brand-700 bg-brand-50 px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-md border border-brand-200 truncate max-w-[80%]">
                         {t.badge}
                       </span>
                       <Icon className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-brand-600 shrink-0" />
@@ -579,11 +579,11 @@ export default function InternshipsPage() {
                     <h3 className="text-[11px] sm:text-xl font-bold text-slate-900 mb-1 sm:mb-2 font-sans leading-tight line-clamp-2">
                       {t.title}
                     </h3>
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-2 sm:mb-6 font-normal line-clamp-2 sm:line-clamp-none">
+                    <p className="text-[9px] sm:text-sm text-slate-600 leading-relaxed mb-2 sm:mb-6 font-normal line-clamp-2 sm:line-clamp-none">
                       {t.desc}
                     </p>
 
-                    <div className="space-y-1 sm:space-y-2 mb-2 sm:mb-6 pt-1.5 sm:pt-4 border-t border-slate-200 text-xs sm:text-xs text-slate-600">
+                    <div className="space-y-1 sm:space-y-2 mb-2 sm:mb-6 pt-1.5 sm:pt-4 border-t border-slate-200 text-[8px] sm:text-xs text-slate-600">
                       <div className="flex items-center justify-between font-mono">
                         <span className="text-slate-500">Duration:</span>
                         <span className="font-semibold text-slate-800">6 Weeks</span>
@@ -614,14 +614,14 @@ export default function InternshipsPage() {
                   <div className="pt-2 sm:pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-stretch sm:items-center gap-1 sm:gap-3">
                     <button
                       onClick={() => setModalTrack(t)}
-                      className="flex-1 py-1 sm:py-2.5 px-1 sm:px-3 rounded-lg sm:rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-200 text-xs sm:text-xs font-bold transition-colors flex items-center justify-center gap-1 shadow-sm"
+                      className="flex-1 py-1 sm:py-2.5 px-1 sm:px-3 rounded-lg sm:rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-200 text-[8px] sm:text-xs font-bold transition-colors flex items-center justify-center gap-1 shadow-sm"
                     >
                       <Info className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-brand-600 shrink-0" />
                       <span className="truncate">Syllabus</span>
                     </button>
                     <Link
                       href={`/internships/apply?track=${encodeURIComponent(t.title)}`}
-                      className="flex-1 py-1 sm:py-2.5 px-1 sm:px-3 rounded-lg sm:rounded-xl bg-brand-500 hover:bg-brand-600 text-obsidian-950 text-xs sm:text-xs font-bold transition-colors flex items-center justify-center gap-1 shadow-md shadow-brand-500/20"
+                      className="flex-1 py-1 sm:py-2.5 px-1 sm:px-3 rounded-lg sm:rounded-xl bg-brand-500 hover:bg-brand-600 text-obsidian-950 text-[8px] sm:text-xs font-bold transition-colors flex items-center justify-center gap-1 shadow-md shadow-brand-500/20"
                     >
                       <span className="truncate">Apply</span>
                       <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" />
