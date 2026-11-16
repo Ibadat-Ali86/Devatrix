@@ -20,9 +20,10 @@ Use this section as the current implementation snapshot. Update it when the feat
 - PR #4 (`codex/admin-dashboard-cms`, based on PR #3): added the admin workspace and public content CMS. All four PRs are for review; do not assume they are merged.
 - Admin authentication uses Supabase Auth plus the server-side `ADMIN_EMAILS` allowlist. Keep service credentials server-only. There is no public admin registration.
 - Admin application review includes search, status filters and updates, private review notes, reviewer/time tracking, and formula-safe filtered CSV export.
-- The CMS edits public page introductions, service summaries, case-study cards, internship track copy/publication, and the internships announcement. Curriculum details, technical tags/metrics, deliverables, layout, and other static page content remain code-managed.
+- Internship applications have a private six-character tracking code, visible to authorized admins in overview, desktop/mobile lists, and application review. Career applications use a separate application ID and do not have internship tracking codes.
+- The CMS edits public page introductions, service summaries, case-study cards, internship track copy/publication, the internships announcement, and footer details (contact, social, location, trust statements, and legal text). Footer fields are validated by the admin API and served through the public CMS endpoint. Curriculum details, technical tags/metrics, deliverables, layout, and other static page content remain code-managed.
 - Applicant response templates use the Resend API only when explicitly configured; sending is disabled by default. No 24-hour scheduler or password-setup email flow exists yet.
-- Additive admin/CMS migrations have been applied to the development Supabase project. Verify deployment/database migration state before any production use.
+- Additive admin/CMS migrations through `20261116124410_admin_footer_content_cms.sql` have been applied to the development Supabase project. Verify deployment/database migration state before any production use.
 - Résumé uploads/private file storage are deferred. Current applicant forms accept optional résumé URLs; the dashboard can open valid web URLs only.
 
 ### Implementation map
@@ -31,7 +32,7 @@ Use this section as the current implementation snapshot. Update it when the feat
 - Protected admin handlers: `src/app/api/admin/`.
 - Server-side authorization and Supabase access: `src/lib/admin/server.ts`.
 - CMS data access and public content endpoint: `src/lib/content/server.ts` and `src/app/api/public/content/route.ts`.
-- CMS and review schema: `supabase/migrations/20261116110054_devatrix_admin_cms.sql` through `20261116113109_admin_review_actor_tracking.sql`.
+- CMS and review schema: `supabase/migrations/20261116110054_devatrix_admin_cms.sql` through `supabase/migrations/20261116124410_admin_footer_content_cms.sql`.
 - Setup and configuration details: `docs/ADMIN_WORKSPACE_SETUP.md`.
 
 ### Pending before wider release

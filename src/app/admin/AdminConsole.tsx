@@ -2,15 +2,17 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import {
   ArrowDownToLine, ArrowLeft, ArrowRight, Bell, BriefcaseBusiness, Check, CheckCircle2,
   CircleAlert, Clock3, FileText, LayoutDashboard, LoaderCircle, LogOut,
   Mail, PencilLine, Search, ShieldCheck, Sparkles, Users, X,
 } from "lucide-react";
+import { parseFooterSettings } from "@/lib/content/footer";
 
 type Section = "overview" | "internship" | "career" | "content";
 type Application = Record<string, unknown> & { id: string; full_name: string; email: string; status: string; created_at: string };
-type ContentItem = { slug: string; content_type: string; title: string; summary: string; badge: string; is_published: boolean; sort_order: number; updated_at: string };
+type ContentItem = { slug: string; content_type: string; title: string; summary: string; badge: string; content: unknown; is_published: boolean; sort_order: number; updated_at: string };
 type Overview = { counts: { internships: number; careers: number }; recent: Array<Application & { kind: "internship" | "career"; position: string }> };
 
 const internshipStatuses = ["under_review", "in_review", "shortlisted", "rejected", "accepted", "completed"];
@@ -188,7 +190,7 @@ export default function AdminConsole({ email }: { email: string }) {
     const draft = { ...item, ...(contentDrafts[item.slug] ?? {}) };
     const response = await fetch("/api/admin/content", {
       method: "PATCH", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ slug: item.slug, title: draft.title, summary: draft.summary, badge: draft.badge, isPublished: draft.is_published }),
+      body: JSON.stringify({ slug: item.slug, title: draft.title, summary: draft.summary, badge: draft.badge, isPublished: draft.is_published, ...(item.content_type === "footer_details" ? { content: draft.content } : {}) }),
     });
     const data = await response.json().catch(() => ({}));
     if (!response.ok) { setError(data.error || "Unable to save content."); return; }
@@ -205,27 +207,27 @@ export default function AdminConsole({ email }: { email: string }) {
   return (
     <div className="min-h-screen bg-[#f3f6fa] text-slate-900">
       <div className="mx-auto flex min-h-screen max-w-[1600px]">
-        <aside className="hidden w-64 shrink-0 flex-col border-r border-slate-200 bg-white lg:flex">
-          <div className="flex h-20 items-center gap-3 border-b border-slate-100 px-6">
-            <div className="grid h-10 w-10 place-items-center rounded-xl bg-[#071a36] font-black text-amber-400">D</div>
-            <div><p className="font-bold">Devatrix</p><p className="text-[10px] font-semibold uppercase tracking-[.17em] text-slate-500">Admin workspace</p></div>
+        <aside className="hidden w-64 shrink-0 flex-col border-r border-white/10 bg-[#071a36] text-white lg:flex">
+          <div className="flex h-20 items-center gap-3 border-b border-white/10 px-6">
+            <div className="relative grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-xl bg-[#071a36]"><Image src="/logo-transparent.png" alt="Devatrix logo" fill sizes="40px" className="object-contain p-1" priority/></div>
+            <div><p className="font-bold">Devatrix</p><p className="text-[10px] font-semibold uppercase tracking-[.17em] text-slate-400">Admin workspace</p></div>
           </div>
           <nav className="flex-1 space-y-1 px-3 py-6" aria-label="Admin sections">
             {(["overview", "internship", "career", "content"] as Section[]).map((key) => {
               const Icon = key === "overview" ? LayoutDashboard : key === "internship" ? Users : key === "career" ? BriefcaseBusiness : PencilLine;
-              return <button key={key} onClick={() => selectSection(key)} className={`flex min-h-11 w-full items-center gap-3 rounded-lg px-3 text-left text-sm font-semibold transition-colors ${section === key ? "bg-[#071a36] text-white" : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"}`}><Icon className="h-4 w-4" aria-hidden="true" />{sectionNames[key]}</button>;
+              return <button key={key} onClick={() => selectSection(key)} className={`flex min-h-11 w-full items-center gap-3 rounded-lg border-l-2 px-3 text-left text-sm font-semibold transition-colors ${section === key ? "border-amber-400 bg-white/10 text-white" : "border-transparent text-slate-300 hover:bg-white/5 hover:text-white"}`}><Icon className={`h-4 w-4 ${section === key ? "text-amber-400" : "text-slate-400"}`} aria-hidden="true" />{sectionNames[key]}</button>;
             })}
           </nav>
-          <div className="border-t border-slate-100 p-4">
-            <div className="mb-3 flex items-center gap-2 rounded-lg bg-slate-50 p-3"><ShieldCheck className="h-4 w-4 shrink-0 text-emerald-700" aria-hidden="true"/><span className="truncate text-xs font-medium text-slate-600">{email}</span></div>
-            <button onClick={signOut} className="flex min-h-10 w-full items-center gap-2 rounded-lg px-3 text-sm font-semibold text-slate-600 hover:bg-slate-100"><LogOut className="h-4 w-4" aria-hidden="true"/>Sign out</button>
+          <div className="border-t border-white/10 p-4">
+            <div className="mb-3 flex items-center gap-2 rounded-lg bg-white/5 p-3"><ShieldCheck className="h-4 w-4 shrink-0 text-emerald-400" aria-hidden="true"/><span className="truncate text-xs font-medium text-slate-200">{email}</span></div>
+            <button onClick={signOut} className="flex min-h-10 w-full items-center gap-2 rounded-lg px-3 text-sm font-semibold text-slate-300 hover:bg-white/5 hover:text-white"><LogOut className="h-4 w-4" aria-hidden="true"/>Sign out</button>
           </div>
         </aside>
 
         <main className="min-w-0 flex-1">
           <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur">
             <div className="flex min-h-16 items-center justify-between gap-4 px-4 sm:px-7 lg:px-10">
-              <div className="min-w-0"><p className="text-xs font-semibold uppercase tracking-[.14em] text-slate-500">Devatrix Technologies</p><h1 className="truncate text-lg font-bold sm:text-xl">{sectionNames[section]}</h1></div>
+              <div className="flex min-w-0 items-center gap-3"><div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-lg bg-[#071a36] p-1 lg:hidden"><Image src="/logo-transparent.png" alt="Devatrix logo" fill sizes="36px" className="object-contain p-1" priority/></div><div className="min-w-0"><p className="text-xs font-semibold uppercase tracking-[.14em] text-slate-500">Devatrix Technologies</p><h1 className="truncate text-lg font-bold sm:text-xl">{sectionNames[section]}</h1></div></div>
               <div className="flex items-center gap-2"><span className="hidden max-w-52 truncate text-xs text-slate-500 sm:block">{email}</span><IconButton label="Sign out" onClick={signOut}><LogOut className="h-4 w-4"/></IconButton></div>
             </div>
             <nav className="flex gap-1 overflow-x-auto border-t border-slate-100 px-3 py-2 lg:hidden" aria-label="Admin sections">
@@ -244,9 +246,9 @@ export default function AdminConsole({ email }: { email: string }) {
                 <StatCard label="Career applications" number={overview?.counts.careers} loading={overviewLoading} icon={<BriefcaseBusiness className="h-5 w-5"/>} accent="blue" onClick={() => selectSection("career")}/>
                 <div className="rounded-xl border border-slate-200 bg-white p-5 sm:col-span-2 xl:col-span-1"><div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-50 text-emerald-800"><ShieldCheck className="h-5 w-5"/></div><p className="text-sm font-semibold text-slate-600">Access protection</p><p className="mt-1 font-semibold">Supabase Auth + allowlist</p><p className="mt-1 text-xs text-slate-500">Private data is read on the server after authorization.</p></div>
               </div>
-              <section className="mt-7 rounded-xl border border-slate-200 bg-white">
+              <section className="mt-7 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
                 <div className="flex items-center justify-between border-b border-slate-100 px-4 py-4 sm:px-6"><div><h2 className="font-bold">Recently received</h2><p className="mt-1 text-xs text-slate-500">Latest submissions from both application forms</p></div><Bell className="h-4 w-4 text-slate-400" aria-hidden="true"/></div>
-                {overviewLoading ? <LoadingRows/> : !overview?.recent.length ? <EmptyState text="No applications have been submitted yet."/> : <div className="divide-y divide-slate-100">{overview.recent.map((item) => <button key={`${item.kind}-${item.id}`} onClick={() => void openRecentApplication(item.kind, item.id)} className="grid w-full grid-cols-[1fr_auto] items-center gap-3 px-4 py-4 text-left hover:bg-slate-50 sm:grid-cols-[minmax(160px,1fr)_minmax(150px,1.3fr)_minmax(120px,1fr)_auto] sm:px-6"><span className="min-w-0"><span className="block truncate text-sm font-semibold">{item.full_name}</span><span className="mt-1 block truncate text-xs text-slate-500 sm:hidden">{item.kind === "career" ? "Career" : "Internship"} · {item.position}</span></span><span className="hidden truncate text-sm text-slate-600 sm:block">{item.email}</span><span className="hidden truncate text-sm text-slate-600 sm:block">{item.position}</span><span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ring-1 ${statusClass(item.status)}`}>{statusLabel(item.status)}</span></button>)}</div>}
+                {overviewLoading ? <LoadingRows/> : !overview?.recent.length ? <EmptyState text="No applications have been submitted yet."/> : <div className="divide-y divide-slate-100">{overview.recent.map((item) => <button key={`${item.kind}-${item.id}`} onClick={() => void openRecentApplication(item.kind, item.id)} className="grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-4 text-left transition-colors hover:bg-slate-50 sm:grid-cols-[minmax(150px,1fr)_minmax(140px,1.2fr)_minmax(120px,1fr)_minmax(100px,.7fr)_auto] sm:px-6"><span className="min-w-0"><span className="block truncate text-sm font-semibold">{item.full_name}</span><span className="mt-1 block truncate text-xs text-slate-500 sm:hidden">{item.kind === "career" ? "Career" : "Internship"} · {item.position}</span><span className="mt-1 block font-mono text-[11px] font-semibold tracking-wide text-amber-800 sm:hidden">{item.kind === "internship" ? `Tracking ID · ${String(item.tracking_code ?? "Pending")}` : "Career application"}</span></span><span className="hidden truncate text-sm text-slate-600 sm:block">{item.email}</span><span className="hidden truncate text-sm text-slate-600 sm:block">{item.position}</span><span className="hidden min-w-0 truncate rounded-md bg-amber-50 px-2 py-1 font-mono text-xs font-semibold text-amber-900 sm:block">{item.kind === "internship" ? String(item.tracking_code ?? "Pending") : "Career application"}</span><span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ring-1 ${statusClass(item.status)}`}>{statusLabel(item.status)}</span></button>)}</div>}
               </section>
               <p className="mt-5 text-xs leading-5 text-slate-500">CSV exports include applicant-submitted details and review notes. Keep downloaded files in an approved private location.</p>
             </>}
@@ -262,19 +264,42 @@ export default function AdminConsole({ email }: { email: string }) {
               </div>
               <section className="overflow-hidden rounded-xl border border-slate-200 bg-white">
                 <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3 text-xs text-slate-500 sm:px-5"><span>{total} application{total === 1 ? "" : "s"}</span><span>Page {page} · up to 50 per page</span></div>
-                {listLoading ? <LoadingRows/> : !applications.length ? <EmptyState text="No matching applications. Try a different search or status."/> : <>
-                  <div className="hidden overflow-x-auto md:block"><table className="w-full min-w-[760px] text-left"><thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500"><tr><th className="px-5 py-3 font-semibold">Applicant</th><th className="px-5 py-3 font-semibold">{currentKind === "career" ? "Role" : "Track"}</th><th className="px-5 py-3 font-semibold">Tracking ID</th><th className="px-5 py-3 font-semibold">Submitted</th><th className="px-5 py-3 font-semibold">Status</th><th className="px-5 py-3"/></tr></thead><tbody className="divide-y divide-slate-100">{applications.map((application) => <ApplicationRow key={application.id} application={application} kind={currentKind} onOpen={() => setSelected(application)}/>)}</tbody></table></div>
-                  <div className="divide-y divide-slate-100 md:hidden">{applications.map((application) => <button key={application.id} onClick={() => setSelected(application)} className="w-full px-4 py-4 text-left hover:bg-slate-50"><span className="flex items-start justify-between gap-3"><span className="min-w-0"><span className="block truncate font-semibold">{application.full_name}</span><span className="mt-1 block truncate text-xs text-slate-500">{application.email}</span></span><span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ring-1 ${statusClass(application.status)}`}>{statusLabel(application.status)}</span></span><span className="mt-3 flex items-center justify-between gap-3 text-xs text-slate-500"><span className="truncate">{String(application.track ?? application.role ?? "")}</span><span>{dateText(application.created_at)}</span></span></button>)}</div>
+                {listLoading ? <LoadingRows/> : !applications.length ? <EmptyState text={currentKind === "career" ? "No matching career applications. Six-character tracking IDs appear with internship applications." : "No matching internship applications. Try a different search or status."}/> : <>
+                  <div className="hidden overflow-x-auto md:block"><table className="w-full min-w-[820px] text-left"><thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500"><tr><th className="px-5 py-3 font-semibold">Applicant</th><th className="px-5 py-3 font-semibold">{currentKind === "career" ? "Role" : "Track"}</th><th className="px-5 py-3 font-semibold">{currentKind === "career" ? "Application ID" : "Tracking ID"}</th><th className="px-5 py-3 font-semibold">Submitted</th><th className="px-5 py-3 font-semibold">Status</th><th className="px-5 py-3"/></tr></thead><tbody className="divide-y divide-slate-100">{applications.map((application) => <ApplicationRow key={application.id} application={application} kind={currentKind} onOpen={() => setSelected(application)}/>)}</tbody></table></div>
+                  <div className="divide-y divide-slate-100 md:hidden">{applications.map((application) => <button key={application.id} onClick={() => setSelected(application)} className="w-full px-4 py-4 text-left transition-colors hover:bg-slate-50"><span className="flex items-start justify-between gap-3"><span className="min-w-0"><span className="block truncate font-semibold">{application.full_name}</span><span className="mt-1 block truncate text-xs text-slate-500">{application.email}</span><span className="mt-2 block font-mono text-xs font-bold tracking-wider text-amber-800">{currentKind === "career" ? "Application ID" : "Tracking ID"}: {String(currentKind === "career" ? application.id : application.tracking_code ?? "Pending")}</span></span><span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ring-1 ${statusClass(application.status)}`}>{statusLabel(application.status)}</span></span><span className="mt-3 flex items-center justify-between gap-3 text-xs text-slate-500"><span className="truncate">{String(application.track ?? application.role ?? "")}</span><span>{dateText(application.created_at)}</span></span></button>)}</div>
                 </>}
                 <div className="flex items-center justify-between border-t border-slate-100 px-4 py-3 sm:px-5"><button disabled={page <= 1 || listLoading} onClick={() => { setListLoading(true); setPage((value) => value - 1); }} className="inline-flex min-h-10 items-center gap-2 rounded-lg border border-slate-200 px-3 text-sm font-semibold disabled:opacity-40"><ArrowLeft className="h-4 w-4" aria-hidden="true"/>Previous</button><span className="text-xs text-slate-500">{Math.max(total, 0)} total</span><button disabled={page * 50 >= total || listLoading} onClick={() => { setListLoading(true); setPage((value) => value + 1); }} className="inline-flex min-h-10 items-center gap-2 rounded-lg border border-slate-200 px-3 text-sm font-semibold disabled:opacity-40">Next<ArrowRight className="h-4 w-4" aria-hidden="true"/></button></div>
               </section>
             </>}
 
             {section === "content" && <>
-              <div className="mb-6 rounded-xl border border-blue-200 bg-blue-50 p-4 text-sm leading-6 text-blue-950"><Sparkles className="mr-2 inline h-4 w-4" aria-hidden="true"/>Publish the internship catalogue and the optional site announcement. Changes are served publicly from CMS content and appear on the internships page without a code release.</div>
+              <div className="mb-6 rounded-xl border border-blue-200 bg-blue-50 p-4 text-sm leading-6 text-blue-950"><Sparkles className="mr-2 inline h-4 w-4" aria-hidden="true"/>Manage public page copy, internship tracks, announcements, and the site footer. Saved changes appear without a code release.</div>
               {contentLoading ? <LoadingRows/> : <div className="space-y-4">{items.map((item) => {
                 const draft = { ...item, ...(contentDrafts[item.slug] ?? {}) };
                 const changed = Boolean(contentDrafts[item.slug]);
+                if (item.content_type === "footer_details") {
+                  const footer = parseFooterSettings(draft.content);
+                  const fields: Array<{ key: keyof typeof footer; label: string; multiline?: boolean }> = [
+                    { key: "description", label: "Brand description", multiline: true },
+                    { key: "proofPoints", label: "Trust statements (one per line)", multiline: true },
+                    { key: "contactEmail", label: "Contact email" },
+                    { key: "whatsappNumber", label: "WhatsApp number (international format)" },
+                    { key: "whatsappLabel", label: "WhatsApp display label" },
+                    { key: "linkedinUrl", label: "LinkedIn URL" },
+                    { key: "instagramUrl", label: "Instagram URL" },
+                    { key: "officeCity", label: "Office location" },
+                    { key: "officeDescription", label: "Office description" },
+                    { key: "remoteTitle", label: "Remote delivery heading" },
+                    { key: "remoteDescription", label: "Remote delivery description" },
+                    { key: "legalName", label: "Legal name" },
+                    { key: "copyrightText", label: "Copyright notice" },
+                  ];
+                  return <section key={item.slug} className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                    <div className="flex flex-wrap items-start justify-between gap-3 border-b border-slate-100 bg-slate-50/70 px-4 py-4 sm:px-6"><div><span className="text-[11px] font-bold uppercase tracking-[.14em] text-amber-700">Footer & contact</span><h2 className="mt-1 text-lg font-bold">Public footer details</h2><p className="mt-1 text-sm text-slate-600">Update the contact links, trust statements, location, and legal line shown on every public page.</p></div><label className="inline-flex min-h-10 items-center gap-2 rounded-full border border-slate-200 bg-white px-3 text-xs font-semibold"><input type="checkbox" checked={Boolean(draft.is_published)} onChange={(event) => setContentDrafts((previous) => ({ ...previous, [item.slug]: { ...previous[item.slug], is_published: event.target.checked } }))} className="h-4 w-4 accent-amber-500"/>{draft.is_published ? "Published" : "Draft"}</label></div>
+                    <div className="grid gap-4 p-4 sm:grid-cols-2 sm:p-6">{fields.map(({ key, label, multiline }) => <FooterSettingField key={key} label={label} multiline={multiline} value={key === "proofPoints" ? footer.proofPoints.join("\n") : String(footer[key])} onChange={(value) => setContentDrafts((previous) => ({ ...previous, [item.slug]: { ...previous[item.slug], content: { ...footer, [key]: key === "proofPoints" ? value.split("\n").map((point) => point.trim()).filter(Boolean) : value } } }))}/>)}</div>
+                    <div className="flex flex-col-reverse justify-between gap-2 border-t border-slate-100 px-4 py-4 sm:flex-row sm:items-center sm:px-6"><p className="text-xs text-slate-500">Last saved {dateText(item.updated_at)} · public footer content</p><button disabled={!changed} onClick={() => void saveContent(item)} className="inline-flex min-h-11 items-center justify-center gap-2 self-start rounded-lg bg-[#071a36] px-4 text-sm font-bold text-white transition-colors hover:bg-[#102b51] disabled:cursor-not-allowed disabled:opacity-40"><Check className="h-4 w-4" aria-hidden="true"/>Save footer details</button></div>
+                  </section>;
+                }
                 return <section key={item.slug} className="rounded-xl border border-slate-200 bg-white p-4 sm:p-6">
                   <div className="mb-5 flex flex-wrap items-start justify-between gap-3"><div><span className="text-[11px] font-bold uppercase tracking-[.14em] text-amber-700">{contentTypeLabel(item.content_type)}</span><h2 className="mt-1 font-bold">{item.title}</h2></div><label className="inline-flex min-h-10 items-center gap-2 rounded-full border border-slate-200 px-3 text-xs font-semibold"><input type="checkbox" checked={Boolean(draft.is_published)} onChange={(event) => setContentDrafts((previous) => ({ ...previous, [item.slug]: { ...previous[item.slug], is_published: event.target.checked } }))} className="h-4 w-4 accent-amber-500"/>{draft.is_published ? "Published" : "Draft"}</label></div>
                   <div className="grid gap-4 sm:grid-cols-2">
@@ -285,7 +310,7 @@ export default function AdminConsole({ email }: { email: string }) {
                   <div className="mt-4 flex flex-col-reverse justify-between gap-2 border-t border-slate-100 pt-4 sm:flex-row sm:items-center"><p className="text-xs text-slate-500">Last saved {dateText(item.updated_at)}</p><button disabled={!changed} onClick={() => void saveContent(item)} className="inline-flex min-h-10 items-center justify-center gap-2 self-start rounded-lg bg-[#071a36] px-4 text-sm font-bold text-white hover:bg-[#102b51] disabled:cursor-not-allowed disabled:opacity-40"><Check className="h-4 w-4" aria-hidden="true"/>Save changes</button></div>
                 </section>;
               })}</div>}
-              <p className="mt-5 text-xs leading-5 text-slate-500">This CMS manages homepage, About, Services, and Work introductions; service summaries; case-study cards; internship track copy; and the internships-page announcement. Layout, curriculum detail, metrics, and the remaining static page content stay in code.</p>
+              <p className="mt-5 text-xs leading-5 text-slate-500">This CMS manages homepage, About, Services, and Work introductions; service summaries; case-study cards; internship track copy; the internships-page announcement; and public footer details. Layout, curriculum detail, metrics, and remaining static page content stay in code.</p>
             </>}
           </div>
         </main>
@@ -313,9 +338,14 @@ function StatCard({ label, number, loading, icon, accent, onClick }: { label: st
 }
 
 function ApplicationRow({ application, kind, onOpen }: { application: Application; kind: "internship" | "career"; onOpen: () => void }) {
-  return <tr className="hover:bg-slate-50"><td className="px-5 py-4"><button onClick={onOpen} className="text-left"><span className="block text-sm font-semibold text-slate-900">{application.full_name}</span><span className="mt-1 block text-xs text-slate-500">{application.email}</span></button></td><td className="max-w-56 truncate px-5 py-4 text-sm text-slate-600">{String(application[kind === "career" ? "role" : "track"] ?? "—")}</td><td className="px-5 py-4 font-mono text-xs text-slate-600">{String(application.tracking_code ?? application.application_id ?? "—")}</td><td className="whitespace-nowrap px-5 py-4 text-xs text-slate-500">{dateText(application.created_at)}</td><td className="px-5 py-4"><span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ring-1 ${statusClass(application.status)}`}>{statusLabel(application.status)}</span></td><td className="px-5 py-4"><IconButton label={`Review ${application.full_name}'s application`} onClick={onOpen}><ArrowRight className="h-4 w-4"/></IconButton></td></tr>;
+  const reference = kind === "internship" ? application.tracking_code : application.id;
+  return <tr className="transition-colors hover:bg-slate-50"><td className="px-5 py-4"><button onClick={onOpen} className="text-left"><span className="block text-sm font-semibold text-slate-900">{application.full_name}</span><span className="mt-1 block text-xs text-slate-500">{application.email}</span></button></td><td className="max-w-56 truncate px-5 py-4 text-sm text-slate-600">{String(application[kind === "career" ? "role" : "track"] ?? "—")}</td><td className="px-5 py-4"><span className={`inline-flex rounded-md px-2.5 py-1.5 font-mono text-xs font-bold tracking-wider ${kind === "internship" ? "bg-amber-50 text-amber-900 ring-1 ring-amber-200" : "bg-slate-100 text-slate-600"}`}>{String(reference ?? "Pending")}</span></td><td className="whitespace-nowrap px-5 py-4 text-xs text-slate-500">{dateText(application.created_at)}</td><td className="px-5 py-4"><span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ring-1 ${statusClass(application.status)}`}>{statusLabel(application.status)}</span></td><td className="px-5 py-4"><IconButton label={`Review ${application.full_name}'s application`} onClick={onOpen}><ArrowRight className="h-4 w-4"/></IconButton></td></tr>;
+}
+
+function FooterSettingField({ label, value, onChange, multiline }: { label: string; value: string; onChange: (value: string) => void; multiline?: boolean }) {
+  return <label className="text-xs font-semibold text-slate-600">{label}{multiline ? <textarea value={value} onChange={(event) => onChange(event.target.value)} rows={label.startsWith("Trust") ? 3 : 2} className="mt-1.5 w-full resize-y rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-normal leading-6 text-slate-900 outline-none focus:border-amber-500 focus:ring-4 focus:ring-amber-100"/> : <input value={value} onChange={(event) => onChange(event.target.value)} className="mt-1.5 min-h-11 w-full rounded-lg border border-slate-300 px-3 text-sm font-normal text-slate-900 outline-none focus:border-amber-500 focus:ring-4 focus:ring-amber-100"/>}</label>;
 }
 
 function LoadingRows() { return <div className="space-y-3 p-5" aria-label="Loading"><div className="h-10 animate-pulse rounded-lg bg-slate-100"/><div className="h-10 animate-pulse rounded-lg bg-slate-100"/><div className="h-10 animate-pulse rounded-lg bg-slate-100"/></div>; }
 function EmptyState({ text }: { text: string }) { return <div className="px-5 py-14 text-center"><div className="mx-auto mb-3 grid h-11 w-11 place-items-center rounded-full bg-slate-100 text-slate-500"><Users className="h-5 w-5" aria-hidden="true"/></div><p className="text-sm font-semibold text-slate-700">{text}</p></div>; }
-function contentTypeLabel(type: string) { return ({ announcement: "Site announcement", internship_track: "Internship track", page_copy: "Page introduction", service: "Service", case_study: "Case study" } as Record<string, string>)[type] ?? "Public content"; }
+function contentTypeLabel(type: string) { return ({ announcement: "Site announcement", internship_track: "Internship track", page_copy: "Page introduction", service: "Service", case_study: "Case study", footer_details: "Footer details" } as Record<string, string>)[type] ?? "Public content"; }

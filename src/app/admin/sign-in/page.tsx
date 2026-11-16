@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 import { getAdminUser } from "@/lib/admin/server";
 import AdminSignInForm from "./SignInForm";
@@ -11,7 +12,16 @@ export default async function AdminSignInPage() {
     <main className="min-h-screen bg-[#f4f7fb] px-4 py-12 text-slate-900 sm:grid sm:place-items-center">
       <section className="mx-auto w-full max-w-md rounded-2xl border border-slate-200 bg-white p-7 shadow-sm sm:p-9">
         <div className="mb-8 flex items-center gap-3">
-          <div className="grid h-11 w-11 place-items-center rounded-xl bg-[#071a36] text-lg font-black text-amber-400">D</div>
+          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#071a36] p-1.5">
+            <Image
+              src="/logo-transparent.png"
+              alt=""
+              width={44}
+              height={44}
+              priority
+              className="h-full w-full object-contain"
+            />
+          </div>
           <div><p className="text-lg font-bold">Devatrix</p><p className="text-xs font-medium uppercase tracking-[.16em] text-slate-500">Admin workspace</p></div>
         </div>
         <h1 className="text-2xl font-bold tracking-tight">Sign in to continue</h1>

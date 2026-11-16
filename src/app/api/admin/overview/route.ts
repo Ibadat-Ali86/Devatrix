@@ -12,7 +12,7 @@ export async function GET() {
   const [internships, careers, internshipRecent, careerRecent] = await Promise.all([
     db.from("internship_applications").select("id", { count: "exact", head: true }),
     db.from("career_applications").select("id", { count: "exact", head: true }),
-    db.from("internship_applications").select("id,full_name,email,track,status,created_at").order("created_at", { ascending: false }).limit(5),
+    db.from("internship_applications").select("id,full_name,email,track,tracking_code,status,created_at").order("created_at", { ascending: false }).limit(5),
     db.from("career_applications").select("id,full_name,email,role,status,created_at").order("created_at", { ascending: false }).limit(5),
   ]);
   if (internships.error || careers.error || internshipRecent.error || careerRecent.error) {

@@ -19,7 +19,7 @@ After setting variables locally, restart `npm run dev`. In Vercel, set them for 
 
 ## Application review
 
-The dashboard lists internship and career submissions, supports search/status filters, private review notes, records the last reviewer and decision time, and provides CSV exports (up to 10,000 rows per export). CSV fields are formula-escaped. Exports contain personal data; store them privately and delete local copies when no longer needed.
+The dashboard lists internship and career submissions, supports search/status filters, private review notes, records the last reviewer and decision time, and provides CSV exports (up to 10,000 rows per export). Internship applications display the six-character tracking ID in the overview, desktop table, mobile cards, and review detail. Career applications use a separate application ID; they do not receive internship tracking codes. CSV fields are formula-escaped. Exports contain personal data; store them privately and delete local copies when no longer needed.
 
 Résumé uploads remain deferred. The current forms accept optional résumé URLs only. Admins can open a valid HTTP/HTTPS URL in a new tab; uploaded CV files and private Storage previews are not supported yet.
 
@@ -37,8 +37,8 @@ Only then does **Send response** send the selected template immediately. The API
 
 ## Public content CMS
 
-The CMS edits homepage/About/Services/Work introductions, service summaries, case-study cards, internship track titles/descriptions/badges, publication state, and an optional announcement displayed on the internships page. Those fields are connected to the public pages and update without a code release. Detailed curricula, case-study metrics and technical tags, service deliverables, layout, and remaining static page content stay in code.
+The CMS edits homepage/About/Services/Work introductions, service summaries, case-study cards, internship track titles/descriptions/badges, publication state, an optional announcement displayed on the internships page, and public footer details (brand description, trust statements, social links, WhatsApp, email, location, and legal line). Those fields are connected to the public pages and update without a code release. Footer values are validated by the admin API and served through the public CMS endpoint. Detailed curricula, case-study metrics and technical tags, service deliverables, layout, and remaining static page content stay in code.
 
 ## Database change
 
-The additive migrations `20261116110054_devatrix_admin_cms.sql`, `20261116111151_admin_site_content_author_index.sql`, `20261116111929_published_track_title_unique.sql`, `20261116112155_public_pages_services_case_studies_cms.sql`, and `20261116113109_admin_review_actor_tracking.sql` add private review fields, the admin response audit table, and the RLS-protected content table, indexes, and seeded public content. All have been applied to the development Supabase project. They do not modify or delete applicant rows.
+The additive migrations `20261116110054_devatrix_admin_cms.sql` through `20261116124410_admin_footer_content_cms.sql` add private review fields, the admin response audit table, the RLS-protected content table, indexes, seeded public content, and a footer settings record. They do not modify or delete applicant rows. The footer CMS migration is applied to the development Supabase project; verify the migration state before production use.
