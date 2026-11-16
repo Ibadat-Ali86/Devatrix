@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef, Suspense } from "react";
+import React, { useEffect, useState, useRef, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
@@ -22,6 +22,7 @@ const trackList = [
   "Machine Learning & Data Science",
   "Data Analytics & Business Intelligence",
   "AI Engineer & Forward Deployed Engineer (FDE)",
+  "DevOps Engineer & Cloud Infrastructure",
   "React Native Mobile App Development",
   "Flutter Mobile App Development"
 ];
@@ -30,19 +31,38 @@ function ApplyFormContent() {
   const searchParams = useSearchParams();
   const initialTrackParam = searchParams.get("track") || "";
 
-  const [formData, setFormData] = useState({
+  const [trackOptions, setTrackOptions] = useState(trackList);
+  useEffect(() => {
+    let active = true;
+    fetch("/api/public/content", { cache: "no-store" })
+      .then((response) => response.ok ? response.json() : null)
+      .then((data) => { if (active && data?.available && Array.isArray(data.tracks)) setTrackOptions(data.tracks.map((track: { title?: unknown }) => typeof track.title === "string" ? track.title : "").filter(Boolean)); })
+      .catch(() => undefined);
+    return () => { active = false; };
+  }, []);
+
+  const [formData, setFormData] = useState(() => {
+    const initialTrack = trackList.find(
+      (track) => track.toLowerCase() === initialTrackParam.toLowerCase() ||
+        track.toLowerCase().includes(initialTrackParam.toLowerCase()),
+    ) || trackList[0];
+    return {
     fullName: "",
     email: "",
     whatsapp: "",
     university: "",
-    track: trackList[0],
+    track: initialTrack,
     duration: "6 Weeks (Intensive Virtual Sprint)",
     githubUrl: "",
     linkedinUrl: "",
     portfolioUrl: "",
     resumeUrl: "",
     statement: "",
+    };
   });
+  const selectedTrack = trackOptions.includes(formData.track)
+    ? formData.track
+    : trackOptions.find((track) => track.toLowerCase() === initialTrackParam.toLowerCase()) || trackOptions[0] || "";
 
   const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const submissionId = useRef<string | null>(null);
@@ -50,26 +70,20 @@ function ApplyFormContent() {
   const [submittedCandidate, setSubmittedCandidate] = useState<{
     fullName: string;
     track: string;
+    email: string;
+    receiptEmailSent: boolean;
   } | null>(null);
-
-  useEffect(() => {
-    if (initialTrackParam) {
-      // Find matching track case-insensitively or exact
-      const matched = trackList.find(
-        (t) => t.toLowerCase() === initialTrackParam.toLowerCase() ||
-               t.toLowerCase().includes(initialTrackParam.toLowerCase())
-      );
-      if (matched) {
-        setFormData((prev) => ({ ...prev, track: matched }));
-      }
-    }
-  }, [initialTrackParam]);
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (formStatus === "submitting") return;
     setFormStatus("submitting");
     setErrorMessage("");
+    if (!selectedTrack) {
+      setFormStatus("error");
+      setErrorMessage("Applications are currently closed while no internship tracks are published.");
+      return;
+    }
 
     try {
       const submission = new FormData();
@@ -79,7 +93,7 @@ function ApplyFormContent() {
       submission.append("email", formData.email);
       submission.append("whatsapp", formData.whatsapp);
       submission.append("university", formData.university);
-      submission.append("track", formData.track);
+      submission.append("track", selectedTrack);
       submission.append("duration", formData.duration);
       submission.append("githubUrl", formData.githubUrl);
       submission.append("linkedinUrl", formData.linkedinUrl);
@@ -99,7 +113,9 @@ function ApplyFormContent() {
         setFormStatus("success");
         setSubmittedCandidate({
           fullName: formData.fullName,
-          track: formData.track,
+          track: selectedTrack,
+          email: formData.email,
+          receiptEmailSent: Boolean(data.receiptEmailSent),
         });
       } else {
         setFormStatus("error");
@@ -155,6 +171,12 @@ function ApplyFormContent() {
               <p className="text-sm text-slate-600 max-w-lg mx-auto leading-relaxed">
                 Your application for <span className="font-bold text-slate-900">{submittedCandidate.track}</span> has been successfully received and added to our review queue.
               </p>
+              <p className="text-sm text-slate-600 max-w-lg mx-auto leading-relaxed">
+                {submittedCandidate.receiptEmailSent
+                  ? `A receipt was sent to ${submittedCandidate.email}.`
+                  : "No test receipt was sent; instant email is restricted to the allowlisted local test address."}
+                {" "}This receipt does not include portal credentials or your private tracking reference.
+              </p>
             </div>
 
             {/* Next Steps Guidance */}
@@ -196,7 +218,7 @@ function ApplyFormContent() {
                     email: "",
                     whatsapp: "",
                     university: "",
-                    track: trackList[0],
+                    track: trackOptions[0] || "",
                     duration: "6 Weeks (Intensive Virtual Sprint)",
                     githubUrl: "",
                     linkedinUrl: "",
@@ -283,11 +305,13 @@ function ApplyFormContent() {
                   Track of Interest *
                 </label>
                 <select
-                  value={formData.track}
+                  value={selectedTrack}
+                  required
                   onChange={(e) => setFormData({ ...formData, track: e.target.value })}
                   className="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-2 sm:px-4 sm:py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-[11px] sm:text-sm"
                 >
-                  {trackList.map((t) => (
+                  {trackOptions.length === 0 && <option value="">No tracks are accepting applications</option>}
+                  {trackOptions.map((t) => (
                     <option key={t} value={t}>
                       {t}
                     </option>

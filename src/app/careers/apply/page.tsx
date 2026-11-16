@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
@@ -14,8 +14,6 @@ import {
   MessageCircle, 
   Building2,
   Calendar,
-  Upload,
-  FileText
 } from "lucide-react";
 
 const roleOptions = [
@@ -37,12 +35,17 @@ function CareerApplyFormContent() {
   const searchParams = useSearchParams();
   const initialRoleParam = searchParams.get("role") || "";
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState(() => {
+    const initialRole = roleOptions.find(
+      (role) => role.toLowerCase() === initialRoleParam.toLowerCase() ||
+        role.toLowerCase().includes(initialRoleParam.toLowerCase()),
+    ) || roleOptions[0];
+    return {
     fullName: "",
     email: "",
     phone: "",
     location: "Lahore, Pakistan (or Remote)",
-    role: roleOptions[0],
+    role: initialRole,
     experience: "1 to 3 Years (Junior Engineer)",
     previousCompany: "",
     previousSalary: "",
@@ -52,9 +55,9 @@ function CareerApplyFormContent() {
     githubUrl: "",
     resumeUrl: "",
     coverNote: "",
+    };
   });
 
-  const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [copiedId, setCopiedId] = useState(false);
   const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -63,18 +66,6 @@ function CareerApplyFormContent() {
     fullName: string;
     role: string;
   } | null>(null);
-
-  useEffect(() => {
-    if (initialRoleParam) {
-      const matched = roleOptions.find(
-        (r) => r.toLowerCase() === initialRoleParam.toLowerCase() ||
-               r.toLowerCase().includes(initialRoleParam.toLowerCase())
-      );
-      if (matched) {
-        setFormData((prev) => ({ ...prev, role: matched }));
-      }
-    }
-  }, [initialRoleParam]);
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -98,9 +89,6 @@ function CareerApplyFormContent() {
       submission.append("githubUrl", formData.githubUrl);
       submission.append("resumeUrl", formData.resumeUrl);
       submission.append("coverNote", formData.coverNote);
-      if (resumeFile) {
-        submission.append("resumeFile", resumeFile);
-      }
 
       const res = await fetch("/api/careers/apply", {
         method: "POST",
@@ -234,7 +222,6 @@ function CareerApplyFormContent() {
                 onClick={() => {
                   setFormStatus("idle");
                   setSubmittedApp(null);
-                  setResumeFile(null);
                   setFormData({
                     fullName: "",
                     email: "",
@@ -421,32 +408,20 @@ function CareerApplyFormContent() {
               </select>
             </div>
 
-            {/* CV / Resume Upload & Link */}
+            {/* Optional résumé link; file uploads will use private storage later. */}
             <div className="space-y-2">
               <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block font-sans">
-                Resume / CV *
+                Résumé / CV link (optional)
               </label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <input
-                    type="file"
-                    accept=".pdf,.doc,.docx"
-                    onChange={(e) => setResumeFile(e.target.files?.[0] || null)}
-                    className="w-full text-xs text-slate-600 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-slate-200 file:text-slate-800 hover:file:bg-slate-300 cursor-pointer bg-slate-50 border border-slate-300 rounded-xl p-1.5"
-                  />
-                </div>
-                <div>
-                  <input
-                    type="url"
-                    placeholder="Or paste Google Drive / Dropbox link"
-                    value={formData.resumeUrl}
-                    onChange={(e) => setFormData({ ...formData, resumeUrl: e.target.value })}
-                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
-                  />
-                </div>
-              </div>
+              <input
+                type="url"
+                placeholder="Add a restricted Google Drive / Dropbox link"
+                value={formData.resumeUrl}
+                onChange={(e) => setFormData({ ...formData, resumeUrl: e.target.value })}
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
+              />
               <p className="text-[11px] text-slate-500 font-normal">
-                Upload PDF/DOC (up to 10MB) or provide a public Google Drive / Dropbox link.
+                File uploads will be enabled after private storage is configured. Restrict link access to the hiring team.
               </p>
             </div>
 

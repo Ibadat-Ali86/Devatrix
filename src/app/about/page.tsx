@@ -3,6 +3,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ExecutiveCTA from "@/components/ExecutiveCTA";
+import { getPublishedSiteContent } from "@/lib/content/server";
 import { 
   Globe2, 
   MapPin, 
@@ -15,7 +16,11 @@ import {
   HeartHandshake
 } from "lucide-react";
 
-export default function AboutPage() {
+export const dynamic = "force-dynamic";
+
+export default async function AboutPage() {
+  const content = await getPublishedSiteContent();
+  const intro = content?.find((item) => item.slug === "about-hero");
   const operationalPillars = [
     {
       title: "Lahore, Pakistan",
@@ -58,11 +63,10 @@ export default function AboutPage() {
               <span>THE DEVATRIX STORY</span>
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight">
-              Engineering Digital Solutions <br />
-              <span className="text-brand-500">That Create Real Value.</span>
+              {intro?.title ?? <>Engineering Digital Solutions <br />That Create</>} <span className="text-brand-500">{intro?.badge ?? "Real Value."}</span>
             </h1>
             <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal">
-              Devatrix Technologies was founded on a simple principle: build reliable, high-performance software that solves real business problems.
+              {intro?.summary ?? "Devatrix Technologies was founded on a simple principle: build reliable, high-performance software that solves real business problems."}
             </p>
           </div>
         </section>

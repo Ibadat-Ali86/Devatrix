@@ -1,6 +1,6 @@
 # Supabase development setup
 
-Use a development project without real applicant data for this setup. Internship applications are stored in Supabase; career applications use their existing storage. Résumé file uploads for internships are deferred, while résumé links remain optional.
+Use a development project without real applicant data for this setup. Internship and career applications are stored in Supabase. Résumé file uploads are deferred until private storage is configured; résumé links remain optional.
 
 1. In the Supabase dashboard, open the development project and select **SQL Editor**.
 2. For a new database, copy the contents of `supabase/migrations/20261115000000_internship_applications.sql` into a new query and run it once. Verify the project name before running it. The script creates an empty table and denies direct access to the public client roles. The existing development project already has this table, created through the SQL Editor; it is not recorded in Supabase migration history, so do not run this script there again.
@@ -16,9 +16,25 @@ Use a development project without real applicant data for this setup. Internship
    Find the URL in **Connect** and the keys in **Settings → API Keys**. The portal uses the publishable key with user sessions and row-level security; the internship intake uses the server-only secret key. Never share the secret or commit `.env.local`. The secret key bypasses row level security; do not expose it to browsers or prefix it with `NEXT_PUBLIC_`.
 4. Run `node --env-file=.env.local scripts/check-supabase.mjs`. A successful check confirms that the server key can reach the table; it does not create an application or test the form.
 
+Career applications use `public.career_applications`. For a new database, run `supabase/migrations/20261116101603_career_applications.sql` in the Supabase SQL Editor after verifying the project. It creates an additive table with row-level security enabled and no client access. This migration has already been applied and recorded in the current development project; do not run it there again.
+
+### Local Resend receipt test
+
+The internship application endpoint can send a receipt immediately in local development. It is deliberately disabled in production and sends only when the applicant email matches the allowlisted test recipient. The receipt confirms submission only; it does not disclose the tracking reference, a password, or portal credentials. Add these variables to your local `.env.local` yourself (never commit or share the API key):
+
+```dotenv
+RESEND_API_KEY=re_your_resend_api_key
+RESEND_FROM_EMAIL=Devatrix Technologies <applications@your-verified-domain.example>
+APPLICATION_EMAIL_MODE=instant_test
+APPLICATION_EMAIL_TEST_RECIPIENT=you@example.com
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+```
+
+In Resend, verify a domain and configure its DNS records before using that sender. Restart the development server after adding the values. For the first test, enter exactly the allowlisted recipient email in the internship form. The API reports email delivery separately from database submission, so a provider outage will not lose the saved application. Do not enable `APPLICATION_EMAIL_MODE` or configure email delivery for production until production sender identity, consent, monitoring, and retry behavior have been reviewed.
+
 For a new database, apply `supabase/migrations/20261115214606_intern_portal_access.sql`, `supabase/migrations/20261115221047_applicant_account_provisioning.sql`, `supabase/migrations/20261115221627_protect_application_idempotency.sql`, and `supabase/migrations/20261115221815_defer_new_portal_access.sql` after the first two migrations. The first three scripts were applied through SQL Editor to the current development project and are not recorded in its migration history. The later three migrations were applied and recorded using the Supabase plugin. Do not rerun any of these against that project; reconcile migration history before using automated migration commands.
 
-Each successful internship submission reserves or reuses one account per normalized email, creates an unconfirmed Supabase Auth user if necessary, and atomically records the application and its access link. New application links start inactive and cannot access the portal until a future trusted onboarding process activates them. Each application has its own private tracking reference; a retry with the same submission ID and unchanged data does not create another application. A changed retry is rejected so it cannot silently overwrite or discard changes. A randomly generated bootstrap password is sent only to Supabase Auth, which stores a password hash; the application never retains or displays the password. A user must later verify their email and set a password before signing in. No invitation, password-setup flow, automated email, or 24-hour scheduler is implemented yet.
+Each successful internship submission reserves or reuses one account per normalized email, creates an unconfirmed Supabase Auth user if necessary, and atomically records the application and its access link. New application links start inactive and cannot access the portal until a future trusted onboarding process activates them. Each application has its own private tracking reference; a retry with the same submission ID and unchanged data does not create another application. A changed retry is rejected so it cannot silently overwrite or discard changes. A randomly generated bootstrap password is sent only to Supabase Auth, which stores a password hash; the application never retains or displays the password. A user must later verify their email and set a password before signing in. No invitation, password-setup flow, production email, or 24-hour scheduler is implemented yet. The local-only immediate Resend receipt is described above.
 
 The server-controlled `intern_accounts` reservation table has RLS enabled, no client grants, and no public access policies. Supabase's security advisor may report this deliberate deny-by-default arrangement as informational. Authenticated users can read only their active application links and the linked applications' name, track, and status. The current portal shows the most recently linked active application; the broader portal experience is not finalized.
 

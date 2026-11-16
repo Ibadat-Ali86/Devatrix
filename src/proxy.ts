@@ -1,7 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const url = process.env.SUPABASE_URL;
   const publishableKey = process.env.SUPABASE_PUBLISHABLE_KEY;
   let response = NextResponse.next({ request });
@@ -30,4 +30,4 @@ export async function middleware(request: NextRequest) {
   return protectResponse();
 }
 
-export const config = { matcher: ["/portal/:path*", "/api/portal/:path*"] };
+export const config = { matcher: ["/portal/:path*", "/api/portal/:path*", "/admin/:path*", "/api/admin/:path*"] };

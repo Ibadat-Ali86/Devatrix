@@ -1,6 +1,7 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-import { NextRequest, NextResponse } from "next/server";
+import { after, NextRequest, NextResponse } from "next/server";
 import { randomBytes, randomInt, randomUUID } from "crypto";
+import { sendApplicationReceipt } from "@/lib/email/send-application-receipt";
 
 function generateTrackingCode(): string {
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -9,6 +10,16 @@ function generateTrackingCode(): string {
     code = Array.from({ length: 6 }, () => alphabet[randomInt(alphabet.length)]).join("");
   } while (!/[A-Z]/.test(code) || !/[0-9]/.test(code));
   return code;
+}
+
+function hasAllowedOrigin(request: NextRequest): boolean {
+  const origin = request.headers.get("origin");
+  if (!origin) return true;
+  try {
+    return new URL(origin).origin === request.nextUrl.origin;
+  } catch {
+    return false;
+  }
 }
 
 async function ensureApplicantAccount(supabase: SupabaseClient, email: string): Promise<string | null> {
@@ -29,8 +40,8 @@ async function ensureApplicantAccount(supabase: SupabaseClient, email: string): 
   if (auth.data.user) return matchesReservation(auth.data.user) ? userId : null;
   if (auth.error?.status !== 404) return null;
 
-  // This bootstrap password is never returned, logged, or stored by the app.
-  // A future one-time setup link will let the verified applicant choose a password.
+  // This random bootstrap password is never returned, logged, or stored as readable text.
+  // After acceptance, a single-use setup link lets the verified applicant choose a password.
   const created = await supabase.auth.admin.createUser({
     id: userId, email, password: randomBytes(32).toString("base64url"), email_confirm: false,
     app_metadata: { devatrix_applicant_id: userId },
@@ -43,6 +54,9 @@ async function ensureApplicantAccount(supabase: SupabaseClient, email: string): 
 
 export async function POST(req: NextRequest) {
   try {
+    if (!hasAllowedOrigin(req)) {
+      return NextResponse.json({ success: false, error: "Please submit the application from the Devatrix website." }, { status: 403 });
+    }
     const contentType = req.headers.get("content-type") || "";
     if (!contentType.includes("multipart/form-data") && !contentType.includes("application/json")) {
       return NextResponse.json({ success: false, error: "Please submit the application form." }, { status: 415 });
@@ -96,6 +110,34 @@ export async function POST(req: NextRequest) {
     if (!url || !secret) throw new Error("Application storage is not configured");
     const supabase = createClient(url, secret, { auth: { persistSession: false, autoRefreshToken: false } });
     const id = values.submissionId || randomUUID();
+    let isRetry = false;
+    let trackSlug: string | null = null;
+    if (values.submissionId) {
+      const existing = await supabase.from("internship_applications").select("id, track_slug").eq("id", id).maybeSingle();
+      if (existing.error) {
+        console.error("Internship retry lookup failed", { code: existing.error.code });
+        return NextResponse.json({ success: false, error: "Applications are temporarily unavailable. Please try again later." }, { status: 503 });
+      }
+      isRetry = Boolean(existing.data);
+      if (typeof existing.data?.track_slug === "string") trackSlug = existing.data.track_slug;
+    }
+    if (!isRetry) {
+      const { data: publishedTrack, error: trackLookupError } = await supabase
+        .from("site_content")
+        .select("slug")
+        .eq("content_type", "internship_track")
+        .eq("is_published", true)
+        .eq("title", values.track)
+        .maybeSingle();
+      if (trackLookupError) {
+        console.error("Published internship track lookup failed", { code: trackLookupError.code });
+        return NextResponse.json({ success: false, error: "Applications are temporarily unavailable. Please try again later." }, { status: 503 });
+      }
+      if (!publishedTrack) {
+        return NextResponse.json({ success: false, error: "Please choose a currently available internship track." }, { status: 400 });
+      }
+      trackSlug = publishedTrack.slug;
+    }
     const timestamp = new Date().toISOString();
     const email = values.email.toLowerCase();
     const userId = await ensureApplicantAccount(supabase, email);
@@ -110,6 +152,7 @@ export async function POST(req: NextRequest) {
       whatsapp: values.whatsapp,
       university: values.university,
       track: values.track,
+      track_slug: trackSlug,
       duration: values.duration || "6 Weeks (Intensive Virtual Sprint)",
       github_url: values.githubUrl || null,
       linkedin_url: values.linkedinUrl || null,
@@ -136,21 +179,55 @@ export async function POST(req: NextRequest) {
       }
       return NextResponse.json({ success: false, error: "Unable to submit your application. Please try again." }, { status: 503 });
     }
+    let receiptEmailSent = false;
+    if (saved === "created") {
+      try {
+        receiptEmailSent = await sendApplicationReceipt({
+          idempotencyKey: id,
+          name: values.fullName,
+          email,
+          track: values.track,
+        });
+      } catch {
+        console.error("Application receipt email delivery failed");
+      }
+    }
+
     const webhook = process.env.GOOGLE_SHEET_WEBHOOK_URL;
     if (webhook && saved === "created") {
-      fetch(webhook, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id, candidateId: id, fullName: values.fullName, email: values.email.toLowerCase(),
-          whatsapp: values.whatsapp, university: values.university, track: values.track,
-          duration: values.duration || "6 Weeks (Intensive Virtual Sprint)", githubUrl: values.githubUrl,
-          linkedinUrl: values.linkedinUrl, portfolioUrl: values.portfolioUrl, resumePath: values.resumeUrl,
-          statement: values.statement, status: "Under Review", createdAt: timestamp,
-        }),
-      }).catch(() => console.error("Internship application Google Sheets sync failed"));
+      try {
+        if (new URL(webhook).protocol === "https:") {
+          after(async () => {
+            try {
+              const webhookResponse = await fetch(webhook, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  id, candidateId: id, fullName: values.fullName, email: values.email.toLowerCase(),
+                  whatsapp: values.whatsapp, university: values.university, track: values.track,
+                  duration: values.duration || "6 Weeks (Intensive Virtual Sprint)", githubUrl: values.githubUrl,
+                  linkedinUrl: values.linkedinUrl, portfolioUrl: values.portfolioUrl, resumePath: values.resumeUrl,
+                  statement: values.statement, status: "Under Review", createdAt: timestamp,
+                }),
+                signal: AbortSignal.timeout(5_000),
+              });
+              if (!webhookResponse.ok) console.error("Internship application Google Sheets sync failed", { status: webhookResponse.status });
+            } catch {
+              console.error("Internship application Google Sheets sync failed");
+            }
+          });
+        }
+      } catch {
+        console.error("Internship application Google Sheets sync URL is invalid");
+      }
     }
-    return NextResponse.json({ success: true, message: "Your application has been received and is under review." }, { status: 201 });
+    const response = NextResponse.json({
+      success: true,
+      message: "Your application has been received and is under review.",
+      receiptEmailSent,
+    }, { status: 201 });
+    response.headers.set("Cache-Control", "no-store");
+    return response;
   } catch {
     console.error("Internship application submission failed");
     return NextResponse.json({ success: false, error: "Unable to submit your application. Please try again." }, { status: 500 });

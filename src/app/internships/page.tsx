@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -45,12 +45,23 @@ interface Track {
 export default function InternshipsPage() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [modalTrack, setModalTrack] = useState<Track | null>(null);
+  const [cmsContent, setCmsContent] = useState<{ available: boolean; tracks: Array<{ id: string; title: string; summary: string; badge: string }>; announcement: { title: string; summary: string } | null } | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    fetch("/api/public/content", { cache: "no-store" })
+      .then((response) => response.ok ? response.json() : null)
+      .then((data) => { if (active && data) setCmsContent(data); })
+      .catch(() => undefined);
+    return () => { active = false; };
+  }, []);
 
   const categories = [
     "All",
     "Web & Full-Stack",
     "Artificial Intelligence",
     "AI Engineering & FDE",
+    "DevOps & Cloud",
     "Data Science",
     "Data Analytics",
     "Mobile Apps"
@@ -257,12 +268,49 @@ export default function InternshipsPage() {
         "Production mobile portfolio asset showcasing clean Dart architecture",
         "Priority interview pipeline for Flutter developer roles"
       ]
+    },
+    {
+      id: "devops-engineering",
+      title: "DevOps Engineer & Cloud Infrastructure",
+      category: "DevOps & Cloud",
+      badge: "Linux, Docker, CI/CD & Terraform",
+      icon: Layers,
+      desc: "Build a practical delivery pipeline: strengthen Linux and Git foundations, containerize an application, automate CI/CD, provision cloud infrastructure with Terraform, and deploy a monitored capstone.",
+      skills: ["Linux & Bash", "Git & GitHub", "Docker & Compose", "GitHub Actions CI/CD", "Terraform (IaC)", "AWS or Azure fundamentals", "Kubernetes fundamentals", "Monitoring & runbooks"],
+      duration: "6 Weeks (Intensive Virtual Sprint)",
+      commitment: "6 to 8 Hours / Week (Flexible)",
+      prerequisites: [
+        "Basic programming or scripting familiarity and comfort using a terminal",
+        "Basic Git knowledge; Linux administration and Kubernetes experience are not required",
+        "A cloud account may be needed for the final lab; cloud usage can incur provider charges, so students must follow the cohort budget and cleanup guidance"
+      ],
+      deliverables: [
+        { week: "Week 1", title: "Linux, Git & Networking Foundations", desc: "Use shell commands, permissions, processes, logs, Git branches and pull requests; trace a simple service across DNS, HTTP, and ports; write a repeatable setup script and troubleshooting notes." },
+        { week: "Week 2", title: "Containerize an Application", desc: "Build and run a Docker image, configure environment variables safely, add a health check, and run an application with its dependency using Docker Compose." },
+        { week: "Week 3", title: "Build a CI Pipeline", desc: "Create a GitHub Actions workflow that runs checks and tests on pull requests, builds a versioned container image, and keeps deployment credentials out of source control." },
+        { week: "Week 4", title: "Infrastructure as Code with Terraform", desc: "Describe a small cloud environment in Terraform, inspect a plan before applying it, use variables and outputs, and document safe state and resource cleanup practices." },
+        { week: "Week 5", title: "Deploy & Operate a Workload", desc: "Deploy the container to the cohort's selected cloud or sandbox environment; practice Kubernetes workload, service, rollout, and health-probe fundamentals in a local or provided cluster." },
+        { week: "Week 6", title: "Capstone, Observability & Handover", desc: "Demonstrate the end-to-end pipeline, inspect logs and basic service health, document a rollback and incident checklist, review security and cost controls, and clean up lab resources." }
+      ],
+      outcomes: [
+        "A version-controlled infrastructure and CI/CD project with a documented deployment path",
+        "Hands-on practice with Linux, containers, Terraform, cloud fundamentals, and Kubernetes concepts",
+        "A capstone runbook covering health checks, rollback, security, and cleanup",
+        "Completion recognition based on the published program requirements"
+      ]
     }
   ];
 
+  const cmsTrackMap = new Map((cmsContent?.tracks ?? []).map((item) => [item.id, item]));
+  const visibleTracks = cmsContent?.available
+    ? tracks.flatMap((track) => {
+        const item = cmsTrackMap.get(track.id);
+        return item ? [{ ...track, title: item.title, desc: item.summary || track.desc, badge: item.badge || track.badge }] : [];
+      })
+    : tracks;
   const filteredTracks = selectedCategory === "All"
-    ? tracks
-    : tracks.filter(t => t.category === selectedCategory);
+    ? visibleTracks
+    : visibleTracks.filter(t => t.category === selectedCategory);
 
   // All 4 Highlights are highlighted with badges, amber borders, and balanced short descriptions
   const highlights = [
@@ -349,6 +397,7 @@ export default function InternshipsPage() {
       <Navbar />
 
       <main className="flex-1 pt-14 sm:pt-20">
+        {cmsContent?.announcement && <aside className="flex items-center justify-center gap-2 bg-amber-400 px-4 py-3 text-center text-sm font-semibold text-[#071a36]"><Sparkles className="h-4 w-4 shrink-0" aria-hidden="true"/><span>{cmsContent.announcement.title}{cmsContent.announcement.summary ? ` — ${cmsContent.announcement.summary}` : ""}</span></aside>}
         
         {/* Hero Section (#061833) */}
         <section className="relative py-20 sm:py-24 bg-[#061833] text-white overflow-hidden border-b border-white/10">
@@ -397,7 +446,7 @@ export default function InternshipsPage() {
                 href="#tracks"
                 className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-white/10 hover:bg-white/15 text-white border border-white/20 font-semibold text-xs tracking-wider transition-all font-sans"
               >
-                <span>Explore 7 Specialized Tracks</span>
+                <span>Explore {visibleTracks.length} Specialized Tracks</span>
               </a>
             </div>
           </div>

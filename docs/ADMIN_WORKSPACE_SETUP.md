@@ -1,0 +1,50 @@
+# Devatrix admin workspace setup
+
+For the full portal onboarding, public GitHub submission rules, security design, migration state, verification limits, and remaining work, see [Portal onboarding and project submissions](./PORTAL_ONBOARDING_AND_SUBMISSIONS.md).
+
+The admin workspace is available at `/admin`. It uses the existing Supabase Auth password sign-in, then checks the confirmed account email against a server-side allowlist on every protected page and API request. There is no public admin sign-up. The service key stays server-side; applicant and CMS tables keep RLS enabled with no direct client policies.
+
+## Required configuration
+
+Set these variables in the deployment environment and in your local environment file. Do not send the file or its values in chat.
+
+```dotenv
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_PUBLISHABLE_KEY=your-publishable-key
+SUPABASE_SECRET_KEY=your-server-only-secret-key
+ADMIN_EMAILS=your-confirmed-supabase-auth-email@example.com
+```
+
+Use the email address of the confirmed Supabase Auth account you already control. `ADMIN_EMAILS` accepts comma-separated addresses if you intentionally authorize more administrators. Do not create a public registration route or put the secret key in a `NEXT_PUBLIC_` variable.
+
+After setting variables locally, restart `npm run dev`. In Vercel, set them for the environments you intend to use and create a deployment when you are ready; this repository change does not deploy the app.
+
+## Application review
+
+The dashboard lists internship and career submissions, supports search/status/submission-date filters, private review notes, records the last reviewer and decision time, and provides matching CSV exports (up to 10,000 rows per export). Date ranges are rolling windows: last 24 hours, 7 days, or 30 days; the default is all time. Export files include every current application-table field, including tracking/application IDs and review metadata, with human-readable headers and formula escaping. Internship applications display the six-character tracking ID in the overview, desktop table, mobile cards, and review detail. Career applications use a separate application ID; they do not receive internship tracking codes. Exports contain personal data; store them privately and delete local copies when no longer needed.
+
+Résumé uploads remain deferred. The current forms accept optional résumé URLs only. Admins can open a valid HTTP/HTTPS URL in a new tab; uploaded CV files and private Storage previews are not supported yet.
+
+## Email responses
+
+Email sending is disabled by default. To enable it, configure a Resend API key, a sender address on a verified Resend domain, and set:
+
+```dotenv
+RESEND_API_KEY=your-resend-api-key
+RESEND_FROM_EMAIL=Devatrix Technologies <applications@your-verified-domain.example>
+ADMIN_EMAIL_SENDING_ENABLED=true
+```
+
+Only then do **Send response** and **Send portal setup email** send messages. The API records the recipient, administrator, template, provider message ID, and delivery status; it does not store message bodies or setup tokens. Idempotency keys prevent duplicate delivery on request retries, and delivery is rate-limited. The portal action is limited to accepted internship applications with active access. It sends the application tracking ID and either a single-use link to verify the applicant's email and choose a password, or the portal sign-in link for an already confirmed account. No password is stored as readable text or displayed to admins. The applicant must explicitly continue from the setup page before the one-time link is consumed, which helps prevent email scanners from using it. Test this with an address you control before enabling real applicant mail. The 24-hour scheduler remains future work.
+
+Migration `20261116150503_admin_portal_setup_email.sql` adds the `portal_setup` audit template. It is applied to the development Supabase database; do not apply it to production until its migration state has been reviewed.
+
+Milestone project links must point to public GitHub repositories. The learner portal checks the public GitHub repository API when the field loses focus and again on final submission. GitHub's unauthenticated REST API is rate-limited; temporary API/network failures prevent submission and ask the learner to retry. Private and nonexistent repositories both appear as not publicly verifiable to unauthenticated requests, so the message asks the learner to check the link and ensure it is public.
+
+## Public content CMS
+
+The CMS edits homepage/About/Services/Work introductions, service summaries, case-study cards, internship track titles/descriptions/badges, publication state, an optional announcement displayed on the internships page, and public footer details (brand description, trust statements, social links, WhatsApp, email, location, and legal line). Those fields are connected to the public pages and update without a code release. Footer values are validated by the admin API and served through the public CMS endpoint. Detailed curricula, case-study metrics and technical tags, service deliverables, layout, and remaining static page content stay in code.
+
+## Database change
+
+The additive migrations `20261116110054_devatrix_admin_cms.sql` through `20261116124410_admin_footer_content_cms.sql` add private review fields, the admin response audit table, the RLS-protected content table, indexes, seeded public content, and a footer settings record. Migration `20261116130919_add_devops_engineering_internship_track.sql` adds the published DevOps Engineer & Cloud Infrastructure track to the development CMS without modifying applicant rows. Its six-week curriculum is code-managed; its public title, summary, badge, and publication state are CMS-managed. Verify migration state before production use.
