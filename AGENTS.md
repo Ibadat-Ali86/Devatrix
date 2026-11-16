@@ -27,6 +27,13 @@ Use this section as the current implementation snapshot. Update it when the feat
 - Applicant response templates use the Resend API only when explicitly configured; sending is disabled by default. No 24-hour scheduler or password-setup email flow exists yet.
 - Additive admin/CMS migrations through `20261116124410_admin_footer_content_cms.sql` have been applied to the development Supabase project. Verify deployment/database migration state before any production use.
 - Résumé uploads/private file storage are deferred. Current applicant forms accept optional résumé URLs; the dashboard can open valid web URLs only.
+- The `codex/intern-portal-experience` phase adds learner enrollments, track-specific six-week milestones, private learner progress, certificate previews/requests, and an admin learner-program workspace. It is published to both repository remotes but is not deployed.
+- One normalized-email Supabase Auth account can own multiple applications and one enrollment per track. `internship_applications.tracking_code` identifies an application; `internship_enrollments.enrollment_code` identifies a track enrollment. Neither code authenticates users.
+- `internship_applications.track_slug` stores the stable CMS track identity alongside the submitted title so later title edits do not break acceptance/enrollment mapping.
+- Admin acceptance of an internship application now atomically marks that application accepted, activates its portal access link, and creates the learner's enrollment and six track-specific milestones. The same learner can receive more accepted tracks under the existing account.
+- Learner portal routes are under `src/app/portal/`; learner APIs are under `src/app/api/portal/`. The protected admin learner program and API are `src/app/admin/learners/` and `src/app/api/admin/learners/`. Track milestone templates are in `src/lib/portal/milestone-templates.ts`.
+- Enrollment, milestone, certificate-request, and certificate-setting schemas are in the additive migrations `20261116133344_learner_enrollment_progress_certificates.sql`, `20261116134644_track_specific_enrollment_curriculum.sql`, `20261116135354_accept_application_creates_enrollment.sql`, `20261116135622_store_internship_track_slug.sql`, and `20261116140046_backfill_track_curriculum_milestones.sql`. These were applied to the development Supabase project only.
+- Certificate previews require portal sign-in and all six milestones approved by an admin. Simple/Premium differ only in format; merit recognition is separate. Fee, currency, payment instructions, and approved signer name are configurable in admin and unset by default. Payment verification and issuance are manual statuses; no payment provider, checkout, or signed certificate artifact is integrated.
 
 ### Implementation map
 
@@ -41,10 +48,10 @@ Use this section as the current implementation snapshot. Update it when the feat
 
 - Set `SUPABASE_PUBLISHABLE_KEY` and `ADMIN_EMAILS` in the local environment using the confirmed Supabase Auth email; never inspect, print, commit, or share environment-file values.
 - Configure the same required variables in the intended Vercel environment before a separately authorized deployment.
-- Verify admin sign-in and review workflows locally, then perform responsive visual checks for the dashboard on desktop, tablet, and mobile.
+- Run a non-destructive end-to-end acceptance/enrollment flow with a dedicated synthetic account, then complete responsive visual checks on desktop, tablet, and mobile. The current local visual review showed the admin learner workspace, but did not mutate an applicant record or test learner authentication.
 - Configure a verified Resend sender and test with an address controlled by the project owner before enabling applicant response emails. Keep `ADMIN_EMAIL_SENDING_ENABLED` false until that test is approved.
-- Implement later phases separately: private résumé Storage, the scheduled 24-hour response/password-setup flow, and any expanded portal/admin capabilities.
-- Review and merge the stacked PRs in order (#1, #2, #3, #4). Do not push, merge, or deploy additional changes without explicit user authorization.
+- Implement later phases separately: confirmed learner sign-in with a secure password-setup link, the 24-hour onboarding scheduler/email, private résumé Storage, payment-provider checkout/verification, and any certificate signature/artifact workflow.
+- Review and merge the stacked PRs in order (#1, #2, #3, #4), then review the portal phase against #4 before merging it. Do not push, merge, or deploy additional changes without explicit user authorization.
 
 ### Local review
 

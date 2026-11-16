@@ -6,6 +6,7 @@ import CoreCapabilities from "@/components/CoreCapabilities";
 import WhyDevatrix from "@/components/WhyDevatrix";
 import FeaturedWork from "@/components/FeaturedWork";
 import InternshipBanner from "@/components/InternshipBanner";
+import CertificateSample from "@/components/CertificateSample";
 import ExecutiveCTA from "@/components/ExecutiveCTA";
 import { getPublishedSiteContent } from "@/lib/content/server";
 
@@ -39,7 +40,10 @@ export default async function HomePage() {
         {/* 5. Internships & Talent Accelerator Spotlight */}
         <InternshipBanner />
 
-        {/* 6. Executive Consultation CTA */}
+        {/* 6. Generic public certificate sample; personalized previews stay private */}
+        <CertificateSample />
+
+        {/* 7. Executive Consultation CTA */}
         <ExecutiveCTA />
 
       </main>

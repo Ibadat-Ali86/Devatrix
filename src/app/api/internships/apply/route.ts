@@ -111,13 +111,15 @@ export async function POST(req: NextRequest) {
     const supabase = createClient(url, secret, { auth: { persistSession: false, autoRefreshToken: false } });
     const id = values.submissionId || randomUUID();
     let isRetry = false;
+    let trackSlug: string | null = null;
     if (values.submissionId) {
-      const existing = await supabase.from("internship_applications").select("id").eq("id", id).maybeSingle();
+      const existing = await supabase.from("internship_applications").select("id, track_slug").eq("id", id).maybeSingle();
       if (existing.error) {
         console.error("Internship retry lookup failed", { code: existing.error.code });
         return NextResponse.json({ success: false, error: "Applications are temporarily unavailable. Please try again later." }, { status: 503 });
       }
       isRetry = Boolean(existing.data);
+      if (typeof existing.data?.track_slug === "string") trackSlug = existing.data.track_slug;
     }
     if (!isRetry) {
       const { data: publishedTrack, error: trackLookupError } = await supabase
@@ -134,6 +136,7 @@ export async function POST(req: NextRequest) {
       if (!publishedTrack) {
         return NextResponse.json({ success: false, error: "Please choose a currently available internship track." }, { status: 400 });
       }
+      trackSlug = publishedTrack.slug;
     }
     const timestamp = new Date().toISOString();
     const email = values.email.toLowerCase();
@@ -149,6 +152,7 @@ export async function POST(req: NextRequest) {
       whatsapp: values.whatsapp,
       university: values.university,
       track: values.track,
+      track_slug: trackSlug,
       duration: values.duration || "6 Weeks (Intensive Virtual Sprint)",
       github_url: values.githubUrl || null,
       linkedin_url: values.linkedinUrl || null,

@@ -1,0 +1,120 @@
+"use client";
+
+import { useCallback, useEffect, useMemo, useState } from "react";
+import Image from "next/image";
+import { ArrowLeft, Award, Check, CheckCircle2, Clock3, ExternalLink, LoaderCircle, RefreshCw, Save, Search, ShieldCheck } from "lucide-react";
+
+type Enrollment = { id: string; user_id: string; source_application_id: string | null; track_slug: string; enrollment_code: string; status: string; started_at: string; expected_end_at: string; completed_at: string | null; site_content?: { title: string } | Array<{ title: string }> | null; learner?: { full_name: string; email: string; track: string } };
+type Milestone = { id: string; enrollment_id: string; week_number: number; title: string; instructions: string; due_at: string; status: string; submission_url: string | null; learner_notes: string | null; reviewer_feedback: string | null; submitted_at: string | null; reviewed_at: string | null };
+type CertificateRequest = { id: string; enrollment_id: string; certificate_type: string; status: string; fee_amount: number | null; currency: string | null; payment_reference: string | null; requested_at: string; payment_verified_at: string | null; issued_at: string | null };
+type Settings = { simple_fee: number | null; premium_fee: number | null; currency: string | null; payment_instructions: string; signatory_name: string; signatory_title: string; updated_at: string };
+type Data = { enrollments: Enrollment[]; milestones: Milestone[]; requests: CertificateRequest[]; settings: Settings | null };
+
+const formatDate = (value: string) => new Intl.DateTimeFormat(undefined, { dateStyle: "medium" }).format(new Date(value));
+const toLocalDateTime = (value: string) => { const date = new Date(value); return new Date(date.getTime() - date.getTimezoneOffset() * 60_000).toISOString().slice(0, 16); };
+const friendly = (value: string) => value.replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
+const nameOf = (enrollment: Enrollment) => enrollment.learner;
+const trackName = (enrollment: Enrollment) => Array.isArray(enrollment.site_content) ? enrollment.site_content[0]?.title : enrollment.site_content?.title;
+
+export default function LearnerManagement() {
+  const [data, setData] = useState<Data | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [busy, setBusy] = useState("");
+  const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
+  const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [feedback, setFeedback] = useState<Record<string, string>>({});
+  const [deadlines, setDeadlines] = useState<Record<string, string>>({});
+  const [paymentReference, setPaymentReference] = useState<Record<string, string>>({});
+  const [settings, setSettings] = useState({ simpleFee: "", premiumFee: "", currency: "", paymentInstructions: "", signatoryName: "", signatoryTitle: "Authorized Signatory" });
+
+  const load = useCallback(async () => {
+    setLoading(true); setError("");
+    try {
+      const response = await fetch("/api/admin/learners", { cache: "no-store" });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || "Learner records could not be loaded.");
+      const next = result as Data;
+      setData(next);
+      if (next.settings) setSettings({ simpleFee: next.settings.simple_fee === null ? "" : String(next.settings.simple_fee), premiumFee: next.settings.premium_fee === null ? "" : String(next.settings.premium_fee), currency: next.settings.currency ?? "", paymentInstructions: next.settings.payment_instructions ?? "", signatoryName: next.settings.signatory_name ?? "", signatoryTitle: next.settings.signatory_title || "Authorized Signatory" });
+    } catch (reason) { setError(reason instanceof Error ? reason.message : "Learner records could not be loaded."); }
+    finally { setLoading(false); }
+  }, []);
+  useEffect(() => {
+    let active = true;
+    fetch("/api/admin/learners", { cache: "no-store" })
+      .then(async (response) => {
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || "Learner records could not be loaded.");
+        if (!active) return;
+        const next = result as Data;
+        setData(next);
+        if (next.settings) setSettings({ simpleFee: next.settings.simple_fee === null ? "" : String(next.settings.simple_fee), premiumFee: next.settings.premium_fee === null ? "" : String(next.settings.premium_fee), currency: next.settings.currency ?? "", paymentInstructions: next.settings.payment_instructions ?? "", signatoryName: next.settings.signatory_name ?? "", signatoryTitle: next.settings.signatory_title || "Authorized Signatory" });
+      })
+      .catch((reason: unknown) => { if (active) setError(reason instanceof Error ? reason.message : "Learner records could not be loaded."); })
+      .finally(() => { if (active) setLoading(false); });
+    return () => { active = false; };
+  }, []);
+
+  const selected = data?.enrollments.find((item) => item.id === selectedId) ?? null;
+  const visible = useMemo(() => (data?.enrollments ?? []).filter((row) => {
+    const person = nameOf(row);
+    return `${person?.full_name ?? ""} ${person?.email ?? ""} ${trackName(row) ?? row.track_slug} ${row.enrollment_code}`.toLowerCase().includes(query.toLowerCase());
+  }), [data, query]);
+  const milestonesFor = (id: string) => (data?.milestones ?? []).filter((item) => item.enrollment_id === id).sort((a, b) => a.week_number - b.week_number);
+  const requestsFor = (id: string) => (data?.requests ?? []).filter((item) => item.enrollment_id === id);
+
+  async function update(payload: unknown, message: string) {
+    setBusy("save"); setError(""); setNotice("");
+    try {
+      const response = await fetch("/api/admin/learners", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || "The update could not be saved.");
+      setNotice(message); await load(); return true;
+    } catch (reason) { setError(reason instanceof Error ? reason.message : "The update could not be saved."); return false; }
+    finally { setBusy(""); }
+  }
+
+  return (
+    <main className="min-h-screen bg-[#f3f6fa] text-slate-900">
+      <header className="border-b border-slate-200 bg-white">
+        <div className="mx-auto flex max-w-[1500px] items-center justify-between gap-4 px-4 py-3 sm:px-7 lg:px-10">
+          <div className="flex min-w-0 items-center gap-3"><div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg bg-[#071a36] p-1"><Image src="/logo-transparent.png" alt="Devatrix logo" fill sizes="40px" className="object-contain p-1"/></div><div><p className="text-[10px] font-semibold uppercase tracking-[.16em] text-slate-500">Devatrix Technologies</p><h1 className="text-lg font-bold text-[#061833] sm:text-xl">Learner program</h1></div></div>
+          <div className="flex items-center gap-2"><a href="/admin" className="inline-flex min-h-10 items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 text-sm font-semibold text-[#061833] hover:bg-slate-50"><ArrowLeft className="h-4 w-4"/><span className="hidden sm:inline">Admin workspace</span></a><button onClick={() => void load()} disabled={loading} className="inline-flex min-h-10 items-center gap-2 rounded-lg bg-[#061833] px-3 text-sm font-semibold text-white hover:bg-[#10284a] disabled:opacity-60"><RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`}/><span className="hidden sm:inline">Refresh</span></button></div>
+        </div>
+      </header>
+      <div className="mx-auto max-w-[1500px] px-4 py-6 sm:px-7 sm:py-8 lg:px-10">
+        <div className="mb-6 max-w-4xl"><h2 className="text-2xl font-bold tracking-tight text-[#061833] sm:text-3xl">Track progress and certificate requests</h2><p className="mt-2 text-sm leading-6 text-slate-600">Review learner work, approve milestones, and manage certificate fees and issue states. Payment verification and issuance are manual; no payment processor is connected.</p></div>
+        {error && <div role="alert" className="mb-4 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">{error}</div>}{notice && <div role="status" className="mb-4 flex items-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900"><CheckCircle2 className="h-4 w-4"/>{notice}</div>}
+        <nav className="mb-5 flex gap-2 border-b border-slate-200" aria-label="Learner admin sections"><a href="#review" className="min-h-11 border-b-2 border-amber-500 px-3 py-3 text-sm font-semibold text-[#061833]">Enrollments &amp; review</a><a href="#certificate-settings" className="min-h-11 border-b-2 border-transparent px-3 py-3 text-sm font-semibold text-slate-600 hover:text-[#061833]">Certificate settings</a></nav>
+
+        <section id="review" className="scroll-mt-6">
+          <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><div><h3 className="text-lg font-bold text-[#061833]">Enrollments</h3><p className="mt-1 text-sm text-slate-600">{data?.enrollments.length ?? 0} learner programs</p></div><label className="relative block w-full sm:max-w-sm"><Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500"/><span className="sr-only">Search learner, email, track, or enrollment code</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search learner, track, or code" className="min-h-11 w-full rounded-lg border border-slate-300 bg-white pl-9 pr-3 text-sm outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-200"/></label></div>
+          <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+            {loading && !data ? <div className="flex min-h-32 items-center justify-center gap-2 text-sm text-slate-600"><LoaderCircle className="h-4 w-4 animate-spin"/>Loading learner records…</div> : !visible.length ? <div className="px-6 py-12 text-center text-sm text-slate-600">No matching learner enrollments.</div> : <div className="overflow-x-auto"><table className="w-full min-w-[900px] border-collapse text-left text-sm"><thead className="bg-slate-50 text-xs font-semibold uppercase tracking-[.08em] text-slate-600"><tr><th className="px-4 py-3">Learner</th><th className="px-4 py-3">Internship track</th><th className="px-4 py-3">Enrollment ID</th><th className="px-4 py-3">Progress</th><th className="px-4 py-3">Status</th><th className="px-4 py-3">Target finish</th><th className="px-4 py-3"><span className="sr-only">Details</span></th></tr></thead><tbody className="divide-y divide-slate-100">{visible.map((row) => { const person = nameOf(row); const done = milestonesFor(row.id).filter((item) => item.status === "completed").length; return <tr key={row.id} className={selectedId === row.id ? "bg-amber-50/60" : "hover:bg-slate-50"}><td className="px-4 py-4"><p className="font-semibold text-[#061833]">{person?.full_name ?? "Learner"}</p><p className="mt-1 text-xs text-slate-500">{person?.email ?? row.user_id}</p></td><td className="max-w-64 truncate px-4 py-4">{trackName(row) ?? row.track_slug}</td><td className="px-4 py-4"><span className="rounded-md border border-amber-300 bg-amber-50 px-2.5 py-1 font-mono text-xs font-bold tracking-[.1em] text-amber-900">{row.enrollment_code}</span></td><td className="px-4 py-4 tabular-nums">{done} / 6</td><td className="px-4 py-4"><span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold capitalize">{friendly(row.status)}</span></td><td className="px-4 py-4 text-slate-600">{formatDate(row.expected_end_at)}</td><td className="px-4 py-4"><button onClick={() => setSelectedId(selectedId === row.id ? null : row.id)} className="min-h-9 rounded-lg border border-slate-300 px-3 text-xs font-semibold text-[#061833] hover:bg-slate-100">{selectedId === row.id ? "Close" : "Review"}</button></td></tr>; })}</tbody></table></div>}
+          </div>
+
+          {selected && <section className="mt-5 rounded-xl border border-slate-200 bg-white p-5 sm:p-7" aria-label="Selected learner details"><div className="flex flex-col justify-between gap-3 border-b border-slate-200 pb-4 sm:flex-row sm:items-start"><div><p className="text-xs font-semibold uppercase tracking-[.12em] text-slate-500">Selected learner</p><h3 className="mt-1 text-xl font-bold text-[#061833]">{nameOf(selected)?.full_name} <span className="text-base font-medium text-slate-500">· {nameOf(selected)?.email}</span></h3><p className="mt-1 text-sm text-slate-600">{trackName(selected) ?? selected.track_slug} · <span className="font-mono font-semibold">{selected.enrollment_code}</span></p></div><span className="text-xs text-slate-500">Started {formatDate(selected.started_at)} · target {formatDate(selected.expected_end_at)}</span></div>
+            <div className="mt-5"><h4 className="font-bold text-[#061833]">Milestones</h4><div className="mt-3 divide-y divide-slate-100">{milestonesFor(selected.id).map((item) => <article key={item.id} className="py-4 first:pt-0 last:pb-0"><div className="flex flex-wrap items-start justify-between gap-2"><div><p className="font-semibold text-[#061833]">Week {item.week_number}: {item.title}</p><p className="mt-1 text-xs text-slate-500">Due {formatDate(item.due_at)} · {friendly(item.status)}</p></div>{item.submitted_at && <span className="text-xs text-slate-500">Submitted {formatDate(item.submitted_at)}</span>}</div><p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">{item.instructions}</p>{item.submission_url && <a href={item.submission_url} target="_blank" rel="noreferrer" className="mt-2 inline-flex items-center gap-2 text-sm font-semibold text-blue-800 underline underline-offset-2">Open learner submission<ExternalLink className="h-3.5 w-3.5"/></a>}{item.learner_notes && <p className="mt-2 rounded-lg bg-slate-50 p-3 text-sm text-slate-700"><strong>Learner note:</strong> {item.learner_notes}</p>}{item.status === "submitted" && <div className="mt-3 grid gap-2 sm:grid-cols-[minmax(0,1fr)_auto_auto]"><label className="sr-only" htmlFor={`feedback-${item.id}`}>Feedback for week {item.week_number}</label><textarea id={`feedback-${item.id}`} rows={2} maxLength={1500} value={feedback[item.id] ?? ""} onChange={(event) => setFeedback((old) => ({ ...old, [item.id]: event.target.value }))} placeholder="Feedback to the learner" className="min-h-10 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-200"/><button onClick={() => void update({ action: "review_milestone", milestoneId: item.id, decision: "approve", feedback: feedback[item.id] ?? "" }, "Milestone approved.")} disabled={Boolean(busy)} className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-lg bg-emerald-700 px-3 text-xs font-bold text-white hover:bg-emerald-800 disabled:opacity-60"><Check className="h-4 w-4"/>Approve</button><button onClick={() => void update({ action: "review_milestone", milestoneId: item.id, decision: "revision", feedback: feedback[item.id] ?? "Please revise this work and resubmit." }, "Revision requested.")} disabled={Boolean(busy)} className="min-h-10 rounded-lg border border-amber-400 px-3 text-xs font-bold text-amber-950 hover:bg-amber-50 disabled:opacity-60">Request revision</button></div>}</article>)}</div></div>
+            <div className="mt-7 border-t border-slate-200 pt-5"><h4 className="font-bold text-[#061833]">Certificate requests</h4>{!requestsFor(selected.id).length ? <p className="mt-2 text-sm text-slate-600">No certificate requests yet.</p> : <div className="mt-3 space-y-3">{requestsFor(selected.id).map((req) => <div key={req.id} className="rounded-lg border border-slate-200 p-4"><div className="flex flex-wrap items-start justify-between gap-2"><div className="flex items-center gap-2"><Award className="h-4 w-4 text-amber-700"/><p className="font-semibold capitalize text-[#061833]">{req.certificate_type} certificate · {friendly(req.status)}</p></div><p className="text-sm font-semibold tabular-nums text-slate-700">{req.currency ?? ""} {req.fee_amount === null ? "Fee unset" : Number(req.fee_amount).toFixed(2)}</p></div><p className="mt-1 text-xs text-slate-500">Requested {formatDate(req.requested_at)}{req.payment_reference ? ` · Payment reference ${req.payment_reference}` : ""}</p><div className="mt-3 flex flex-wrap gap-2">{req.status === "payment_pending" && <><input aria-label="Payment reference" maxLength={120} value={paymentReference[req.id] ?? ""} onChange={(event) => setPaymentReference((old) => ({ ...old, [req.id]: event.target.value }))} placeholder="Payment reference (optional)" className="min-h-10 rounded-lg border border-slate-300 px-3 text-sm outline-none focus:border-amber-500"/><button onClick={() => void update({ action: "update_certificate", requestId: req.id, operation: "verify_payment", paymentReference: paymentReference[req.id] ?? "" }, "Payment marked as verified.")} disabled={Boolean(busy)} className="min-h-10 rounded-lg bg-emerald-700 px-3 text-xs font-bold text-white hover:bg-emerald-800">Verify payment</button><button onClick={() => void update({ action: "update_certificate", requestId: req.id, operation: "reject" }, "Certificate request declined.")} disabled={Boolean(busy)} className="min-h-10 rounded-lg border border-rose-300 px-3 text-xs font-bold text-rose-800 hover:bg-rose-50">Decline</button></>}{req.status === "paid" && <button onClick={() => void update({ action: "update_certificate", requestId: req.id, operation: "issue" }, "Certificate marked as issued.")} disabled={Boolean(busy)} className="min-h-10 rounded-lg bg-[#061833] px-3 text-xs font-bold text-white hover:bg-[#10284a]">Mark certificate issued</button>}{req.status === "issued" && <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-800"><CheckCircle2 className="h-4 w-4"/>Issued {req.issued_at ? formatDate(req.issued_at) : ""}</span>}</div></div>)}</div>}</div>
+          </section>}
+        </section>
+
+        <section id="certificate-settings" className="mt-10 scroll-mt-6 rounded-xl border border-slate-200 bg-white p-5 sm:p-7">
+          <div className="flex items-start gap-3"><div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-slate-100 text-[#061833]"><ShieldCheck className="h-5 w-5"/></div><div><h3 className="text-lg font-bold text-[#061833]">Certificate settings</h3><p className="mt-1 max-w-3xl text-sm leading-6 text-slate-600">Set fees and instructions before learners can request issuance. Prices and currency are currently unconfigured; this area does not process payments.</p></div></div>
+          <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            <label className="text-sm font-semibold text-slate-700">Simple format fee<input type="number" min="0" max="10000000" step="0.01" value={settings.simpleFee} onChange={(event) => setSettings((old) => ({ ...old, simpleFee: event.target.value }))} inputMode="decimal" placeholder="Not set" className="mt-1.5 min-h-11 w-full rounded-lg border border-slate-300 px-3 font-normal outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-200"/></label>
+            <label className="text-sm font-semibold text-slate-700">Premium format fee<input type="number" min="0" max="10000000" step="0.01" value={settings.premiumFee} onChange={(event) => setSettings((old) => ({ ...old, premiumFee: event.target.value }))} inputMode="decimal" placeholder="Not set" className="mt-1.5 min-h-11 w-full rounded-lg border border-slate-300 px-3 font-normal outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-200"/></label>
+            <label className="text-sm font-semibold text-slate-700">Currency (ISO code)<input value={settings.currency} onChange={(event) => setSettings((old) => ({ ...old, currency: event.target.value.toUpperCase() }))} maxLength={3} placeholder="e.g. PKR" className="mt-1.5 min-h-11 w-full rounded-lg border border-slate-300 px-3 font-mono font-normal uppercase outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-200"/></label>
+            <label className="text-sm font-semibold text-slate-700 sm:col-span-2 xl:col-span-3">Payment instructions<textarea value={settings.paymentInstructions} onChange={(event) => setSettings((old) => ({ ...old, paymentInstructions: event.target.value }))} maxLength={1200} rows={3} placeholder="Explain the approved manual payment process and how learners should submit proof." className="mt-1.5 w-full rounded-lg border border-slate-300 px-3 py-2 font-normal outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-200"/></label>
+            <label className="text-sm font-semibold text-slate-700">Signatory name<input value={settings.signatoryName} onChange={(event) => setSettings((old) => ({ ...old, signatoryName: event.target.value }))} maxLength={120} placeholder="Leave blank to show Authorized Signatory" className="mt-1.5 min-h-11 w-full rounded-lg border border-slate-300 px-3 font-normal outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-200"/></label>
+            <label className="text-sm font-semibold text-slate-700">Signatory title<input value={settings.signatoryTitle} onChange={(event) => setSettings((old) => ({ ...old, signatoryTitle: event.target.value }))} maxLength={120} className="mt-1.5 min-h-11 w-full rounded-lg border border-slate-300 px-3 font-normal outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-200"/></label>
+          </div>
+          <button onClick={() => void update({ action: "save_settings", simpleFee: settings.simpleFee ? Number(settings.simpleFee) : null, premiumFee: settings.premiumFee ? Number(settings.premiumFee) : null, currency: settings.currency, paymentInstructions: settings.paymentInstructions, signatoryName: settings.signatoryName, signatoryTitle: settings.signatoryTitle }, "Certificate settings saved.")} disabled={Boolean(busy)} className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-lg bg-[#061833] px-4 text-sm font-semibold text-white hover:bg-[#10284a] disabled:opacity-60"><Save className="h-4 w-4"/>{busy ? "Saving…" : "Save certificate settings"}</button>
+        </section>
+        <p className="mt-5 inline-flex items-center gap-2 text-xs leading-5 text-slate-500"><Clock3 className="h-4 w-4"/>Admin actions record the reviewer and timestamps. Payment verification is an internal manual state and does not confirm funds with a payment provider.</p>
+      </div>
+    </main>
+  );
+}

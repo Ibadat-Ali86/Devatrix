@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Image from "next/image";
 import {
   ArrowDownToLine, ArrowLeft, ArrowRight, Bell, BriefcaseBusiness, Check, CheckCircle2,
@@ -233,6 +234,7 @@ export default function AdminConsole({ email }: { email: string }) {
               const Icon = key === "overview" ? LayoutDashboard : key === "internship" ? Users : key === "career" ? BriefcaseBusiness : PencilLine;
               return <button key={key} onClick={() => selectSection(key)} className={`flex min-h-11 w-full items-center gap-3 rounded-lg border-l-2 px-3 text-left text-sm font-semibold transition-colors ${section === key ? "border-amber-400 bg-white/10 text-white" : "border-transparent text-slate-300 hover:bg-white/5 hover:text-white"}`}><Icon className={`h-4 w-4 ${section === key ? "text-amber-400" : "text-slate-400"}`} aria-hidden="true" />{sectionNames[key]}</button>;
             })}
+            <Link href="/admin/learners" className="flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm font-semibold text-slate-300 transition-colors hover:bg-white/5 hover:text-white"><Sparkles className="h-4 w-4 text-amber-400" aria-hidden="true"/>Learner program</Link>
           </nav>
           <div className="border-t border-white/10 p-4">
             <div className="mb-3 flex items-center gap-2 rounded-lg bg-white/5 p-3"><ShieldCheck className="h-4 w-4 shrink-0 text-emerald-400" aria-hidden="true"/><span className="truncate text-xs font-medium text-slate-200">{email}</span></div>
@@ -248,6 +250,7 @@ export default function AdminConsole({ email }: { email: string }) {
             </div>
             <nav className="flex gap-1 overflow-x-auto border-t border-slate-100 px-3 py-2 lg:hidden" aria-label="Admin sections">
               {(["overview", "internship", "career", "content"] as Section[]).map((key) => <button key={key} onClick={() => selectSection(key)} className={`min-h-10 shrink-0 rounded-lg px-3 text-xs font-semibold ${section === key ? "bg-[#071a36] text-white" : "text-slate-600 hover:bg-slate-100"}`}>{sectionNames[key]}</button>)}
+              <Link href="/admin/learners" className="inline-flex min-h-10 shrink-0 items-center rounded-lg bg-amber-50 px-3 text-xs font-semibold text-amber-950">Learner program</Link>
             </nav>
           </header>
 
