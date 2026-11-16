@@ -19,7 +19,7 @@ After setting variables locally, restart `npm run dev`. In Vercel, set them for 
 
 ## Application review
 
-The dashboard lists internship and career submissions, supports search/status filters, private review notes, records the last reviewer and decision time, and provides CSV exports (up to 10,000 rows per export). Internship applications display the six-character tracking ID in the overview, desktop table, mobile cards, and review detail. Career applications use a separate application ID; they do not receive internship tracking codes. CSV fields are formula-escaped. Exports contain personal data; store them privately and delete local copies when no longer needed.
+The dashboard lists internship and career submissions, supports search/status/submission-date filters, private review notes, records the last reviewer and decision time, and provides matching CSV exports (up to 10,000 rows per export). Date ranges are rolling windows: last 24 hours, 7 days, or 30 days; the default is all time. Export files include every current application-table field, including tracking/application IDs and review metadata, with human-readable headers and formula escaping. Internship applications display the six-character tracking ID in the overview, desktop table, mobile cards, and review detail. Career applications use a separate application ID; they do not receive internship tracking codes. Exports contain personal data; store them privately and delete local copies when no longer needed.
 
 Résumé uploads remain deferred. The current forms accept optional résumé URLs only. Admins can open a valid HTTP/HTTPS URL in a new tab; uploaded CV files and private Storage previews are not supported yet.
 
@@ -41,4 +41,4 @@ The CMS edits homepage/About/Services/Work introductions, service summaries, cas
 
 ## Database change
 
-The additive migrations `20261116110054_devatrix_admin_cms.sql` through `20261116124410_admin_footer_content_cms.sql` add private review fields, the admin response audit table, the RLS-protected content table, indexes, seeded public content, and a footer settings record. They do not modify or delete applicant rows. The footer CMS migration is applied to the development Supabase project; verify the migration state before production use.
+The additive migrations `20261116110054_devatrix_admin_cms.sql` through `20261116124410_admin_footer_content_cms.sql` add private review fields, the admin response audit table, the RLS-protected content table, indexes, seeded public content, and a footer settings record. Migration `20261116130919_add_devops_engineering_internship_track.sql` adds the published DevOps Engineer & Cloud Infrastructure track to the development CMS without modifying applicant rows. Its six-week curriculum is code-managed; its public title, summary, badge, and publication state are CMS-managed. Verify migration state before production use.

@@ -61,6 +61,7 @@ export default function InternshipsPage() {
     "Web & Full-Stack",
     "Artificial Intelligence",
     "AI Engineering & FDE",
+    "DevOps & Cloud",
     "Data Science",
     "Data Analytics",
     "Mobile Apps"
@@ -266,6 +267,36 @@ export default function InternshipsPage() {
         "Distinguished 'Top Performer' Gold Badge for High Achievers",
         "Production mobile portfolio asset showcasing clean Dart architecture",
         "Priority interview pipeline for Flutter developer roles"
+      ]
+    },
+    {
+      id: "devops-engineering",
+      title: "DevOps Engineer & Cloud Infrastructure",
+      category: "DevOps & Cloud",
+      badge: "Linux, Docker, CI/CD & Terraform",
+      icon: Layers,
+      desc: "Build a practical delivery pipeline: strengthen Linux and Git foundations, containerize an application, automate CI/CD, provision cloud infrastructure with Terraform, and deploy a monitored capstone.",
+      skills: ["Linux & Bash", "Git & GitHub", "Docker & Compose", "GitHub Actions CI/CD", "Terraform (IaC)", "AWS or Azure fundamentals", "Kubernetes fundamentals", "Monitoring & runbooks"],
+      duration: "6 Weeks (Intensive Virtual Sprint)",
+      commitment: "6 to 8 Hours / Week (Flexible)",
+      prerequisites: [
+        "Basic programming or scripting familiarity and comfort using a terminal",
+        "Basic Git knowledge; Linux administration and Kubernetes experience are not required",
+        "A cloud account may be needed for the final lab; cloud usage can incur provider charges, so students must follow the cohort budget and cleanup guidance"
+      ],
+      deliverables: [
+        { week: "Week 1", title: "Linux, Git & Networking Foundations", desc: "Use shell commands, permissions, processes, logs, Git branches and pull requests; trace a simple service across DNS, HTTP, and ports; write a repeatable setup script and troubleshooting notes." },
+        { week: "Week 2", title: "Containerize an Application", desc: "Build and run a Docker image, configure environment variables safely, add a health check, and run an application with its dependency using Docker Compose." },
+        { week: "Week 3", title: "Build a CI Pipeline", desc: "Create a GitHub Actions workflow that runs checks and tests on pull requests, builds a versioned container image, and keeps deployment credentials out of source control." },
+        { week: "Week 4", title: "Infrastructure as Code with Terraform", desc: "Describe a small cloud environment in Terraform, inspect a plan before applying it, use variables and outputs, and document safe state and resource cleanup practices." },
+        { week: "Week 5", title: "Deploy & Operate a Workload", desc: "Deploy the container to the cohort's selected cloud or sandbox environment; practice Kubernetes workload, service, rollout, and health-probe fundamentals in a local or provided cluster." },
+        { week: "Week 6", title: "Capstone, Observability & Handover", desc: "Demonstrate the end-to-end pipeline, inspect logs and basic service health, document a rollback and incident checklist, review security and cost controls, and clean up lab resources." }
+      ],
+      outcomes: [
+        "A version-controlled infrastructure and CI/CD project with a documented deployment path",
+        "Hands-on practice with Linux, containers, Terraform, cloud fundamentals, and Kubernetes concepts",
+        "A capstone runbook covering health checks, rollback, security, and cleanup",
+        "Completion recognition based on the published program requirements"
       ]
     }
   ];

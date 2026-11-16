@@ -22,6 +22,7 @@ const trackList = [
   "Machine Learning & Data Science",
   "Data Analytics & Business Intelligence",
   "AI Engineer & Forward Deployed Engineer (FDE)",
+  "DevOps Engineer & Cloud Infrastructure",
   "React Native Mobile App Development",
   "Flutter Mobile App Development"
 ];

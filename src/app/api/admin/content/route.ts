@@ -4,7 +4,7 @@ import { hasSameOrigin } from "@/lib/supabase/portal-request";
 import { isFooterSettings } from "@/lib/content/footer";
 
 export const dynamic = "force-dynamic";
-const TRACK_SLUGS = new Set(["web-fullstack", "ai-agents", "data-science", "data-analytics", "ai-fde", "react-native", "flutter"]);
+const TRACK_SLUGS = new Set(["web-fullstack", "ai-agents", "data-science", "data-analytics", "ai-fde", "react-native", "flutter", "devops-engineering"]);
 const PAGE_SLUGS = new Set(["home-hero", "about-hero", "services-hero", "work-hero"]);
 const SERVICE_SLUGS = new Set(["service-custom-software", "service-cloud-devops", "service-ai-ml", "service-web-mobile"]);
 const CASE_STUDY_SLUGS = new Set(["case-study-saas", "case-study-ai", "case-study-telemetry", "case-study-commerce"]);

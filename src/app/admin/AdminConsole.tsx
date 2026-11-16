@@ -47,8 +47,10 @@ export default function AdminConsole({ email }: { email: string }) {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState("all");
+  const [submittedWithin, setSubmittedWithin] = useState("all");
   const [search, setSearch] = useState("");
   const [listLoading, setListLoading] = useState(true);
+  const [exporting, setExporting] = useState(false);
   const [selected, setSelected] = useState<Application | null>(null);
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
@@ -71,7 +73,7 @@ export default function AdminConsole({ email }: { email: string }) {
   const loadApplications = useCallback(async () => {
     if (section !== "career" && section !== "internship") return;
     try {
-      const params = new URLSearchParams({ kind: currentKind, status, page: String(page), q: search });
+      const params = new URLSearchParams({ kind: currentKind, status, submittedWithin, page: String(page), q: search });
       const response = await fetch(`/api/admin/applications?${params}`, { cache: "no-store" });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Could not load applications.");
@@ -80,7 +82,7 @@ export default function AdminConsole({ email }: { email: string }) {
       setError("");
     } catch (cause) { setError(cause instanceof Error ? cause.message : "Could not load applications."); }
     finally { setListLoading(false); }
-  }, [section, currentKind, status, page, search]);
+  }, [section, currentKind, status, submittedWithin, page, search]);
 
   const loadContent = useCallback(async () => {
     if (section !== "content") return;
@@ -137,21 +139,35 @@ export default function AdminConsole({ email }: { email: string }) {
   }
 
   async function exportCsv(kind: "internship" | "career") {
-    const params = new URLSearchParams({ kind, status, q: search });
-    const response = await fetch(`/api/admin/export?${params}`, { cache: "no-store" });
-    if (!response.ok) {
-      const data = await response.json().catch(() => ({}));
-      setError(data.error || "Export failed.");
-      return;
+    setExporting(true);
+    setError("");
+    setNotice("");
+    try {
+      const params = new URLSearchParams({ kind, status, submittedWithin, q: search });
+      const response = await fetch(`/api/admin/export?${params}`, { cache: "no-store" });
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        throw new Error(data.error || "Export failed.");
+      }
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      const filename = response.headers.get("Content-Disposition")?.match(/filename="([^"]+)"/)?.[1]
+        ?? `devatrix-${kind}-applications.csv`;
+      link.href = url;
+      link.download = filename;
+      link.style.display = "none";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 60_000);
+      const count = Number(response.headers.get("X-Exported-Count") ?? 0);
+      setNotice(`CSV download started: ${count.toLocaleString()} ${kind} application${count === 1 ? "" : "s"}.`);
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "Export failed.");
+    } finally {
+      setExporting(false);
     }
-    const blob = await response.blob();
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `devatrix-${kind}-applications.csv`;
-    link.click();
-    URL.revokeObjectURL(url);
-    setNotice("Your CSV export is ready.");
   }
 
   async function saveApplication(fields: { status?: string; notes?: string }) {
@@ -256,11 +272,13 @@ export default function AdminConsole({ email }: { email: string }) {
             {(section === "internship" || section === "career") && <>
               <div className="mb-5 flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
                 <div><p className="text-sm text-slate-600">Search, review, update status, save private notes, and send an approved email response.</p><p className="mt-1 text-xs text-slate-500">Résumé links submitted by applicants open in a separate tab.</p></div>
-                <button onClick={() => void exportCsv(currentKind)} className="inline-flex min-h-11 items-center justify-center gap-2 self-start rounded-lg bg-[#071a36] px-4 text-sm font-bold text-white hover:bg-[#102b51]"><ArrowDownToLine className="h-4 w-4" aria-hidden="true"/>Export all CSV</button>
+                <button onClick={() => void exportCsv(currentKind)} disabled={exporting} aria-busy={exporting} className="inline-flex min-h-11 items-center justify-center gap-2 self-start rounded-lg bg-[#071a36] px-4 text-sm font-bold text-white hover:bg-[#102b51] disabled:cursor-wait disabled:opacity-60"><ArrowDownToLine className="h-4 w-4" aria-hidden="true"/>{exporting ? "Preparing CSV…" : "Export filtered CSV"}</button>
+                <p className="text-xs leading-5 text-slate-500 xl:self-center">Exports every matching record, including the current search, status, and submission date filters.</p>
               </div>
-              <div className="mb-4 grid gap-3 sm:grid-cols-[minmax(220px,1fr)_220px]">
+              <div className="mb-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-[minmax(220px,1fr)_200px_220px]">
                 <label className="relative block"><span className="sr-only">Search applications</span><Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true"/><input value={search} onChange={(event) => { setListLoading(true); setPage(1); setSearch(event.target.value); }} placeholder="Search by name or email" className="min-h-11 w-full rounded-lg border border-slate-300 bg-white pl-10 pr-3 text-sm outline-none focus:border-amber-500 focus:ring-4 focus:ring-amber-100"/></label>
                 <label><span className="sr-only">Filter by status</span><select value={status} onChange={(event) => { setListLoading(true); setPage(1); setStatus(event.target.value); }} className="min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none focus:border-amber-500 focus:ring-4 focus:ring-amber-100"><option value="all">All statuses</option>{activeStatusOptions.map((value) => <option key={value} value={value}>{statusLabel(value)}</option>)}</select></label>
+                <label><span className="sr-only">Filter by submission date</span><select value={submittedWithin} onChange={(event) => { setListLoading(true); setPage(1); setSubmittedWithin(event.target.value); }} className="min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm outline-none focus:border-amber-500 focus:ring-4 focus:ring-amber-100"><option value="all">Any submission date</option><option value="24h">Last 24 hours</option><option value="7d">Last 7 days</option><option value="30d">Last 30 days</option></select></label>
               </div>
               <section className="overflow-hidden rounded-xl border border-slate-200 bg-white">
                 <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3 text-xs text-slate-500 sm:px-5"><span>{total} application{total === 1 ? "" : "s"}</span><span>Page {page} · up to 50 per page</span></div>
