@@ -202,7 +202,7 @@ export default function ServicesGrid() {
                     <span className="text-[11px] font-mono text-slate-500 uppercase tracking-wider font-semibold">
                       {service.tier}
                     </span>
-                    <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${
+                    <span className={`text-xs font-mono px-2 py-0.5 rounded-full border ${
                       service.accent 
                         ? "bg-brand-50 text-brand-800 border-brand-200 font-bold" 
                         : "bg-slate-100 text-slate-700 border-slate-200"
@@ -237,7 +237,7 @@ export default function ServicesGrid() {
                     {service.tags.map(tag => (
                       <span 
                         key={tag}
-                        className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200 font-medium"
+                        className="text-xs font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200 font-medium"
                       >
                         {tag}
                       </span>

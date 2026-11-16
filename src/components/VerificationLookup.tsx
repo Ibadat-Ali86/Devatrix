@@ -152,9 +152,9 @@ export default function VerificationLookup() {
               </div>
 
               {/* Credential Data Grid - Preserving 2 columns */}
-              <div className="grid grid-cols-2 gap-2.5 sm:gap-4 text-[10px] sm:text-xs">
+              <div className="grid grid-cols-2 gap-2.5 sm:gap-4 text-xs sm:text-xs">
                 <div className="space-y-0.5 sm:space-y-1">
-                  <span className="text-slate-500 font-medium flex items-center gap-1 text-[9px] sm:text-xs truncate">
+                  <span className="text-slate-500 font-medium flex items-center gap-1 text-xs sm:text-xs truncate">
                     <User className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-slate-400 shrink-0" />
                     CERTIFIED ENGINEER:
                   </span>
@@ -162,7 +162,7 @@ export default function VerificationLookup() {
                 </div>
 
                 <div className="space-y-0.5 sm:space-y-1">
-                  <span className="text-slate-500 font-medium flex items-center gap-1 text-[9px] sm:text-xs truncate">
+                  <span className="text-slate-500 font-medium flex items-center gap-1 text-xs sm:text-xs truncate">
                     <Award className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-brand-600 shrink-0" />
                     ACCREDITED ROLE:
                   </span>
@@ -170,29 +170,29 @@ export default function VerificationLookup() {
                 </div>
 
                 <div className="space-y-0.5 sm:space-y-1 col-span-2 pt-2 border-t border-slate-100">
-                  <span className="text-slate-500 font-medium text-[9px] sm:text-xs">ENGINEERING TRACK & SPECIALIZATION:</span>
+                  <span className="text-slate-500 font-medium text-xs sm:text-xs">ENGINEERING TRACK & SPECIALIZATION:</span>
                   <div className="text-slate-800 font-semibold text-[11px] sm:text-xs">{result.track}</div>
                 </div>
 
                 <div className="space-y-0.5 sm:space-y-1">
-                  <span className="text-slate-500 font-medium text-[9px] sm:text-xs">ACADEMIC / CAMPUS ORIGIN:</span>
-                  <div className="text-slate-700 font-semibold text-[10px] sm:text-xs truncate">{result.institution}</div>
+                  <span className="text-slate-500 font-medium text-xs sm:text-xs">ACADEMIC / CAMPUS ORIGIN:</span>
+                  <div className="text-slate-700 font-semibold text-xs sm:text-xs truncate">{result.institution}</div>
                 </div>
 
                 <div className="space-y-0.5 sm:space-y-1">
-                  <span className="text-slate-500 font-medium flex items-center gap-1 text-[9px] sm:text-xs truncate">
+                  <span className="text-slate-500 font-medium flex items-center gap-1 text-xs sm:text-xs truncate">
                     <Calendar className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-slate-400 shrink-0" />
                     DATE OF ATTESTATION:
                   </span>
-                  <div className="text-slate-700 font-semibold text-[10px] sm:text-xs">{result.issuedOn}</div>
+                  <div className="text-slate-700 font-semibold text-xs sm:text-xs">{result.issuedOn}</div>
                 </div>
 
                 <div className="space-y-0.5 sm:space-y-1 col-span-2 pt-2 border-t border-slate-100">
-                  <span className="text-slate-500 font-medium flex items-center gap-1 text-[10px]">
+                  <span className="text-slate-500 font-medium flex items-center gap-1 text-xs">
                     <Hash className="w-3 h-3 text-slate-400" />
                     CRYPTOGRAPHIC SHA-256 RECORD HASH:
                   </span>
-                  <div className="text-[10px] text-slate-600 break-all bg-slate-50 p-2.5 rounded border border-slate-200">
+                  <div className="text-xs text-slate-600 break-all bg-slate-50 p-2.5 rounded border border-slate-200">
                     {result.hash}
                   </div>
                 </div>

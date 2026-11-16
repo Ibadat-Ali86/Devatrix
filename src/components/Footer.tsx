@@ -1,9 +1,22 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { MapPin, ArrowRight, ShieldCheck, Award, Lock, MessageCircle, Mail, Globe2 } from "lucide-react";
+import { DEFAULT_FOOTER_SETTINGS, parseFooterSettings } from "@/lib/content/footer";
 
 export default function Footer() {
+  const [footer, setFooter] = useState(DEFAULT_FOOTER_SETTINGS);
+  useEffect(() => {
+    let active = true;
+    fetch("/api/public/content", { cache: "no-store" })
+      .then((response) => response.ok ? response.json() : null)
+      .then((data) => { if (active && data?.footer) setFooter(parseFooterSettings(data.footer)); })
+      .catch(() => undefined);
+    return () => { active = false; };
+  }, []);
+  const whatsappUrl = `https://wa.me/${footer.whatsappNumber.replace(/\D/g, "")}`;
   return (
     <footer className="bg-[#040E20] border-t border-white/10 pt-16 pb-12 text-white font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -27,32 +40,24 @@ export default function Footer() {
                 <span className="text-xl font-extrabold tracking-tight text-white font-sans">
                   Devatrix
                 </span>
-                <span className="text-[10px] tracking-widest uppercase text-slate-400 font-medium -mt-0.5">
+                <span className="text-xs tracking-widest uppercase text-slate-400 font-medium -mt-0.5">
                   Technologies
                 </span>
               </div>
             </Link>
 
             <p className="text-sm text-slate-400 leading-relaxed max-w-sm font-normal">
-              A modern software house delivering custom SaaS platforms, AI chatbots, mobile applications, and cloud architecture for businesses worldwide.
+              {footer.description}
             </p>
 
             <div className="pt-2 flex flex-wrap items-center gap-2 text-xs text-slate-400 font-mono">
-              <span className="px-2.5 py-1 rounded bg-white/5 border border-white/10">
-                100% Code Ownership
-              </span>
-              <span className="px-2.5 py-1 rounded bg-white/5 border border-white/10">
-                Clean Architecture
-              </span>
-              <span className="px-2.5 py-1 rounded bg-white/5 border border-white/10">
-                Agile Sprints
-              </span>
+              {footer.proofPoints.map((point) => <span key={point} className="px-2.5 py-1 rounded bg-white/5 border border-white/10">{point}</span>)}
             </div>
 
             {/* Social Channels */}
             <div className="pt-3 flex items-center gap-3">
               <a
-                href="https://www.linkedin.com/company/devatrix-technologies/"
+                href={footer.linkedinUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 rounded-lg bg-white/5 hover:bg-brand-500 hover:text-obsidian-950 text-slate-300 transition-all border border-white/10"
@@ -64,7 +69,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="https://www.instagram.com/devatrix_technologies?srtk=aHNrM2N2ZGF2OHY5"
+                href={footer.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 rounded-lg bg-white/5 hover:bg-brand-500 hover:text-obsidian-950 text-slate-300 transition-all border border-white/10"
@@ -76,7 +81,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="https://wa.me/923156179410"
+                href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 rounded-lg bg-white/5 hover:bg-emerald-500 hover:text-white text-slate-300 transition-all border border-white/10"
@@ -145,7 +150,7 @@ export default function Footer() {
               <li>
                 <Link href="/internships" className="hover:text-brand-400 transition-colors text-brand-400 font-semibold flex items-center gap-1.5">
                   <span>Internships</span>
-                  <span className="text-[9px] uppercase px-1.5 py-0.2 rounded bg-brand-500/20 text-brand-300 font-mono">Open</span>
+                  <span className="text-xs uppercase px-1.5 py-0.2 rounded bg-brand-500/20 text-brand-300 font-mono">Open</span>
                 </Link>
               </li>
               <li>
@@ -163,28 +168,28 @@ export default function Footer() {
             </h4>
             <div className="space-y-3 text-xs text-slate-400 font-sans">
               <div>
-                <p className="font-semibold text-white">Lahore, Pakistan</p>
-                <p className="text-slate-500">Software Engineering & Operations</p>
+                <p className="font-semibold text-white">{footer.officeCity}</p>
+                <p className="text-slate-500">{footer.officeDescription}</p>
               </div>
               <div>
-                <p className="font-semibold text-white">Remote-First Delivery</p>
-                <p className="text-slate-500">Serving Clients Worldwide</p>
+                <p className="font-semibold text-white">{footer.remoteTitle}</p>
+                <p className="text-slate-500">{footer.remoteDescription}</p>
               </div>
               <div className="pt-2 border-t border-white/10 space-y-1.5">
                 <a 
-                  href="mailto:devatrixtechnologies@gmail.com" 
+                  href={`mailto:${footer.contactEmail}`}
                   className="text-brand-400 hover:underline font-semibold block break-all"
                 >
-                  devatrixtechnologies@gmail.com
+                  {footer.contactEmail}
                 </a>
                 <a 
-                  href="https://wa.me/923156179410" 
+                  href={whatsappUrl}
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-emerald-400 hover:underline font-semibold flex items-center gap-1.5"
                 >
                   <MessageCircle className="w-3.5 h-3.5" />
-                  <span>+92 315 6179410 (WhatsApp)</span>
+                  <span>{footer.whatsappLabel}</span>
                 </a>
               </div>
             </div>
@@ -195,7 +200,7 @@ export default function Footer() {
         {/* Bottom Disclosures */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500 font-sans">
           <div>
-            © {new Date().getFullYear()} Devatrix Technologies LLC. All rights reserved.
+            © {new Date().getFullYear()} {footer.legalName}. {footer.copyrightText}
           </div>
           <div className="flex items-center gap-6">
             <Link href="/privacy" className="hover:text-slate-300">Privacy Policy</Link>

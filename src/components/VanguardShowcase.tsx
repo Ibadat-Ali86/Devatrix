@@ -109,7 +109,7 @@ export default function VanguardShowcase() {
                       {uni.campuses}
                     </p>
                   </div>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold">
+                  <span className="text-xs font-mono px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold">
                     Active Chapter
                   </span>
                 </div>

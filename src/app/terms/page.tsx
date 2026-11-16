@@ -17,7 +17,7 @@ export default function TermsPage() {
           <div className="absolute bottom-0 left-1/4 w-[400px] h-[250px] bg-blue-600/15 rounded-full blur-[120px] pointer-events-none"></div>
 
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-3 sm:space-y-4">
-            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] sm:text-xs font-mono font-medium text-slate-300">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs sm:text-xs font-mono font-medium text-slate-300">
               <FileCheck className="w-3.5 h-3.5 text-brand-500" />
               <span>TERMS & CONDITIONS</span>
             </div>
@@ -27,7 +27,7 @@ export default function TermsPage() {
             <p className="text-xs sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal">
               Standards and conditions governing technical engineering engagements with Devatrix Technologies LLC.
             </p>
-            <div className="text-[10px] sm:text-xs font-mono text-slate-400">
+            <div className="text-xs sm:text-xs font-mono text-slate-400">
               Last Updated: November 2026 • Established 2022
             </div>
           </div>

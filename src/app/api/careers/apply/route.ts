@@ -1,177 +1,177 @@
-import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { randomBytes } from "crypto";
+import { createClient } from "@supabase/supabase-js";
+import { after, NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: NextRequest) {
+const MAX_REQUEST_BYTES = 64 * 1024;
+const MAX_LENGTHS: Record<string, number> = {
+  fullName: 120,
+  email: 254,
+  phone: 40,
+  location: 160,
+  role: 160,
+  experience: 120,
+  previousCompany: 160,
+  previousSalary: 80,
+  expectedSalary: 80,
+  noticePeriod: 80,
+  linkedinUrl: 2048,
+  githubUrl: 2048,
+  resumeUrl: 2048,
+  coverNote: 5000,
+};
+
+function validWebLink(value: string): boolean {
+  if (!value) return true;
   try {
-    const contentType = req.headers.get("content-type") || "";
-    let data: any = {};
-    let savedResumePath = "";
-
-    if (contentType.includes("multipart/form-data")) {
-      const formData = await req.formData();
-      data = {
-        fullName: formData.get("fullName") as string,
-        email: formData.get("email") as string,
-        phone: formData.get("phone") as string,
-        location: formData.get("location") as string,
-        role: formData.get("role") as string,
-        experience: formData.get("experience") as string,
-        previousCompany: (formData.get("previousCompany") as string) || "",
-        previousSalary: (formData.get("previousSalary") as string) || "",
-        expectedSalary: (formData.get("expectedSalary") as string) || "",
-        noticePeriod: (formData.get("noticePeriod") as string) || "",
-        linkedinUrl: (formData.get("linkedinUrl") as string) || "",
-        githubUrl: (formData.get("githubUrl") as string) || "",
-        resumeUrl: (formData.get("resumeUrl") as string) || "",
-        coverNote: (formData.get("coverNote") as string) || "",
-      };
-
-      const file = formData.get("resumeFile") as File | null;
-      if (file && typeof file === "object" && file.size > 0) {
-        const bytes = await file.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-        const uploadDir = path.join(process.cwd(), "public", "uploads", "resumes");
-        if (!fs.existsSync(uploadDir)) {
-          fs.mkdirSync(uploadDir, { recursive: true });
-        }
-        const safeName = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
-        const filePath = path.join(uploadDir, safeName);
-        fs.writeFileSync(filePath, buffer);
-        savedResumePath = `/uploads/resumes/${safeName}`;
-      }
-    } else {
-      data = await req.json();
-    }
-
-    const {
-      fullName,
-      email,
-      phone,
-      location,
-      role = "General / Future Openings",
-      experience,
-      previousCompany = "",
-      previousSalary = "",
-      expectedSalary = "",
-      noticePeriod = "Immediate",
-      linkedinUrl = "",
-      githubUrl = "",
-      resumeUrl = "",
-      coverNote = "",
-    } = data;
-
-    // Field Validation
-    if (!fullName || !email || !phone || !location) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: "Missing required fields. Please provide your Full Name, Email, Phone/WhatsApp, and Current Location.",
-        },
-        { status: 400 }
-      );
-    }
-
-    // Generate unique Job Application ID: DEV-JOB-2026-XXXX
-    const randomDigits = Math.floor(1000 + Math.random() * 9000);
-    const applicationId = `DEV-JOB-2026-${randomDigits}`;
-    const timestamp = new Date().toISOString();
-
-    const finalResume = savedResumePath || resumeUrl || "";
-
-    const record = {
-      id: applicationId,
-      applicationId,
-      fullName: (fullName || "").trim(),
-      email: (email || "").trim().toLowerCase(),
-      phone: (phone || "").trim(),
-      location: (location || "").trim(),
-      role: (role || "General Application").trim(),
-      experience: (experience || "Not Specified").trim(),
-      previousCompany: (previousCompany || "N/A").trim(),
-      previousSalary: (previousSalary || "Confidential").trim(),
-      expectedSalary: (expectedSalary || "Negotiable").trim(),
-      noticePeriod: (noticePeriod || "Immediate").trim(),
-      resumePath: finalResume,
-      linkedinUrl: (linkedinUrl || "").trim(),
-      githubUrl: (githubUrl || "").trim(),
-      coverNote: (coverNote || "").trim(),
-      status: "Review Pending",
-      createdAt: timestamp,
-      clientIp: req.headers.get("x-forwarded-for") || "127.0.0.1",
-    };
-
-    // 1. Save to local data/career-applications.json
-    const dataDir = path.join(process.cwd(), "data");
-    const filePath = path.join(dataDir, "career-applications.json");
-
-    if (!fs.existsSync(dataDir)) {
-      fs.mkdirSync(dataDir, { recursive: true });
-    }
-
-    let existingData: any[] = [];
-    if (fs.existsSync(filePath)) {
-      try {
-        const fileContent = fs.readFileSync(filePath, "utf-8");
-        existingData = JSON.parse(fileContent);
-        if (!Array.isArray(existingData)) existingData = [];
-      } catch (parseErr) {
-        existingData = [];
-      }
-    }
-
-    existingData.unshift(record);
-    fs.writeFileSync(filePath, JSON.stringify(existingData, null, 2), "utf-8");
-    console.log(`[Devatrix Careers] Saved application ${applicationId} for ${record.fullName} (${record.role})`);
-
-    // 2. Background Google Sheets sync if webhook set
-    const webhookUrl = process.env.GOOGLE_SHEET_CAREERS_WEBHOOK_URL || process.env.GOOGLE_SHEET_WEBHOOK_URL;
-    if (webhookUrl) {
-      fetch(webhookUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(record),
-      }).catch((err) => console.error("[Google Sheets Careers Sync Error]:", err));
-    }
-
-    return NextResponse.json(
-      {
-        success: true,
-        applicationId,
-        message: "Job application successfully submitted.",
-        data: {
-          applicationId,
-          fullName: record.fullName,
-          role: record.role,
-          createdAt: record.createdAt,
-        },
-      },
-      { status: 201 }
-    );
-  } catch (error: any) {
-    console.error("Career application API error:", error);
-    return NextResponse.json(
-      {
-        success: false,
-        error: "Internal server error processing career application. Please try again.",
-      },
-      { status: 500 }
-    );
+    const url = new URL(value);
+    return (url.protocol === "https:" || url.protocol === "http:") && Boolean(url.hostname);
+  } catch {
+    return false;
   }
 }
 
-export async function GET(req: NextRequest) {
+function hasAllowedOrigin(request: NextRequest): boolean {
+  const origin = request.headers.get("origin");
+  if (!origin) return true;
   try {
-    const filePath = path.join(process.cwd(), "data", "career-applications.json");
-    if (!fs.existsSync(filePath)) {
-      return NextResponse.json({ total: 0, items: [] });
+    return new URL(origin).origin === request.nextUrl.origin;
+  } catch {
+    return false;
+  }
+}
+
+function applicationId(): string {
+  return `DEV-JOB-${new Date().getUTCFullYear()}-${randomBytes(4).toString("hex").toUpperCase()}`;
+}
+
+export async function POST(req: NextRequest) {
+  try {
+    if (!hasAllowedOrigin(req)) {
+      return NextResponse.json({ success: false, error: "Please submit the application from the Devatrix website." }, { status: 403 });
     }
-    const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-    return NextResponse.json({
-      total: data.length,
-      recent: data.slice(0, 5),
-    });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    const contentType = req.headers.get("content-type") || "";
+    if (!contentType.includes("multipart/form-data") && !contentType.includes("application/json")) {
+      return NextResponse.json({ success: false, error: "Please submit the application form." }, { status: 415 });
+    }
+
+    const contentLength = Number(req.headers.get("content-length") || 0);
+    if (contentLength > MAX_REQUEST_BYTES) {
+      return NextResponse.json({ success: false, error: "The application is too large. Please shorten your answers." }, { status: 413 });
+    }
+
+    const form = contentType.includes("multipart/form-data") ? await req.formData() : null;
+    const json: unknown = form ? null : await req.json();
+    if (!form && (!json || typeof json !== "object" || Array.isArray(json))) {
+      return NextResponse.json({ success: false, error: "Please submit valid application details." }, { status: 400 });
+    }
+
+    const resumeFile = form?.get("resumeFile");
+    if (resumeFile && typeof resumeFile !== "string" && resumeFile.size > 0) {
+      return NextResponse.json(
+        { success: false, error: "Résumé file uploads are not available yet. Please provide a private résumé link instead." },
+        { status: 400 },
+      );
+    }
+
+    const values = Object.fromEntries(Object.keys(MAX_LENGTHS).map((field) => {
+      const raw = form ? form.get(field) : (json as Record<string, unknown>)[field];
+      return [field, typeof raw === "string" ? raw.trim() : ""];
+    })) as Record<keyof typeof MAX_LENGTHS, string>;
+
+    if (!values.fullName || !values.email || !values.phone || !values.location) {
+      return NextResponse.json({ success: false, error: "Please complete your name, email, phone, and location." }, { status: 400 });
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email) || Object.entries(MAX_LENGTHS).some(([key, limit]) => values[key].length > limit)) {
+      return NextResponse.json({ success: false, error: "Please check your email and the length of your answers." }, { status: 400 });
+    }
+    if (!validWebLink(values.linkedinUrl) || !validWebLink(values.githubUrl) || !validWebLink(values.resumeUrl)) {
+      return NextResponse.json({ success: false, error: "Please enter valid website links." }, { status: 400 });
+    }
+
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const secret = process.env.SUPABASE_SECRET_KEY;
+    if (!supabaseUrl || !secret) throw new Error("Career application storage is not configured");
+    const supabase = createClient(supabaseUrl, secret, { auth: { persistSession: false, autoRefreshToken: false } });
+
+    let result: { data: { application_id: string; created_at: string } | null; error: { code?: string } | null } | null = null;
+    for (let attempt = 0; attempt < 3; attempt++) {
+      result = await supabase.from("career_applications").insert({
+        application_id: applicationId(),
+        full_name: values.fullName,
+        email: values.email.toLowerCase(),
+        phone: values.phone,
+        location: values.location,
+        role: values.role || "General / Future Openings",
+        experience: values.experience || null,
+        previous_company: values.previousCompany || null,
+        previous_salary: values.previousSalary || null,
+        expected_salary: values.expectedSalary || null,
+        notice_period: values.noticePeriod || null,
+        linkedin_url: values.linkedinUrl || null,
+        github_url: values.githubUrl || null,
+        resume_url: values.resumeUrl || null,
+        cover_note: values.coverNote || null,
+        status: "review_pending",
+      }).select("application_id, created_at").single();
+      if (!result.error || result.error.code !== "23505") break;
+    }
+
+    if (result?.error || !result?.data) {
+      console.error("Career application database insert failed", { code: result?.error?.code });
+      return NextResponse.json({ success: false, error: "Unable to submit your application. Please try again." }, { status: 503 });
+    }
+    const savedApplication = result.data;
+
+    const webhookUrl = process.env.GOOGLE_SHEET_CAREERS_WEBHOOK_URL || process.env.GOOGLE_SHEET_WEBHOOK_URL;
+    if (webhookUrl) {
+      try {
+        if (new URL(webhookUrl).protocol === "https:") {
+          after(async () => {
+            try {
+              const webhookResponse = await fetch(webhookUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  applicationId: savedApplication.application_id,
+                  fullName: values.fullName,
+                  email: values.email.toLowerCase(),
+                  phone: values.phone,
+                  location: values.location,
+                  role: values.role || "General / Future Openings",
+                  experience: values.experience,
+                  previousCompany: values.previousCompany,
+                  previousSalary: values.previousSalary,
+                  expectedSalary: values.expectedSalary,
+                  noticePeriod: values.noticePeriod,
+                  linkedinUrl: values.linkedinUrl,
+                  githubUrl: values.githubUrl,
+                  resumeUrl: values.resumeUrl,
+                  coverNote: values.coverNote,
+                  status: "Review Pending",
+                  createdAt: savedApplication.created_at,
+                }),
+                signal: AbortSignal.timeout(5_000),
+              });
+              if (!webhookResponse.ok) console.error("Career application sheet sync failed", { status: webhookResponse.status });
+            } catch {
+              console.error("Career application sheet sync failed");
+            }
+          });
+        }
+      } catch {
+        console.error("Career application sheet sync URL is invalid");
+      }
+    }
+
+    const response = NextResponse.json({
+      success: true,
+      applicationId: savedApplication.application_id,
+      message: "Your application has been received.",
+    }, { status: 201 });
+    response.headers.set("Cache-Control", "no-store");
+    return response;
+  } catch {
+    console.error("Career application submission failed");
+    return NextResponse.json({ success: false, error: "Unable to submit your application. Please try again." }, { status: 500 });
   }
 }

@@ -3,6 +3,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ExecutiveCTA from "@/components/ExecutiveCTA";
+import { getPublishedSiteContent } from "@/lib/content/server";
 import { 
   Activity, 
   ArrowRight, 
@@ -13,8 +14,12 @@ import {
   Server
 } from "lucide-react";
 
-export default function WorkPage() {
-  const caseStudies = [
+export const dynamic = "force-dynamic";
+
+export default async function WorkPage() {
+  const content = await getPublishedSiteContent();
+  const intro = content?.find((item) => item.slug === "work-hero");
+  const defaultCaseStudies = [
     {
       title: "Multi-Tenant SaaS Platform & Subscription Engine",
       sector: "Modern Web & Cloud SaaS",
@@ -56,6 +61,11 @@ export default function WorkPage() {
       tags: ["Next.js", "TypeScript", "PostgreSQL", "Redis Caching", "Stripe API", "Tailwind CSS"],
     },
   ];
+  const cmsStudies = content?.filter((item) => item.content_type === "case_study") ?? [];
+  const caseStudies = content === null ? defaultCaseStudies : defaultCaseStudies.flatMap((study, index) => {
+    const editable = cmsStudies.find((item) => item.slug === ["case-study-saas", "case-study-ai", "case-study-telemetry", "case-study-commerce"][index]);
+    return editable ? [{ ...study, title: editable.title, summary: editable.summary, sector: editable.badge }] : [];
+  });
 
   return (
     <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
@@ -74,11 +84,10 @@ export default function WorkPage() {
               <span>REAL-WORLD SOFTWARE ARCHITECTURES</span>
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight">
-              Selected Case Studies. <br />
-              <span className="text-brand-500">Built with Modern Craftsmanship.</span>
+              {intro?.title ?? <>Selected Case Studies. <br />Built with</>} <span className="text-brand-500">{intro?.badge ?? "Modern Craftsmanship."}</span>
             </h1>
             <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal">
-              Explore how we design and deploy clean, scalable software solutions across SaaS, Applied AI, Real-Time WebSockets, and E-Commerce.
+              {intro?.summary ?? "Explore how we design and deploy clean, scalable software solutions across SaaS, Applied AI, Real-Time WebSockets, and E-Commerce."}
             </p>
           </div>
         </section>
@@ -92,7 +101,7 @@ export default function WorkPage() {
             >
               <div className="flex flex-row items-center justify-between gap-4 pb-4 sm:pb-6 border-b border-slate-200 mb-4 sm:mb-8">
                 <div>
-                  <span className="text-[9px] sm:text-xs font-mono font-bold text-brand-700 bg-brand-50 px-2 sm:px-3 py-0.5 sm:py-1 rounded-md border border-brand-200 uppercase tracking-wider block w-fit mb-1.5 sm:mb-2">
+                  <span className="text-xs sm:text-xs font-mono font-bold text-brand-700 bg-brand-50 px-2 sm:px-3 py-0.5 sm:py-1 rounded-md border border-brand-200 uppercase tracking-wider block w-fit mb-1.5 sm:mb-2">
                     {study.sector}
                   </span>
                   <h2 className="text-base sm:text-3xl font-extrabold text-slate-900 font-sans leading-tight">
@@ -103,7 +112,7 @@ export default function WorkPage() {
                   <div className="text-xl sm:text-4xl font-extrabold text-brand-600 font-sans">
                     {study.metric}
                   </div>
-                  <div className="text-[9px] sm:text-xs text-slate-500 font-semibold mt-0.5">
+                  <div className="text-xs sm:text-xs text-slate-500 font-semibold mt-0.5">
                     {study.metricLabel}
                   </div>
                 </div>
@@ -117,19 +126,19 @@ export default function WorkPage() {
 
                   <div className="grid grid-cols-2 gap-2.5 sm:gap-4 pt-2">
                     <div className="p-3 sm:p-4 rounded-xl bg-white border border-slate-200">
-                      <span className="text-[10px] sm:text-xs font-bold text-slate-900 uppercase tracking-wider block mb-1">
+                      <span className="text-xs sm:text-xs font-bold text-slate-900 uppercase tracking-wider block mb-1">
                         The Challenge:
                       </span>
-                      <p className="text-[10px] sm:text-xs text-slate-600 leading-relaxed">
+                      <p className="text-xs sm:text-xs text-slate-600 leading-relaxed">
                         {study.challenge}
                       </p>
                     </div>
 
                     <div className="p-3 sm:p-4 rounded-xl bg-white border border-slate-200">
-                      <span className="text-[10px] sm:text-xs font-bold text-brand-700 uppercase tracking-wider block mb-1">
+                      <span className="text-xs sm:text-xs font-bold text-brand-700 uppercase tracking-wider block mb-1">
                         The Solution & Impact:
                       </span>
-                      <p className="text-[10px] sm:text-xs text-slate-600 leading-relaxed">
+                      <p className="text-xs sm:text-xs text-slate-600 leading-relaxed">
                         {study.outcome}
                       </p>
                     </div>
@@ -137,14 +146,14 @@ export default function WorkPage() {
                 </div>
 
                 <div className="lg:col-span-4 space-y-2 sm:space-y-4">
-                  <h4 className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-500">
+                  <h4 className="text-xs sm:text-xs font-bold uppercase tracking-wider text-slate-500">
                     Technology Stack
                   </h4>
                   <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     {study.tags.map((t) => (
                       <span
                         key={t}
-                        className="text-[9px] sm:text-xs font-mono px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg bg-white border border-slate-200 text-slate-700 font-medium"
+                        className="text-xs sm:text-xs font-mono px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg bg-white border border-slate-200 text-slate-700 font-medium"
                       >
                         {t}
                       </span>

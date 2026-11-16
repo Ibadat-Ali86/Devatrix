@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -45,11 +45,23 @@ interface Track {
 export default function InternshipsPage() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [modalTrack, setModalTrack] = useState<Track | null>(null);
+  const [cmsContent, setCmsContent] = useState<{ available: boolean; tracks: Array<{ id: string; title: string; summary: string; badge: string }>; announcement: { title: string; summary: string } | null } | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    fetch("/api/public/content", { cache: "no-store" })
+      .then((response) => response.ok ? response.json() : null)
+      .then((data) => { if (active && data) setCmsContent(data); })
+      .catch(() => undefined);
+    return () => { active = false; };
+  }, []);
 
   const categories = [
     "All",
     "Web & Full-Stack",
     "Artificial Intelligence",
+    "AI Engineering & FDE",
+    "DevOps & Cloud",
     "Data Science",
     "Data Analytics",
     "Mobile Apps"
@@ -85,83 +97,122 @@ export default function InternshipsPage() {
     },
     {
       id: "ai-agents",
-      title: "Artificial Intelligence & Custom Agents",
+      title: "Applied AI & Agent Engineering",
       category: "Artificial Intelligence",
-      badge: "RAG & LLM Agents",
+      badge: "LLM Apps, RAG & Evaluation",
       icon: Cpu,
-      desc: "Engineer retrieval-augmented generation (RAG) pipelines, conversational chatbot integration, vector embeddings, and LLM prompt orchestration.",
-      skills: ["Python", "FastAPI", "Vector Search (Pinecone / Chroma)", "LangChain", "OpenAI / Claude APIs"],
+      desc: "Build and evaluate a focused LLM application: connect a model API, ground answers in source material, add tool use, and ship a tested service.",
+      skills: ["Python", "LLM APIs", "Prompt & Output Validation", "RAG & Vector Search", "FastAPI", "Evaluation & Guardrails"],
       duration: "6 Weeks (Intensive Virtual Sprint)",
       commitment: "6 to 8 Hours / Week (Flexible)",
       prerequisites: [
-        "Intermediate Python programming proficiency (functions, OOP, async)",
-        "Basic understanding of REST APIs and JSON data exchange",
-        "Interest in LLMs, embeddings, and generative AI architectures"
+        "Working Python fundamentals: functions, modules, and virtual environments",
+        "Basic HTTP, REST API, JSON, and Git knowledge",
+        "A laptop able to run Python projects; model API use may require a provider account"
       ],
       deliverables: [
-        { week: "Weeks 1–2", title: "Document Ingestion & Semantic Embeddings", desc: "Parse PDF/markdown documents, generate chunk embeddings, and index into a vector store." },
-        { week: "Weeks 3–4", title: "Conversational RAG Pipeline with Memory", desc: "Implement a context-aware conversational agent with citation grounding and hallucination guards." },
-        { week: "Weeks 5–6", title: "Enterprise Chatbot UI & Public API", desc: "Package the model behind a FastAPI server and connect to a sleek web interface." }
+        { week: "Week 1", title: "Model APIs & Reliable Outputs", desc: "Call a hosted model from Python, manage configuration safely, validate structured responses, and record a small baseline evaluation set." },
+        { week: "Week 2", title: "Search & Grounded Answers", desc: "Prepare a small document collection, compare chunking and retrieval choices, and return answers with source references." },
+        { week: "Week 3", title: "Tools, Workflows & Guardrails", desc: "Add one bounded tool or workflow, validate inputs, handle failures, and require human review for consequential actions." },
+        { week: "Week 4", title: "Service & Test Design", desc: "Expose the application through FastAPI, write tests for core paths, and handle timeouts and provider errors." },
+        { week: "Week 5", title: "Evaluation & Deployment", desc: "Measure answer quality, latency, and token use on a fixed test set; package and deploy the service with logs and safe secret handling." },
+        { week: "Week 6", title: "Capstone & Technical Review", desc: "Demonstrate a documented AI application with reproducible tests, known limitations, and a short evaluation report." }
       ],
       outcomes: [
-        "Verified Devatrix Certificate of Completion",
-        "Distinguished 'Top Performer' Gold Badge for High Achievers",
-        "Technical portfolio asset demonstrating modern AI orchestration",
-        "Priority evaluation for Devatrix AI Labs projects"
+        "A deployed, tested LLM application with a documented evaluation set",
+        "Experience with retrieval, tool use, output validation, and failure handling",
+        "A Git repository and concise architecture and limitations write-up",
+        "Completion recognition based on the published program requirements"
       ]
     },
     {
       id: "data-science",
-      title: "Data Science & Predictive Modeling",
+      title: "Machine Learning & Data Science",
       category: "Data Science",
-      badge: "Machine Learning & EDA",
+      badge: "Python, Statistics & ML",
       icon: BarChart3,
-      desc: "Perform exploratory data analysis (EDA), engineer data pipelines, train machine learning models, and evaluate predictive accuracy on real datasets.",
-      skills: ["Python", "Pandas & NumPy", "Scikit-Learn", "Feature Engineering", "Predictive Modeling"],
+      desc: "Take a supervised learning problem from data checks and a baseline through model validation, error analysis, and a reproducible final report.",
+      skills: ["Python", "Pandas & NumPy", "Statistics", "Scikit-learn", "Feature Engineering", "Model Evaluation"],
       duration: "6 Weeks (Intensive Virtual Sprint)",
       commitment: "6 to 8 Hours / Week (Flexible)",
       prerequisites: [
-        "Foundational Python programming (loops, dictionaries, functions)",
-        "Core understanding of statistics (distributions, correlation, regression)",
-        "Curiosity to build predictive models and evaluate accuracy metrics"
+        "Python basics: data types, functions, and working in notebooks",
+        "High-school algebra and introductory statistics are helpful",
+        "Comfort with CSV files and willingness to explain analytical choices"
       ],
       deliverables: [
-        { week: "Weeks 1–2", title: "Data Wrangling & Statistical Exploration", desc: "Ingest structured datasets, treat outliers, impute missing values, and calculate statistical correlations." },
-        { week: "Weeks 3–4", title: "Feature Engineering & Model Training", desc: "Build supervised classification and regression pipelines using Scikit-Learn and cross-validation." },
-        { week: "Weeks 5–6", title: "Predictive Analytics & Model Evaluation", desc: "Evaluate precision, recall, and ROC curves, and document insights in a production Jupyter notebook." }
+        { week: "Week 1", title: "Problem Framing & Data Quality", desc: "Define a prediction question and target, inspect a provided dataset, and document missing values, leakage risks, and assumptions." },
+        { week: "Week 2", title: "Exploration & Baselines", desc: "Use Pandas and visual summaries to understand distributions; build a simple baseline before more complex models." },
+        { week: "Week 3", title: "Features & Reproducible Pipelines", desc: "Prepare numeric and categorical features with Scikit-learn pipelines and keep transformations inside the training workflow." },
+        { week: "Week 4", title: "Model Training & Validation", desc: "Train suitable classification or regression models, select metrics tied to the problem, and validate with held-out data or cross-validation." },
+        { week: "Week 5", title: "Error Analysis & Interpretation", desc: "Inspect false positives and missed cases, compare model behavior across relevant groups, and explain limits without overstating results." },
+        { week: "Week 6", title: "Capstone & Reproducible Report", desc: "Deliver a clean notebook or Python package, saved evaluation results, and a short report covering performance and next steps." }
       ],
       outcomes: [
-        "Verified Devatrix Certificate of Completion",
-        "Distinguished 'Top Performer' Gold Badge for High Achievers",
-        "End-to-end Machine Learning model repository on GitHub",
-        "Direct interview fast-track for junior Data Science roles"
+        "A reproducible supervised-learning project with a defensible baseline",
+        "Practice selecting metrics, validating models, and analyzing errors",
+        "A Git repository with data provenance, assumptions, and limitations documented",
+        "Completion recognition based on the published program requirements"
       ]
     },
     {
       id: "data-analytics",
       title: "Data Analytics & Business Intelligence",
       category: "Data Analytics",
-      badge: "SQL & KPI Dashboards",
+      badge: "SQL, Power BI & KPI Reporting",
       icon: PieChart,
-      desc: "Extract actionable business insights, write advanced SQL aggregation queries, and design interactive executive dashboards in Power BI and Excel.",
-      skills: ["SQL Queries & Joins", "Power BI / Tableau", "Excel / Google Sheets", "KPI Dashboards", "Data Storytelling"],
+      desc: "Turn a business question into a trusted analysis: query and model data, define clear KPIs, build a usable Power BI report, and explain findings.",
+      skills: ["SQL", "Excel", "Power Query", "Power BI", "Data Modeling", "DAX Fundamentals", "Data Storytelling"],
       duration: "6 Weeks (Intensive Virtual Sprint)",
       commitment: "6 to 8 Hours / Week (Flexible)",
       prerequisites: [
-        "Basic understanding of spreadsheets (Excel / Google Sheets formulas)",
-        "Interest in business metrics, user retention, and conversion funnels",
-        "Foundational curiosity in querying relational databases with SQL"
+        "Basic spreadsheet skills such as formulas, sorting, and filtering",
+        "No prior SQL required; clear reasoning and attention to detail are expected",
+        "Access to Power BI Desktop is recommended for the dashboard capstone"
       ],
       deliverables: [
-        { week: "Weeks 1–2", title: "Relational Queries & SQL Data Modeling", desc: "Write complex SQL joins, aggregations, window functions, and CTEs to extract business metrics." },
-        { week: "Weeks 3–4", title: "Exploratory Data Analysis & Funnel Metrics", desc: "Analyze customer churn, conversion funnels, and revenue metrics across historical records." },
-        { week: "Weeks 5–6", title: "Executive Business Dashboard & Report", desc: "Build an interactive Power BI dashboard and draft an actionable executive presentation." }
+        { week: "Week 1", title: "Business Questions & Spreadsheet Analysis", desc: "Translate a brief into measurable questions; inspect and clean a small dataset in Excel." },
+        { week: "Week 2", title: "SQL for Analysis", desc: "Use SELECT, filters, joins, aggregations, CASE, and introductory CTEs to answer questions from relational data." },
+        { week: "Week 3", title: "Data Quality & KPI Definitions", desc: "Check duplicates, missing values, and metric edge cases; write clear KPI definitions and assumptions." },
+        { week: "Week 4", title: "Power Query & BI Data Models", desc: "Transform data in Power Query and build a simple star-schema model with appropriate relationships." },
+        { week: "Week 5", title: "Power BI Measures & Reporting", desc: "Create core DAX measures, select readable visuals, and add filters that support common stakeholder questions." },
+        { week: "Week 6", title: "Dashboard Review & Insight Brief", desc: "Present a checked dashboard, explain two evidence-backed findings, and list caveats and recommended follow-up analysis." }
       ],
       outcomes: [
-        "Verified Devatrix Certificate of Completion",
-        "Distinguished 'Top Performer' Gold Badge for High Achievers",
-        "Interactive business intelligence portfolio dashboard",
-        "Fast-track interview pipeline for Data Analyst positions"
+        "A Power BI report with documented measures, data model, and assumptions",
+        "Practice with SQL joins, data checks, KPI definitions, and business communication",
+        "A short insight brief that distinguishes evidence from recommendation",
+        "Completion recognition based on the published program requirements"
+      ]
+    },
+    {
+      id: "ai-fde",
+      title: "AI Engineer & Forward Deployed Engineer (FDE)",
+      category: "AI Engineering & FDE",
+      badge: "Applied AI Delivery",
+      icon: Cpu,
+      desc: "Build a bounded AI solution around a real workflow: discover requirements, integrate APIs and data, evaluate behavior, and deploy a documented pilot.",
+      skills: ["Python", "REST APIs", "LLM Integration", "Customer Discovery", "Docker", "Evaluation & Observability", "Technical Handover"],
+      duration: "6 Weeks (Intensive Virtual Sprint)",
+      commitment: "6 to 8 Hours / Week (Flexible)",
+      prerequisites: [
+        "Working knowledge of Python or TypeScript and Git",
+        "Basic web APIs, JSON, and command-line familiarity",
+        "Interest in translating user workflows into practical software; prior LLM experience is helpful, not required"
+      ],
+      deliverables: [
+        { week: "Week 1", title: "Workflow Discovery & Success Measures", desc: "Interview a project stakeholder or use a supplied brief; map the current workflow, constraints, users, and measurable success criteria." },
+        { week: "Week 2", title: "Solution Design & Data Integration", desc: "Propose a small architecture, identify data and access boundaries, and connect a sample API or approved dataset." },
+        { week: "Week 3", title: "Applied AI Prototype", desc: "Build a scoped AI feature with validated inputs and outputs, clear fallback behavior, and human review where needed." },
+        { week: "Week 4", title: "Evaluation & System Integration", desc: "Create representative test cases, assess quality and failure modes, and integrate the feature into a usable service or workflow." },
+        { week: "Week 5", title: "Deployment & Operational Checks", desc: "Package and deploy a pilot using Docker or an approved platform; add basic logs, configuration checks, and a rollback note." },
+        { week: "Week 6", title: "Customer Demo & Handover", desc: "Present the working pilot against agreed measures and hand over setup instructions, limitations, support notes, and next steps." }
+      ],
+      outcomes: [
+        "A deployed pilot tied to a defined workflow and success criteria",
+        "Experience combining AI application work with integration and delivery",
+        "A test set, demo, and handover guide that make the work reviewable",
+        "Completion recognition based on the published program requirements"
       ]
     },
     {
@@ -217,12 +268,49 @@ export default function InternshipsPage() {
         "Production mobile portfolio asset showcasing clean Dart architecture",
         "Priority interview pipeline for Flutter developer roles"
       ]
+    },
+    {
+      id: "devops-engineering",
+      title: "DevOps Engineer & Cloud Infrastructure",
+      category: "DevOps & Cloud",
+      badge: "Linux, Docker, CI/CD & Terraform",
+      icon: Layers,
+      desc: "Build a practical delivery pipeline: strengthen Linux and Git foundations, containerize an application, automate CI/CD, provision cloud infrastructure with Terraform, and deploy a monitored capstone.",
+      skills: ["Linux & Bash", "Git & GitHub", "Docker & Compose", "GitHub Actions CI/CD", "Terraform (IaC)", "AWS or Azure fundamentals", "Kubernetes fundamentals", "Monitoring & runbooks"],
+      duration: "6 Weeks (Intensive Virtual Sprint)",
+      commitment: "6 to 8 Hours / Week (Flexible)",
+      prerequisites: [
+        "Basic programming or scripting familiarity and comfort using a terminal",
+        "Basic Git knowledge; Linux administration and Kubernetes experience are not required",
+        "A cloud account may be needed for the final lab; cloud usage can incur provider charges, so students must follow the cohort budget and cleanup guidance"
+      ],
+      deliverables: [
+        { week: "Week 1", title: "Linux, Git & Networking Foundations", desc: "Use shell commands, permissions, processes, logs, Git branches and pull requests; trace a simple service across DNS, HTTP, and ports; write a repeatable setup script and troubleshooting notes." },
+        { week: "Week 2", title: "Containerize an Application", desc: "Build and run a Docker image, configure environment variables safely, add a health check, and run an application with its dependency using Docker Compose." },
+        { week: "Week 3", title: "Build a CI Pipeline", desc: "Create a GitHub Actions workflow that runs checks and tests on pull requests, builds a versioned container image, and keeps deployment credentials out of source control." },
+        { week: "Week 4", title: "Infrastructure as Code with Terraform", desc: "Describe a small cloud environment in Terraform, inspect a plan before applying it, use variables and outputs, and document safe state and resource cleanup practices." },
+        { week: "Week 5", title: "Deploy & Operate a Workload", desc: "Deploy the container to the cohort's selected cloud or sandbox environment; practice Kubernetes workload, service, rollout, and health-probe fundamentals in a local or provided cluster." },
+        { week: "Week 6", title: "Capstone, Observability & Handover", desc: "Demonstrate the end-to-end pipeline, inspect logs and basic service health, document a rollback and incident checklist, review security and cost controls, and clean up lab resources." }
+      ],
+      outcomes: [
+        "A version-controlled infrastructure and CI/CD project with a documented deployment path",
+        "Hands-on practice with Linux, containers, Terraform, cloud fundamentals, and Kubernetes concepts",
+        "A capstone runbook covering health checks, rollback, security, and cleanup",
+        "Completion recognition based on the published program requirements"
+      ]
     }
   ];
 
+  const cmsTrackMap = new Map((cmsContent?.tracks ?? []).map((item) => [item.id, item]));
+  const visibleTracks = cmsContent?.available
+    ? tracks.flatMap((track) => {
+        const item = cmsTrackMap.get(track.id);
+        return item ? [{ ...track, title: item.title, desc: item.summary || track.desc, badge: item.badge || track.badge }] : [];
+      })
+    : tracks;
   const filteredTracks = selectedCategory === "All"
-    ? tracks
-    : tracks.filter(t => t.category === selectedCategory);
+    ? visibleTracks
+    : visibleTracks.filter(t => t.category === selectedCategory);
 
   // All 4 Highlights are highlighted with badges, amber borders, and balanced short descriptions
   const highlights = [
@@ -300,7 +388,7 @@ export default function InternshipsPage() {
     },
     {
       q: "How will my submission be verified?",
-      a: "Once you submit the online application form, your details are instantly registered in our database and forwarded to our evaluation team. You will immediately receive a unique Candidate ID (CID) to track your review status."
+      a: "Once you submit the online application form, your application is received for review by our team."
     }
   ];
 
@@ -309,6 +397,7 @@ export default function InternshipsPage() {
       <Navbar />
 
       <main className="flex-1 pt-14 sm:pt-20">
+        {cmsContent?.announcement && <aside className="flex items-center justify-center gap-2 bg-amber-400 px-4 py-3 text-center text-sm font-semibold text-[#071a36]"><Sparkles className="h-4 w-4 shrink-0" aria-hidden="true"/><span>{cmsContent.announcement.title}{cmsContent.announcement.summary ? ` — ${cmsContent.announcement.summary}` : ""}</span></aside>}
         
         {/* Hero Section (#061833) */}
         <section className="relative py-20 sm:py-24 bg-[#061833] text-white overflow-hidden border-b border-white/10">
@@ -357,7 +446,7 @@ export default function InternshipsPage() {
                 href="#tracks"
                 className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-white/10 hover:bg-white/15 text-white border border-white/20 font-semibold text-xs tracking-wider transition-all font-sans"
               >
-                <span>Explore 7 Specialized Tracks</span>
+                <span>Explore {visibleTracks.length} Specialized Tracks</span>
               </a>
             </div>
           </div>
@@ -375,7 +464,7 @@ export default function InternshipsPage() {
               </h2>
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-6">
               {highlights.map((item) => (
                 <div
                   key={item.title}
@@ -386,13 +475,13 @@ export default function InternshipsPage() {
                       <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-brand-500 text-obsidian-950 shadow-sm flex items-center justify-center">
                         <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5" />
                       </div>
-                      <span className="text-[7.5px] sm:text-[9px] font-mono font-bold uppercase tracking-wider px-1.5 sm:px-2 py-0.5 rounded-full bg-brand-500 text-obsidian-950">
+                      <span className="text-xs sm:text-[9px] font-mono font-bold uppercase tracking-wider px-1.5 sm:px-2 py-0.5 rounded-full bg-brand-500 text-obsidian-950">
                         {item.badgeText}
                       </span>
                     </div>
 
                     <h3 className="text-xs sm:text-lg font-bold text-slate-900 font-sans leading-snug">{item.title}</h3>
-                    <p className="text-[10px] sm:text-xs text-slate-600 leading-relaxed font-normal">{item.desc}</p>
+                    <p className="text-xs sm:text-xs text-slate-600 leading-relaxed font-normal">{item.desc}</p>
                   </div>
                 </div>
               ))}
@@ -415,23 +504,23 @@ export default function InternshipsPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-6">
               {steps.map((st) => (
                 <div
                   key={st.step}
-                  className="p-3.5 sm:p-6 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-500/40 hover:bg-white hover:shadow-md transition-all relative flex flex-col justify-between"
+                  className="group relative flex min-w-0 flex-col rounded-2xl border border-slate-200 bg-slate-50 p-6 transition-colors hover:border-brand-400/60 hover:bg-white sm:p-7"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-2 sm:mb-4">
-                      <span className="text-base sm:text-2xl font-black font-mono text-brand-500">
+                      <span className="text-xl font-bold font-mono tracking-tight text-brand-600 sm:text-2xl">
                         {st.step}
                       </span>
-                      <span className="w-5 h-5 sm:w-7 sm:h-7 rounded-full bg-brand-50 border border-brand-200 flex items-center justify-center text-brand-600 text-[10px] sm:text-xs font-mono font-bold">
+                      <span className="w-5 h-5 sm:w-7 sm:h-7 rounded-full bg-brand-50 border border-brand-200 flex items-center justify-center text-brand-600 text-xs sm:text-xs font-mono font-bold">
                         ✓
                       </span>
                     </div>
-                    <h3 className="text-xs sm:text-lg font-bold text-slate-900 mb-1 sm:mb-2 font-sans">{st.title}</h3>
-                    <p className="text-[10px] sm:text-xs text-slate-600 leading-relaxed font-normal">{st.desc}</p>
+                    <h3 className="mb-2 text-lg font-bold leading-snug text-slate-900 font-sans">{st.title}</h3>
+                    <p className="text-sm leading-6 text-slate-600 font-normal">{st.desc}</p>
                   </div>
                 </div>
               ))}
@@ -471,7 +560,7 @@ export default function InternshipsPage() {
           </div>
 
           {/* Track Cards Grid - Exactly 3 columns on all screens (3 on top, 3 on bottom) */}
-          <div className="grid grid-cols-3 gap-2 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-6">
             {filteredTracks.map((t) => {
               const Icon = t.icon;
               return (
@@ -481,7 +570,7 @@ export default function InternshipsPage() {
                 >
                   <div>
                     <div className="flex items-center justify-between mb-2 sm:mb-4">
-                      <span className="text-[7.5px] sm:text-xs font-mono font-bold text-brand-700 bg-brand-50 px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-md border border-brand-200 truncate max-w-[80%]">
+                      <span className="text-xs sm:text-xs font-mono font-bold text-brand-700 bg-brand-50 px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-md border border-brand-200 truncate max-w-[80%]">
                         {t.badge}
                       </span>
                       <Icon className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-brand-600 shrink-0" />
@@ -490,11 +579,11 @@ export default function InternshipsPage() {
                     <h3 className="text-[11px] sm:text-xl font-bold text-slate-900 mb-1 sm:mb-2 font-sans leading-tight line-clamp-2">
                       {t.title}
                     </h3>
-                    <p className="text-[9px] sm:text-sm text-slate-600 leading-relaxed mb-2 sm:mb-6 font-normal line-clamp-2 sm:line-clamp-none">
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-2 sm:mb-6 font-normal line-clamp-2 sm:line-clamp-none">
                       {t.desc}
                     </p>
 
-                    <div className="space-y-1 sm:space-y-2 mb-2 sm:mb-6 pt-1.5 sm:pt-4 border-t border-slate-200 text-[8px] sm:text-xs text-slate-600">
+                    <div className="space-y-1 sm:space-y-2 mb-2 sm:mb-6 pt-1.5 sm:pt-4 border-t border-slate-200 text-xs sm:text-xs text-slate-600">
                       <div className="flex items-center justify-between font-mono">
                         <span className="text-slate-500">Duration:</span>
                         <span className="font-semibold text-slate-800">6 Weeks</span>
@@ -525,14 +614,14 @@ export default function InternshipsPage() {
                   <div className="pt-2 sm:pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-stretch sm:items-center gap-1 sm:gap-3">
                     <button
                       onClick={() => setModalTrack(t)}
-                      className="flex-1 py-1 sm:py-2.5 px-1 sm:px-3 rounded-lg sm:rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-200 text-[8px] sm:text-xs font-bold transition-colors flex items-center justify-center gap-1 shadow-sm"
+                      className="flex-1 py-1 sm:py-2.5 px-1 sm:px-3 rounded-lg sm:rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-200 text-xs sm:text-xs font-bold transition-colors flex items-center justify-center gap-1 shadow-sm"
                     >
                       <Info className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-brand-600 shrink-0" />
                       <span className="truncate">Syllabus</span>
                     </button>
                     <Link
                       href={`/internships/apply?track=${encodeURIComponent(t.title)}`}
-                      className="flex-1 py-1 sm:py-2.5 px-1 sm:px-3 rounded-lg sm:rounded-xl bg-brand-500 hover:bg-brand-600 text-obsidian-950 text-[8px] sm:text-xs font-bold transition-colors flex items-center justify-center gap-1 shadow-md shadow-brand-500/20"
+                      className="flex-1 py-1 sm:py-2.5 px-1 sm:px-3 rounded-lg sm:rounded-xl bg-brand-500 hover:bg-brand-600 text-obsidian-950 text-xs sm:text-xs font-bold transition-colors flex items-center justify-center gap-1 shadow-md shadow-brand-500/20"
                     >
                       <span className="truncate">Apply</span>
                       <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" />

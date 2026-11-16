@@ -126,7 +126,7 @@ export default function ProjectEstimator() {
                     }`}
                   >
                     <div className="text-xs font-bold text-white mb-1">{item.label}</div>
-                    <span className="text-[10px] text-brand-400">{item.tag}</span>
+                    <span className="text-xs text-brand-400">{item.tag}</span>
                   </button>
                 ))}
               </div>
@@ -155,7 +155,7 @@ export default function ProjectEstimator() {
                   >
                     <div className="text-xs font-bold text-white font-mono">{item.title}</div>
                     <div className="text-[11px] text-brand-400 font-mono mt-0.5">{item.size}</div>
-                    <div className="text-[10px] text-slate-500 mt-1">{item.desc}</div>
+                    <div className="text-xs text-slate-500 mt-1">{item.desc}</div>
                   </button>
                 ))}
               </div>
@@ -177,7 +177,7 @@ export default function ProjectEstimator() {
                   }`}
                 >
                   <div className="text-xs font-bold text-white">Standard Cadence</div>
-                  <div className="text-[10px] text-slate-400 mt-0.5">Two-week sprint reviews & staging QA</div>
+                  <div className="text-xs text-slate-400 mt-0.5">Two-week sprint reviews & staging QA</div>
                 </button>
                 <button
                   type="button"
@@ -192,7 +192,7 @@ export default function ProjectEstimator() {
                     <span>Accelerated Fast-Track</span>
                     <Sparkles className="w-3 h-3 text-brand-400" />
                   </div>
-                  <div className="text-[10px] text-slate-400 mt-0.5">Continuous delivery + dual shift pods</div>
+                  <div className="text-xs text-slate-400 mt-0.5">Continuous delivery + dual shift pods</div>
                 </button>
               </div>
             </div>
@@ -206,7 +206,7 @@ export default function ProjectEstimator() {
               <span className="text-xs font-mono font-bold text-brand-400 uppercase tracking-wider">
                 Instant System Estimate
               </span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+              <span className="text-xs font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
                 Deliverable-Gated
               </span>
             </div>
@@ -260,7 +260,7 @@ export default function ProjectEstimator() {
 
                 <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
                   <div>
-                    <label className="text-[10px] sm:text-[11px] font-mono text-slate-300 block mb-1">
+                    <label className="text-xs sm:text-[11px] font-mono text-slate-300 block mb-1">
                       Corporate Email
                     </label>
                     <input
@@ -274,7 +274,7 @@ export default function ProjectEstimator() {
                   </div>
 
                   <div>
-                    <label className="text-[10px] sm:text-[11px] font-mono text-slate-300 block mb-1">
+                    <label className="text-xs sm:text-[11px] font-mono text-slate-300 block mb-1">
                       Company Legal Name
                     </label>
                     <input
@@ -302,7 +302,7 @@ export default function ProjectEstimator() {
                         <Lock className="w-3 h-3 text-brand-400" />
                         Execute Instant Bilateral NDA
                       </span>
-                      <span className="text-slate-400 block text-[10px] mt-0.5">
+                      <span className="text-slate-400 block text-xs mt-0.5">
                         Guarantees mutual confidentiality & client IP protection before roadmap review.
                       </span>
                     </div>

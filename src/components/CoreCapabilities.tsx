@@ -70,7 +70,7 @@ export default function CoreCapabilities() {
         </div>
 
         {/* 6-Card Services Grid - 2 columns on mobile, 3 on desktop */}
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-8">
           {capabilities.map((item) => {
             const Icon = item.icon;
             return (

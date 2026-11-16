@@ -40,14 +40,14 @@ export default function Navbar() {
               <span className="text-base sm:text-2xl font-black tracking-tight text-white font-sans leading-none">
                 Devatrix
               </span>
-              <span className="text-[7.5px] sm:text-[10px] tracking-widest uppercase text-slate-300 font-semibold mt-0.5 sm:mt-1 font-sans">
+              <span className="text-xs sm:text-[10px] tracking-widest uppercase text-slate-300 font-semibold mt-0.5 sm:mt-1 font-sans">
                 Technologies
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-7">
+          <nav className="hidden lg:flex items-center gap-4 xl:gap-7">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
               return (
@@ -64,7 +64,7 @@ export default function Navbar() {
                 >
                   <span>{link.name}</span>
                   {link.highlight && (
-                    <span className="text-[9px] font-mono uppercase px-1.5 py-0.5 rounded-full bg-brand-500/20 text-brand-300 border border-brand-500/30">
+                    <span className="text-xs font-mono uppercase px-1.5 py-0.5 rounded-full bg-brand-500/20 text-brand-300 border border-brand-500/30">
                       Apply
                     </span>
                   )}
@@ -74,10 +74,10 @@ export default function Navbar() {
           </nav>
 
           {/* Clean Enterprise Action CTA */}
-          <div className="hidden md:flex items-center">
+          <div className="hidden lg:flex items-center">
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-brand-500 hover:bg-brand-600 text-obsidian-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-brand-500/20 hover:shadow-brand-500/30 hover:brightness-105 font-sans"
+              className="inline-flex items-center gap-2 px-4 xl:px-6 py-2.5 rounded-full bg-brand-500 hover:bg-brand-600 text-obsidian-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-brand-500/20 hover:shadow-brand-500/30 hover:brightness-105 font-sans"
             >
               <span>Contact Us</span>
               <ArrowRight className="w-4 h-4" />
@@ -85,11 +85,13 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="flex md:hidden items-center">
+          <div className="flex lg:hidden items-center">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-1.5 sm:p-2 rounded-lg bg-white/5 text-slate-200 hover:text-white focus:outline-none"
-              aria-label="Toggle Navigation Menu"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-lg bg-white/5 text-slate-200 hover:text-white"
+              aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-navigation"
             >
               {mobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
             </button>
@@ -100,7 +102,7 @@ export default function Navbar() {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#061833] border-b border-white/10 px-6 pt-3 pb-6 space-y-3">
+        <div id="mobile-navigation" className="lg:hidden max-h-[calc(100dvh-3.5rem)] overflow-y-auto bg-[#061833] border-b border-white/10 px-6 pt-3 pb-6 space-y-3">
           {navLinks.map((link) => (
             <Link
               key={link.name}

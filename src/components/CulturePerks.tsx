@@ -83,7 +83,7 @@ export default function CulturePerks() {
                     <div className="w-12 h-12 rounded-xl bg-brand-50 border border-brand-200 flex items-center justify-center p-3 text-brand-600 group-hover:scale-105 group-hover:bg-brand-100 transition-all">
                       <Icon className="w-full h-full" />
                     </div>
-                    <span className="text-[10px] font-mono font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 border border-slate-200 text-slate-700">
+                    <span className="text-xs font-mono font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 border border-slate-200 text-slate-700">
                       {perk.badge}
                     </span>
                   </div>

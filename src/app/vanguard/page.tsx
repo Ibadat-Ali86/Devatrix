@@ -97,11 +97,11 @@ export default function VanguardPage() {
                 key={s.month}
                 className="p-2.5 sm:p-8 rounded-xl sm:rounded-2xl bg-white border border-slate-200 hover:border-brand-500/40 hover:shadow-xl transition-all space-y-2 sm:space-y-4 shadow-xs sm:shadow-sm"
               >
-                <span className="text-[9px] sm:text-xs font-mono font-bold px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded bg-brand-50 text-brand-900 border border-brand-200">
+                <span className="text-xs sm:text-xs font-mono font-bold px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded bg-brand-50 text-brand-900 border border-brand-200">
                   {s.month}
                 </span>
                 <h3 className="text-xs sm:text-lg font-bold text-slate-900 font-mono line-clamp-2">{s.title}</h3>
-                <p className="text-[10px] sm:text-sm text-slate-600 leading-relaxed font-normal line-clamp-3 sm:line-clamp-none">{s.topics}</p>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal line-clamp-3 sm:line-clamp-none">{s.topics}</p>
               </div>
             ))}
           </div>

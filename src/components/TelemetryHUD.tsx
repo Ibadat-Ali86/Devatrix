@@ -70,7 +70,7 @@ export default function TelemetryHUD() {
         </div>
 
         {/* Live Audit Tag */}
-        <div className="hidden lg:flex items-center gap-2 text-[10px] text-slate-400">
+        <div className="hidden lg:flex items-center gap-2 text-xs text-slate-400">
           <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10">
             SOC2 TYPE II VERIFIED
           </span>

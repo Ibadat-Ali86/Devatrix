@@ -36,10 +36,10 @@ export default function TrustTicker() {
               key={client.name}
               className="p-2 sm:p-4 rounded-lg sm:rounded-xl bg-slate-50 border border-slate-200/80 hover:border-brand-500/50 hover:bg-white hover:shadow-md transition-all flex flex-col justify-center text-center group"
             >
-              <span className="text-[10px] sm:text-sm font-bold text-slate-900 group-hover:text-brand-700 font-mono tracking-tight transition-colors truncate">
+              <span className="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-brand-700 font-mono tracking-tight transition-colors truncate">
                 {client.name}
               </span>
-              <span className="text-[8px] sm:text-[10px] text-slate-500 font-mono mt-0.5 truncate">
+              <span className="text-xs sm:text-[10px] text-slate-500 font-mono mt-0.5 truncate">
                 {client.sector}
               </span>
             </div>

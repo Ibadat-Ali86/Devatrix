@@ -6,9 +6,16 @@ import CoreCapabilities from "@/components/CoreCapabilities";
 import WhyDevatrix from "@/components/WhyDevatrix";
 import FeaturedWork from "@/components/FeaturedWork";
 import InternshipBanner from "@/components/InternshipBanner";
+import CertificateSample from "@/components/CertificateSample";
 import ExecutiveCTA from "@/components/ExecutiveCTA";
+import { getPublishedSiteContent } from "@/lib/content/server";
 
-export default function HomePage() {
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const content = await getPublishedSiteContent();
+  const homeHero = content?.find((item) => item.slug === "home-hero");
+  const cmsCaseStudies = content?.filter((item) => item.content_type === "case_study").slice(0, 3).map((item) => ({ id: item.slug, title: item.title, summary: item.summary, badge: item.badge }));
   return (
     <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
       
@@ -19,7 +26,7 @@ export default function HomePage() {
       <main className="flex-1">
         
         {/* 1. Cinematic Enterprise Hero (Inspired by Systems Limited & Arbisoft) */}
-        <EnterpriseHero />
+        <EnterpriseHero copy={homeHero ? { title: homeHero.title, highlight: homeHero.badge, summary: homeHero.summary } : undefined} />
 
         {/* 2. Comprehensive Core Services & Solutions Grid */}
         <CoreCapabilities />
@@ -28,12 +35,15 @@ export default function HomePage() {
         <WhyDevatrix />
 
         {/* 4. Featured Case Studies & Production Impact */}
-        <FeaturedWork />
+        <FeaturedWork cmsCaseStudies={cmsCaseStudies} />
 
         {/* 5. Internships & Talent Accelerator Spotlight */}
         <InternshipBanner />
 
-        {/* 6. Executive Consultation CTA */}
+        {/* 6. Generic public certificate sample; personalized previews stay private */}
+        <CertificateSample />
+
+        {/* 7. Executive Consultation CTA */}
         <ExecutiveCTA />
 
       </main>

@@ -2,9 +2,10 @@ import React from "react";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, TrendingUp, ShieldCheck, Code2 } from "lucide-react";
 
-export default function FeaturedWork() {
-  const caseStudies = [
+export default function FeaturedWork({ cmsCaseStudies }: { cmsCaseStudies?: Array<{ id: string; title: string; summary: string; badge: string }> }) {
+  const defaultCaseStudies = [
     {
+      id: "case-study-saas",
       title: "Multi-Tenant SaaS Platform & Subscription Engine",
       sector: "Modern Web & Cloud SaaS",
       metric: "< 150ms",
@@ -13,6 +14,7 @@ export default function FeaturedWork() {
       tags: ["Next.js 14", "React 19", "TypeScript", "PostgreSQL", "Prisma", "Stripe"],
     },
     {
+      id: "case-study-ai",
       title: "AI Knowledge Base & Intelligent Document Assistant",
       sector: "Applied AI & Semantic Search",
       metric: "Sub-Second",
@@ -21,6 +23,7 @@ export default function FeaturedWork() {
       tags: ["Python", "FastAPI", "Qdrant Vector DB", "LlamaIndex", "OpenAI API", "Docker"],
     },
     {
+      id: "case-study-telemetry",
       title: "Real-Time Operational Telemetry & Dispatch Console",
       sector: "Real-Time Systems & WebSockets",
       metric: "Real-Time",
@@ -29,6 +32,10 @@ export default function FeaturedWork() {
       tags: ["React", "Node.js", "WebSockets", "Redis Pub/Sub", "Leaflet", "Tailwind CSS"],
     },
   ];
+  const caseStudies = cmsCaseStudies !== undefined ? cmsCaseStudies.map((item, index) => {
+    const original = defaultCaseStudies.find((study) => study.id === item.id) ?? defaultCaseStudies[index % defaultCaseStudies.length];
+    return { ...original, title: item.title, desc: item.summary, sector: item.badge };
+  }) : defaultCaseStudies;
 
   return (
     <section className="py-12 sm:py-24 bg-slate-50 text-slate-900 border-b border-slate-200">
@@ -37,7 +44,7 @@ export default function FeaturedWork() {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-16">
           <div>
-            <span className="text-[10px] sm:text-xs font-mono font-bold uppercase tracking-widest text-brand-600 mb-1.5 sm:mb-2 block">
+            <span className="text-xs sm:text-xs font-mono font-bold uppercase tracking-widest text-brand-600 mb-1.5 sm:mb-2 block">
               ENGINEERING SHOWCASE
             </span>
             <h2 className="text-xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight font-sans">
@@ -55,27 +62,27 @@ export default function FeaturedWork() {
         </div>
 
         {/* 3 Case Study Cards - Preserving 3-column layout on all viewports */}
-        <div className="grid grid-cols-3 gap-2 sm:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-8">
           {caseStudies.map((study) => (
             <div
               key={study.title}
-              className="p-2.5 sm:p-8 rounded-xl sm:rounded-2xl bg-white border border-slate-200 hover:border-brand-500/40 hover:shadow-xl transition-all duration-300 flex flex-col justify-between shadow-xs sm:shadow-sm group"
+              className="flex min-w-0 flex-col justify-between rounded-2xl border border-slate-200 bg-white p-5 transition-colors hover:border-brand-500/40 sm:p-6 xl:p-8 group"
             >
               <div>
-                <div className="flex items-center justify-between mb-2 sm:mb-4">
-                  <span className="text-[9px] sm:text-xs font-mono font-bold text-brand-700 bg-brand-50 px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded border border-brand-200 truncate">
+                <div className="mb-4 flex flex-wrap items-center gap-x-3 gap-y-2">
+                  <span className="max-w-full rounded border border-brand-200 bg-brand-50 px-2.5 py-1 text-xs font-mono font-bold leading-5 text-brand-700">
                     {study.sector}
                   </span>
-                  <span className="hidden sm:inline text-xs font-mono text-slate-400 font-medium">
+                  <span className="text-xs font-mono font-medium whitespace-nowrap text-slate-500">
                     Verified Work
                   </span>
                 </div>
 
-                <h3 className="text-xs sm:text-xl font-bold text-slate-900 group-hover:text-brand-600 transition-colors mb-1.5 sm:mb-3 font-sans line-clamp-2">
+                <h3 className="text-lg sm:text-xl font-bold text-slate-900 group-hover:text-brand-600 transition-colors mb-3 font-sans leading-snug">
                   {study.title}
                 </h3>
 
-                <p className="text-[10px] sm:text-sm text-slate-600 leading-relaxed font-normal mb-3 sm:mb-6 line-clamp-2 sm:line-clamp-none">
+                <p className="text-sm text-slate-600 leading-relaxed font-normal mb-6">
                   {study.desc}
                 </p>
               </div>
@@ -86,12 +93,12 @@ export default function FeaturedWork() {
                   <div className="text-sm sm:text-3xl font-extrabold text-slate-900 font-sans">
                     {study.metric}
                   </div>
-                  <div className="text-[9px] sm:text-xs text-slate-500 font-sans mt-0.5 truncate">
+                  <div className="text-xs text-slate-600 font-sans mt-0.5">
                     {study.metricLabel}
                   </div>
                 </div>
 
-                <div className="hidden sm:flex flex-wrap gap-1.5 pt-2">
+                <div className="flex flex-wrap gap-1.5 pt-2">
                   {study.tags.map((t) => (
                     <span
                       key={t}
