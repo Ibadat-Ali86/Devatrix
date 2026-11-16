@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CoreCapabilities from "@/components/CoreCapabilities";
 import ExecutiveCTA from "@/components/ExecutiveCTA";
+import { getPublishedSiteContent } from "@/lib/content/server";
 import { 
   Code2, 
   Cloud, 
@@ -19,8 +20,12 @@ import {
   Server
 } from "lucide-react";
 
-export default function ServicesPage() {
-  const serviceDetails = [
+export const dynamic = "force-dynamic";
+
+export default async function ServicesPage() {
+  const content = await getPublishedSiteContent();
+  const intro = content?.find((item) => item.slug === "services-hero");
+  const defaultServiceDetails = [
     {
       title: "Custom Software Engineering",
       tagline: "High-Performance Systems & Microservices",
@@ -70,6 +75,11 @@ export default function ServicesPage() {
       icon: Smartphone,
     },
   ];
+  const services = content?.filter((item) => item.content_type === "service") ?? [];
+  const serviceDetails = content === null ? defaultServiceDetails : defaultServiceDetails.flatMap((service, index) => {
+    const editable = services.find((item) => item.slug === ["service-custom-software", "service-cloud-devops", "service-ai-ml", "service-web-mobile"][index]);
+    return editable ? [{ ...service, title: editable.title, tagline: editable.badge, desc: editable.summary }] : [];
+  });
 
   return (
     <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
@@ -88,11 +98,10 @@ export default function ServicesPage() {
               <span>END-TO-END TECHNOLOGY CAPABILITIES</span>
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight">
-              Enterprise Software Services. <br />
-              <span className="text-brand-500">Engineered for Scale.</span>
+              {intro?.title ?? <>Enterprise Software Services. <br />Engineered for</>} <span className="text-brand-500">{intro?.badge ?? "Scale."}</span>
             </h1>
             <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal">
-              From mission-critical distributed architectures to modern cloud platforms and practical enterprise AI integration.
+              {intro?.summary ?? "From mission-critical distributed architectures to modern cloud platforms and practical enterprise AI integration."}
             </p>
           </div>
         </section>

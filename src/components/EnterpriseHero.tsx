@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { ArrowRight, Sparkles, ChevronRight, CheckCircle2, Code2, Cpu, Globe2, ShieldCheck } from "lucide-react";
 
-export default function EnterpriseHero() {
+export default function EnterpriseHero({ copy }: { copy?: { title: string; highlight: string; summary: string } }) {
   const techStack = [
     { name: "SaaS & MVP Platforms", tag: "Rapid Product Launch" },
     { name: "Custom AI Chatbots", tag: "Intelligent RAG Agents" },
@@ -83,13 +83,12 @@ export default function EnterpriseHero() {
 
           {/* Primary Headline (Exact Brand Theme) */}
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.18] font-sans">
-            Software Solutions <br />
-            That Create <span className="text-brand-500">Real Value</span>
+            {copy?.title ?? <>Software Solutions <br />That Create</>} <span className="text-brand-500">{copy?.highlight ?? "Real Value"}</span>
           </h1>
 
           {/* Subheadline */}
           <p className="text-base sm:text-base text-slate-300 leading-snug sm:leading-relaxed font-normal font-sans">
-            A modern engineering studio delivering custom web, mobile, cloud architectures, and practical AI solutions with an uncompromising focus on quality, reliability, and client success.
+            {copy?.summary ?? "A modern engineering studio delivering custom web, mobile, cloud architectures, and practical AI solutions with an uncompromising focus on quality, reliability, and client success."}
           </p>
 
           {/* Dual CTAs */}

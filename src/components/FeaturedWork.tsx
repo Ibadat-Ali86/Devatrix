@@ -2,9 +2,10 @@ import React from "react";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, TrendingUp, ShieldCheck, Code2 } from "lucide-react";
 
-export default function FeaturedWork() {
-  const caseStudies = [
+export default function FeaturedWork({ cmsCaseStudies }: { cmsCaseStudies?: Array<{ id: string; title: string; summary: string; badge: string }> }) {
+  const defaultCaseStudies = [
     {
+      id: "case-study-saas",
       title: "Multi-Tenant SaaS Platform & Subscription Engine",
       sector: "Modern Web & Cloud SaaS",
       metric: "< 150ms",
@@ -13,6 +14,7 @@ export default function FeaturedWork() {
       tags: ["Next.js 14", "React 19", "TypeScript", "PostgreSQL", "Prisma", "Stripe"],
     },
     {
+      id: "case-study-ai",
       title: "AI Knowledge Base & Intelligent Document Assistant",
       sector: "Applied AI & Semantic Search",
       metric: "Sub-Second",
@@ -21,6 +23,7 @@ export default function FeaturedWork() {
       tags: ["Python", "FastAPI", "Qdrant Vector DB", "LlamaIndex", "OpenAI API", "Docker"],
     },
     {
+      id: "case-study-telemetry",
       title: "Real-Time Operational Telemetry & Dispatch Console",
       sector: "Real-Time Systems & WebSockets",
       metric: "Real-Time",
@@ -29,6 +32,10 @@ export default function FeaturedWork() {
       tags: ["React", "Node.js", "WebSockets", "Redis Pub/Sub", "Leaflet", "Tailwind CSS"],
     },
   ];
+  const caseStudies = cmsCaseStudies !== undefined ? cmsCaseStudies.map((item, index) => {
+    const original = defaultCaseStudies.find((study) => study.id === item.id) ?? defaultCaseStudies[index % defaultCaseStudies.length];
+    return { ...original, title: item.title, desc: item.summary, sector: item.badge };
+  }) : defaultCaseStudies;
 
   return (
     <section className="py-12 sm:py-24 bg-slate-50 text-slate-900 border-b border-slate-200">

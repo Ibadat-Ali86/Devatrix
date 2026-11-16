@@ -110,6 +110,31 @@ export async function POST(req: NextRequest) {
     if (!url || !secret) throw new Error("Application storage is not configured");
     const supabase = createClient(url, secret, { auth: { persistSession: false, autoRefreshToken: false } });
     const id = values.submissionId || randomUUID();
+    let isRetry = false;
+    if (values.submissionId) {
+      const existing = await supabase.from("internship_applications").select("id").eq("id", id).maybeSingle();
+      if (existing.error) {
+        console.error("Internship retry lookup failed", { code: existing.error.code });
+        return NextResponse.json({ success: false, error: "Applications are temporarily unavailable. Please try again later." }, { status: 503 });
+      }
+      isRetry = Boolean(existing.data);
+    }
+    if (!isRetry) {
+      const { data: publishedTrack, error: trackLookupError } = await supabase
+        .from("site_content")
+        .select("slug")
+        .eq("content_type", "internship_track")
+        .eq("is_published", true)
+        .eq("title", values.track)
+        .maybeSingle();
+      if (trackLookupError) {
+        console.error("Published internship track lookup failed", { code: trackLookupError.code });
+        return NextResponse.json({ success: false, error: "Applications are temporarily unavailable. Please try again later." }, { status: 503 });
+      }
+      if (!publishedTrack) {
+        return NextResponse.json({ success: false, error: "Please choose a currently available internship track." }, { status: 400 });
+      }
+    }
     const timestamp = new Date().toISOString();
     const email = values.email.toLowerCase();
     const userId = await ensureApplicantAccount(supabase, email);

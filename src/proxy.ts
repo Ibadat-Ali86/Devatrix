@@ -30,4 +30,4 @@ export async function proxy(request: NextRequest) {
   return protectResponse();
 }
 
-export const config = { matcher: ["/portal/:path*", "/api/portal/:path*"] };
+export const config = { matcher: ["/portal/:path*", "/api/portal/:path*", "/admin/:path*", "/api/admin/:path*"] };

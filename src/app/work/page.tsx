@@ -3,6 +3,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ExecutiveCTA from "@/components/ExecutiveCTA";
+import { getPublishedSiteContent } from "@/lib/content/server";
 import { 
   Activity, 
   ArrowRight, 
@@ -13,8 +14,12 @@ import {
   Server
 } from "lucide-react";
 
-export default function WorkPage() {
-  const caseStudies = [
+export const dynamic = "force-dynamic";
+
+export default async function WorkPage() {
+  const content = await getPublishedSiteContent();
+  const intro = content?.find((item) => item.slug === "work-hero");
+  const defaultCaseStudies = [
     {
       title: "Multi-Tenant SaaS Platform & Subscription Engine",
       sector: "Modern Web & Cloud SaaS",
@@ -56,6 +61,11 @@ export default function WorkPage() {
       tags: ["Next.js", "TypeScript", "PostgreSQL", "Redis Caching", "Stripe API", "Tailwind CSS"],
     },
   ];
+  const cmsStudies = content?.filter((item) => item.content_type === "case_study") ?? [];
+  const caseStudies = content === null ? defaultCaseStudies : defaultCaseStudies.flatMap((study, index) => {
+    const editable = cmsStudies.find((item) => item.slug === ["case-study-saas", "case-study-ai", "case-study-telemetry", "case-study-commerce"][index]);
+    return editable ? [{ ...study, title: editable.title, summary: editable.summary, sector: editable.badge }] : [];
+  });
 
   return (
     <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
@@ -74,11 +84,10 @@ export default function WorkPage() {
               <span>REAL-WORLD SOFTWARE ARCHITECTURES</span>
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight">
-              Selected Case Studies. <br />
-              <span className="text-brand-500">Built with Modern Craftsmanship.</span>
+              {intro?.title ?? <>Selected Case Studies. <br />Built with</>} <span className="text-brand-500">{intro?.badge ?? "Modern Craftsmanship."}</span>
             </h1>
             <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal">
-              Explore how we design and deploy clean, scalable software solutions across SaaS, Applied AI, Real-Time WebSockets, and E-Commerce.
+              {intro?.summary ?? "Explore how we design and deploy clean, scalable software solutions across SaaS, Applied AI, Real-Time WebSockets, and E-Commerce."}
             </p>
           </div>
         </section>
