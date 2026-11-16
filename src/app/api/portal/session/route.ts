@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Please check your details and try again." }, { status: 400 });
     }
 
-    const supabase = createPortalClient();
+    const supabase = await createPortalClient();
     if (!supabase) return NextResponse.json({ error: "Sign-in is temporarily unavailable. Please try again later." }, { status: 503 });
     const { data, error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
     if (error || !data.user || !data.user.email_confirmed_at) {
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   if (!hasSameOrigin(request)) return NextResponse.json({ error: "Request not allowed." }, { status: 403 });
-  const supabase = createPortalClient();
+  const supabase = await createPortalClient();
   if (!supabase) return NextResponse.json({ error: "Sign-out is temporarily unavailable." }, { status: 503 });
   const { error } = await supabase.auth.signOut({ scope: "local" });
   if (error) return NextResponse.json({ error: "Unable to sign out. Please try again." }, { status: 503 });

@@ -3,12 +3,12 @@ import "server-only";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
-export function createPortalClient() {
+export async function createPortalClient() {
   const url = process.env.SUPABASE_URL;
   const publishableKey = process.env.SUPABASE_PUBLISHABLE_KEY;
   if (!url || !publishableKey) return null;
 
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   return createServerClient(url, publishableKey, {
     cookieOptions: {
       httpOnly: true,

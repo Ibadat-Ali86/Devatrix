@@ -1,6 +1,7 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-import { NextRequest, NextResponse } from "next/server";
+import { after, NextRequest, NextResponse } from "next/server";
 import { randomBytes, randomInt, randomUUID } from "crypto";
+import { sendApplicationReceipt } from "@/lib/email/send-application-receipt";
 
 function generateTrackingCode(): string {
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -9,6 +10,16 @@ function generateTrackingCode(): string {
     code = Array.from({ length: 6 }, () => alphabet[randomInt(alphabet.length)]).join("");
   } while (!/[A-Z]/.test(code) || !/[0-9]/.test(code));
   return code;
+}
+
+function hasAllowedOrigin(request: NextRequest): boolean {
+  const origin = request.headers.get("origin");
+  if (!origin) return true;
+  try {
+    return new URL(origin).origin === request.nextUrl.origin;
+  } catch {
+    return false;
+  }
 }
 
 async function ensureApplicantAccount(supabase: SupabaseClient, email: string): Promise<string | null> {
@@ -43,6 +54,9 @@ async function ensureApplicantAccount(supabase: SupabaseClient, email: string): 
 
 export async function POST(req: NextRequest) {
   try {
+    if (!hasAllowedOrigin(req)) {
+      return NextResponse.json({ success: false, error: "Please submit the application from the Devatrix website." }, { status: 403 });
+    }
     const contentType = req.headers.get("content-type") || "";
     if (!contentType.includes("multipart/form-data") && !contentType.includes("application/json")) {
       return NextResponse.json({ success: false, error: "Please submit the application form." }, { status: 415 });
@@ -136,21 +150,55 @@ export async function POST(req: NextRequest) {
       }
       return NextResponse.json({ success: false, error: "Unable to submit your application. Please try again." }, { status: 503 });
     }
+    let receiptEmailSent = false;
+    if (saved === "created") {
+      try {
+        receiptEmailSent = await sendApplicationReceipt({
+          idempotencyKey: id,
+          name: values.fullName,
+          email,
+          track: values.track,
+        });
+      } catch {
+        console.error("Application receipt email delivery failed");
+      }
+    }
+
     const webhook = process.env.GOOGLE_SHEET_WEBHOOK_URL;
     if (webhook && saved === "created") {
-      fetch(webhook, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id, candidateId: id, fullName: values.fullName, email: values.email.toLowerCase(),
-          whatsapp: values.whatsapp, university: values.university, track: values.track,
-          duration: values.duration || "6 Weeks (Intensive Virtual Sprint)", githubUrl: values.githubUrl,
-          linkedinUrl: values.linkedinUrl, portfolioUrl: values.portfolioUrl, resumePath: values.resumeUrl,
-          statement: values.statement, status: "Under Review", createdAt: timestamp,
-        }),
-      }).catch(() => console.error("Internship application Google Sheets sync failed"));
+      try {
+        if (new URL(webhook).protocol === "https:") {
+          after(async () => {
+            try {
+              const webhookResponse = await fetch(webhook, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  id, candidateId: id, fullName: values.fullName, email: values.email.toLowerCase(),
+                  whatsapp: values.whatsapp, university: values.university, track: values.track,
+                  duration: values.duration || "6 Weeks (Intensive Virtual Sprint)", githubUrl: values.githubUrl,
+                  linkedinUrl: values.linkedinUrl, portfolioUrl: values.portfolioUrl, resumePath: values.resumeUrl,
+                  statement: values.statement, status: "Under Review", createdAt: timestamp,
+                }),
+                signal: AbortSignal.timeout(5_000),
+              });
+              if (!webhookResponse.ok) console.error("Internship application Google Sheets sync failed", { status: webhookResponse.status });
+            } catch {
+              console.error("Internship application Google Sheets sync failed");
+            }
+          });
+        }
+      } catch {
+        console.error("Internship application Google Sheets sync URL is invalid");
+      }
     }
-    return NextResponse.json({ success: true, message: "Your application has been received and is under review." }, { status: 201 });
+    const response = NextResponse.json({
+      success: true,
+      message: "Your application has been received and is under review.",
+      receiptEmailSent,
+    }, { status: 201 });
+    response.headers.set("Cache-Control", "no-store");
+    return response;
   } catch {
     console.error("Internship application submission failed");
     return NextResponse.json({ success: false, error: "Unable to submit your application. Please try again." }, { status: 500 });

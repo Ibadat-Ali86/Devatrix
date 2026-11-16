@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef, Suspense } from "react";
+import React, { useState, useRef, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
@@ -30,18 +30,24 @@ function ApplyFormContent() {
   const searchParams = useSearchParams();
   const initialTrackParam = searchParams.get("track") || "";
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState(() => {
+    const initialTrack = trackList.find(
+      (track) => track.toLowerCase() === initialTrackParam.toLowerCase() ||
+        track.toLowerCase().includes(initialTrackParam.toLowerCase()),
+    ) || trackList[0];
+    return {
     fullName: "",
     email: "",
     whatsapp: "",
     university: "",
-    track: trackList[0],
+    track: initialTrack,
     duration: "6 Weeks (Intensive Virtual Sprint)",
     githubUrl: "",
     linkedinUrl: "",
     portfolioUrl: "",
     resumeUrl: "",
     statement: "",
+    };
   });
 
   const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
@@ -50,20 +56,9 @@ function ApplyFormContent() {
   const [submittedCandidate, setSubmittedCandidate] = useState<{
     fullName: string;
     track: string;
+    email: string;
+    receiptEmailSent: boolean;
   } | null>(null);
-
-  useEffect(() => {
-    if (initialTrackParam) {
-      // Find matching track case-insensitively or exact
-      const matched = trackList.find(
-        (t) => t.toLowerCase() === initialTrackParam.toLowerCase() ||
-               t.toLowerCase().includes(initialTrackParam.toLowerCase())
-      );
-      if (matched) {
-        setFormData((prev) => ({ ...prev, track: matched }));
-      }
-    }
-  }, [initialTrackParam]);
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -100,6 +95,8 @@ function ApplyFormContent() {
         setSubmittedCandidate({
           fullName: formData.fullName,
           track: formData.track,
+          email: formData.email,
+          receiptEmailSent: Boolean(data.receiptEmailSent),
         });
       } else {
         setFormStatus("error");
@@ -154,6 +151,12 @@ function ApplyFormContent() {
               </h3>
               <p className="text-sm text-slate-600 max-w-lg mx-auto leading-relaxed">
                 Your application for <span className="font-bold text-slate-900">{submittedCandidate.track}</span> has been successfully received and added to our review queue.
+              </p>
+              <p className="text-sm text-slate-600 max-w-lg mx-auto leading-relaxed">
+                {submittedCandidate.receiptEmailSent
+                  ? `A receipt was sent to ${submittedCandidate.email}.`
+                  : "No test receipt was sent; instant email is restricted to the allowlisted local test address."}
+                {" "}This receipt does not include portal credentials or your private tracking reference.
               </p>
             </div>
 

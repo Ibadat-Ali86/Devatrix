@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 export const metadata = { title: "Intern portal | Devatrix", robots: { index: false, follow: false } };
 
 export default async function InternPortal() {
-  const supabase = createPortalClient();
+  const supabase = await createPortalClient();
   if (!supabase) return <main className="min-h-screen bg-slate-50 p-8 text-slate-900"><p>Portal access is temporarily unavailable. Please try again later.</p></main>;
   const { data: { user }, error } = await supabase.auth.getUser();
   if (error || !user || !user.email_confirmed_at) redirect("/portal/sign-in");
