@@ -52,6 +52,7 @@ export default function AdminConsole({ email }: { email: string }) {
   const [search, setSearch] = useState("");
   const [listLoading, setListLoading] = useState(true);
   const [exporting, setExporting] = useState(false);
+  const [portalEmailSending, setPortalEmailSending] = useState(false);
   const [selected, setSelected] = useState<Application | null>(null);
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
@@ -203,6 +204,30 @@ export default function AdminConsole({ email }: { email: string }) {
     setNotice(data.alreadySent ? "This response was already sent." : `Response sent to ${String(selected.email)}.`);
   }
 
+  async function sendPortalAccess() {
+    if (!selected || selectedKind !== "internship" || selected.status !== "accepted" || portalEmailSending) return;
+    setNotice("");
+    setError("");
+    const requestKey = `internship:${selected.id}:portal_setup`;
+    const requestId = emailRequestKeys.current[requestKey] ?? crypto.randomUUID();
+    emailRequestKeys.current[requestKey] = requestId;
+    setPortalEmailSending(true);
+    try {
+      const response = await fetch("/api/admin/applications/portal-access", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: selected.id, requestId }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) { setError(data.error || "Unable to send portal access."); return; }
+      delete emailRequestKeys.current[requestKey];
+      setNotice(data.alreadySent ? "Portal access email was already sent." : `Portal setup link and tracking ID sent to ${String(selected.email)}.`);
+    } catch {
+      setError("The portal email could not be sent. Please check your connection and try again.");
+    } finally {
+      setPortalEmailSending(false);
+    }
+  }
+
   async function saveContent(item: ContentItem) {
     const draft = { ...item, ...(contentDrafts[item.slug] ?? {}) };
     const response = await fetch("/api/admin/content", {
@@ -347,6 +372,7 @@ export default function AdminConsole({ email }: { email: string }) {
             <div className="rounded-xl border border-slate-200 p-4"><div className="flex items-center gap-2"><FileText className="h-4 w-4 text-slate-500" aria-hidden="true"/><h3 className="text-sm font-bold">Résumé / CV</h3></div>{selectedResume ? <a href={selectedResume} target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex min-h-10 items-center gap-2 rounded-lg border border-slate-300 px-3 text-sm font-semibold text-blue-800 hover:bg-slate-50">Open submitted résumé link<ArrowRight className="h-4 w-4"/></a> : <p className="mt-2 text-sm text-slate-500">No résumé link was provided. File uploads are not enabled yet.</p>}</div>
             <div className="space-y-3 rounded-xl border border-slate-200 p-4"><h3 className="text-sm font-bold">Review decision</h3><label className="block text-xs font-semibold text-slate-600">Application status<select id="detail-status" value={selected.status} onChange={(event) => void saveApplication({ status: event.target.value })} className="mt-1.5 min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm font-normal text-slate-900 outline-none focus:border-amber-500 focus:ring-4 focus:ring-amber-100">{(selectedKind === "career" ? careerStatuses : internshipStatuses).map((item) => <option key={item} value={item}>{statusLabel(item)}</option>)}</select></label><label className="block text-xs font-semibold text-slate-600">Private admin notes<textarea id="detail-notes" defaultValue={typeof selected.admin_review_notes === "string" ? selected.admin_review_notes : ""} rows={4} maxLength={5000} className="mt-1.5 w-full resize-y rounded-lg border border-slate-300 px-3 py-2 text-sm font-normal leading-6 text-slate-900 outline-none focus:border-amber-500 focus:ring-4 focus:ring-amber-100" placeholder="Notes are visible only to authorized administrators."/></label><button onClick={() => { const element = document.getElementById("detail-notes") as HTMLTextAreaElement | null; void saveApplication({ notes: element?.value ?? "" }); }} className="inline-flex min-h-10 items-center gap-2 rounded-lg border border-slate-300 px-3 text-sm font-semibold hover:bg-slate-50"><Check className="h-4 w-4" aria-hidden="true"/>Save private notes</button></div>
             <div className="rounded-xl border border-slate-200 p-4"><div className="flex items-center gap-2"><Mail className="h-4 w-4 text-slate-600" aria-hidden="true"/><h3 className="text-sm font-bold">Send applicant an email</h3></div><p className="mt-1 text-xs leading-5 text-slate-500">Sends immediately using the selected professional template. Confirm the email address above before sending.</p><div className="mt-3 grid gap-2 sm:grid-cols-[1fr_auto]"><label className="sr-only" htmlFor="response-template">Email template</label><select id="response-template" className="min-h-11 rounded-lg border border-slate-300 bg-white px-3 text-sm"><option value="received">Application received / under review</option><option value="shortlisted">Shortlisted</option>{selectedKind === "career" && <option value="hired">Selected for role</option>}<option value="not_selected">Not moving forward</option></select><button onClick={() => { const element = document.getElementById("response-template") as HTMLSelectElement | null; void sendResponse(element?.value ?? "received"); }} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-amber-500 px-4 text-sm font-bold text-slate-950 hover:bg-amber-400"><Mail className="h-4 w-4" aria-hidden="true"/>Send response</button></div><p className="mt-2 text-xs text-slate-500">Email delivery stays disabled until <code>ADMIN_EMAIL_SENDING_ENABLED=true</code> and a verified sender are configured.</p></div>
+            {selectedKind === "internship" && <div className="rounded-xl border border-slate-200 bg-slate-50 p-4"><div className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-emerald-700" aria-hidden="true"/><h3 className="text-sm font-bold">Learner portal access</h3></div><p className="mt-1 text-xs leading-5 text-slate-600">For accepted applicants, send the private tracking ID above and a single-use link to verify their email and create a password. Passwords are never shown to administrators.</p><button type="button" onClick={() => void sendPortalAccess()} disabled={selected.status !== "accepted" || portalEmailSending} className="mt-3 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#061833] px-4 text-sm font-semibold text-white hover:bg-[#10284a] disabled:cursor-not-allowed disabled:bg-slate-300"><Mail className="h-4 w-4" aria-hidden="true"/>{portalEmailSending ? "Sending setup email…" : "Send portal setup email"}</button>{selected.status !== "accepted" && <p className="mt-2 text-xs text-slate-500">Accept the application to activate portal access first.</p>}</div>}
           </div>
         </section>
       </div>}

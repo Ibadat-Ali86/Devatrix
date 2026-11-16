@@ -40,8 +40,8 @@ async function ensureApplicantAccount(supabase: SupabaseClient, email: string): 
   if (auth.data.user) return matchesReservation(auth.data.user) ? userId : null;
   if (auth.error?.status !== 404) return null;
 
-  // This bootstrap password is never returned, logged, or stored by the app.
-  // A future one-time setup link will let the verified applicant choose a password.
+  // This random bootstrap password is never returned, logged, or stored as readable text.
+  // After acceptance, a single-use setup link lets the verified applicant choose a password.
   const created = await supabase.auth.admin.createUser({
     id: userId, email, password: randomBytes(32).toString("base64url"), email_confirm: false,
     app_metadata: { devatrix_applicant_id: userId },

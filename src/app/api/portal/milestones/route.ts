@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { checkPublicGitHubRepository } from "@/lib/portal/github-repository";
 import { getActiveLearner, hasPortalSameOrigin, isSmallJsonRequest, parseObject } from "@/lib/portal/server";
 
 export async function POST(request: NextRequest) {
@@ -22,6 +23,10 @@ export async function POST(request: NextRequest) {
   if (readError) return NextResponse.json({ error: "Submission is temporarily unavailable." }, { status: 503 });
   if (!milestone) return NextResponse.json({ error: "We couldn’t find that milestone." }, { status: 404 });
   if (["completed", "submitted"].includes(milestone.status)) return NextResponse.json({ error: "This milestone is already complete or awaiting review." }, { status: 409 });
+  const repositoryCheck = await checkPublicGitHubRepository(parsedUrl.toString());
+  if (repositoryCheck === "not_public") return NextResponse.json({ error: "This repository isn’t publicly available. Make the GitHub repository public and try again." }, { status: 422 });
+  if (repositoryCheck === "invalid") return NextResponse.json({ error: "Use a valid https://github.com/owner/repository link." }, { status: 400 });
+  if (repositoryCheck === "unavailable") return NextResponse.json({ error: "GitHub couldn’t verify the repository right now. Please try again in a moment." }, { status: 503 });
   const { error: updateError } = await db.from("internship_milestones").update({
     status: "submitted", submission_url: parsedUrl.toString(), learner_notes: notes.trim(), submitted_at: new Date().toISOString(), reviewer_feedback: null, updated_at: new Date().toISOString(),
   }).eq("id", id);

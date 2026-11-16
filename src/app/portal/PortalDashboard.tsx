@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { ArrowRight, Award, Check, CheckCircle2, Clock3, ExternalLink, LoaderCircle, RefreshCw, Send, ShieldCheck } from "lucide-react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { ArrowRight, Award, Check, CheckCircle2, CircleAlert, Clock3, ExternalLink, LoaderCircle, RefreshCw, Send, ShieldCheck } from "lucide-react";
 import SignOutButton from "./SignOutButton";
 
 type Enrollment = { id: string; track_slug: string; enrollment_code: string; status: string; started_at: string; expected_end_at: string; completed_at: string | null; site_content?: { title: string; summary: string; badge: string } | Array<{ title: string; summary: string; badge: string }> | null };
@@ -26,6 +26,9 @@ export default function PortalDashboard() {
   const [openMilestone, setOpenMilestone] = useState<string | null>(null);
   const [preview, setPreview] = useState<{ enrollmentId: string; style: "simple" | "premium" } | null>(null);
   const [submission, setSubmission] = useState({ url: "", notes: "" });
+  const [repositoryValidation, setRepositoryValidation] = useState<{ state: "idle" | "checking" | "public" | "error"; message: string }>({ state: "idle", message: "" });
+  const repositoryValidationRequest = useRef(0);
+  const repositoryUrlRef = useRef("");
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -81,8 +84,33 @@ export default function PortalDashboard() {
     }
   }
 
+  async function validateRepository(repositoryUrl = submission.url): Promise<boolean> {
+    const value = repositoryUrl.trim();
+    if (!value) {
+      setRepositoryValidation({ state: "error", message: "Add your GitHub repository link to continue." });
+      return false;
+    }
+    const requestId = ++repositoryValidationRequest.current;
+    setRepositoryValidation({ state: "checking", message: "Checking that this GitHub repository is public…" });
+    try {
+      const response = await fetch("/api/portal/milestones/validate", {
+        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ repositoryUrl: value }),
+      });
+      const result = await response.json();
+      if (!response.ok || result.public !== true) throw new Error(result.error || "We couldn’t confirm this repository is public. Check the link and its visibility.");
+      if (requestId !== repositoryValidationRequest.current) return false;
+      setRepositoryValidation({ state: "public", message: "Public repository verified. You can submit this work." });
+      return true;
+    } catch (reason) {
+      if (requestId !== repositoryValidationRequest.current) return false;
+      setRepositoryValidation({ state: "error", message: reason instanceof Error ? reason.message : "We couldn’t verify this repository. Please try again." });
+      return false;
+    }
+  }
+
   async function submitWork(milestoneId: string) {
-    if (!submission.url.trim()) { setError("Add a link to your work before submitting."); return; }
+    const repositoryUrl = submission.url.trim();
+    if (!await validateRepository(repositoryUrl) || repositoryUrlRef.current.trim() !== repositoryUrl) return;
     const done = await post("/api/portal/milestones", { milestoneId, submissionUrl: submission.url, notes: submission.notes }, "Your work was sent for review.");
     if (done) { setOpenMilestone(null); setSubmission({ url: "", notes: "" }); }
   }
@@ -147,9 +175,9 @@ export default function PortalDashboard() {
                       {steps.map((step) => <li key={step.id} className="py-4 first:pt-0 last:pb-0">
                         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                           <div className="flex min-w-0 gap-3"><span className={`mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full text-xs font-bold ${step.status === "completed" ? "bg-emerald-100 text-emerald-800" : step.status === "submitted" ? "bg-blue-100 text-blue-800" : "bg-slate-100 text-slate-600"}`}>{step.status === "completed" ? <Check className="h-4 w-4"/> : String(step.week_number).padStart(2, "0")}</span><div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><h4 className="font-semibold text-[#061833]">Week {step.week_number}: {step.title}</h4><span className="text-xs capitalize text-slate-500">{titleFor(step.status)}</span></div><p className="mt-1 text-sm leading-6 text-slate-600">{step.instructions}</p>{step.reviewer_feedback && <p className="mt-2 rounded-lg bg-amber-50 px-3 py-2 text-sm leading-5 text-amber-950"><strong>Reviewer feedback:</strong> {step.reviewer_feedback}</p>}{step.submission_url && <a href={step.submission_url} target="_blank" rel="noreferrer" className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-blue-800 underline underline-offset-2">View submitted work<ExternalLink className="h-3.5 w-3.5"/></a>}</div></div>
-                          <div className="flex shrink-0 items-center justify-between gap-3 sm:flex-col sm:items-end"><span className="inline-flex items-center gap-1.5 text-xs text-slate-500"><Clock3 className="h-3.5 w-3.5"/>Due {date(step.due_at)}</span>{["upcoming", "in_progress", "revision_requested"].includes(step.status) && enrollment.status === "active" && <button onClick={() => { setOpenMilestone(openMilestone === step.id ? null : step.id); setSubmission({ url: step.submission_url ?? "", notes: step.learner_notes ?? "" }); }} className="min-h-9 rounded-lg border border-slate-300 px-3 text-xs font-semibold text-[#061833] hover:bg-slate-50">{step.status === "revision_requested" ? "Resubmit work" : "Submit work"}</button>}</div>
+                          <div className="flex shrink-0 items-center justify-between gap-3 sm:flex-col sm:items-end"><span className="inline-flex items-center gap-1.5 text-xs text-slate-500"><Clock3 className="h-3.5 w-3.5"/>Due {date(step.due_at)}</span>{["upcoming", "in_progress", "revision_requested"].includes(step.status) && enrollment.status === "active" && <button onClick={() => { const nextUrl = step.submission_url ?? ""; repositoryUrlRef.current = nextUrl; repositoryValidationRequest.current += 1; setRepositoryValidation({ state: "idle", message: "" }); setOpenMilestone(openMilestone === step.id ? null : step.id); setSubmission({ url: nextUrl, notes: step.learner_notes ?? "" }); }} className="min-h-9 rounded-lg border border-slate-300 px-3 text-xs font-semibold text-[#061833] hover:bg-slate-50">{step.status === "revision_requested" ? "Resubmit work" : "Submit work"}</button>}</div>
                         </div>
-                        {openMilestone === step.id && <div className="mt-4 grid gap-3 rounded-lg bg-slate-50 p-4 sm:grid-cols-2"><label className="text-sm font-semibold text-slate-700 sm:col-span-2">Project or demo link<input value={submission.url} onChange={(event) => setSubmission((old) => ({ ...old, url: event.target.value }))} maxLength={2048} type="url" placeholder="https://…" className="mt-1.5 min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm font-normal outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-200"/></label><label className="text-sm font-semibold text-slate-700 sm:col-span-2">Note for reviewer<textarea value={submission.notes} onChange={(event) => setSubmission((old) => ({ ...old, notes: event.target.value }))} maxLength={1500} rows={3} placeholder="What did you complete? Anything you want reviewed?" className="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-normal outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-200"/></label><div className="flex flex-wrap gap-2 sm:col-span-2"><button onClick={() => void submitWork(step.id)} disabled={Boolean(busy)} className="inline-flex min-h-10 items-center gap-2 rounded-lg bg-[#061833] px-4 text-sm font-semibold text-white hover:bg-[#10284a] disabled:opacity-60"><Send className="h-4 w-4"/>{busy ? "Sending…" : "Send for review"}</button><button onClick={() => setOpenMilestone(null)} className="min-h-10 rounded-lg px-3 text-sm font-semibold text-slate-600 hover:bg-slate-200">Cancel</button></div></div>}
+                        {openMilestone === step.id && <div className="mt-4 grid gap-3 rounded-lg bg-slate-50 p-4 sm:grid-cols-2"><label className="text-sm font-semibold text-slate-700 sm:col-span-2">Public GitHub repository<input value={submission.url} onChange={(event) => { repositoryUrlRef.current = event.target.value; repositoryValidationRequest.current += 1; setSubmission((old) => ({ ...old, url: event.target.value })); setRepositoryValidation({ state: "idle", message: "" }); }} onBlur={() => { if (submission.url.trim()) void validateRepository(); }} maxLength={2048} type="url" aria-describedby="repository-validation-message" aria-invalid={repositoryValidation.state === "error"} placeholder="https://github.com/owner/repository" className="mt-1.5 min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm font-normal outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-200"/><span id="repository-validation-message" className={`mt-2 flex min-h-5 items-start gap-1.5 text-xs font-medium leading-5 ${repositoryValidation.state === "error" ? "text-rose-700" : repositoryValidation.state === "public" ? "text-emerald-800" : "text-slate-500"}`}>{repositoryValidation.state === "checking" ? <LoaderCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 animate-spin" aria-hidden="true"/> : repositoryValidation.state === "error" ? <CircleAlert className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true"/> : repositoryValidation.state === "public" ? <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true"/> : null}{repositoryValidation.message || "Only public GitHub repositories can be reviewed. Make a private repository public before submitting."}</span></label><label className="text-sm font-semibold text-slate-700 sm:col-span-2">Note for reviewer<textarea value={submission.notes} onChange={(event) => setSubmission((old) => ({ ...old, notes: event.target.value }))} maxLength={1500} rows={3} placeholder="What did you complete? Anything you want reviewed?" className="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-normal outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-200"/></label><div className="flex flex-wrap gap-2 sm:col-span-2"><button onClick={() => void submitWork(step.id)} disabled={Boolean(busy) || repositoryValidation.state === "checking"} className="inline-flex min-h-10 items-center gap-2 rounded-lg bg-[#061833] px-4 text-sm font-semibold text-white hover:bg-[#10284a] disabled:opacity-60"><Send className="h-4 w-4"/>{busy ? "Sending…" : "Send for review"}</button><button onClick={() => setOpenMilestone(null)} className="min-h-10 rounded-lg px-3 text-sm font-semibold text-slate-600 hover:bg-slate-200">Cancel</button></div></div>}
                       </li>)}
                     </ol>
                   </div>

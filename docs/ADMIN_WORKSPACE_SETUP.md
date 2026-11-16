@@ -1,5 +1,7 @@
 # Devatrix admin workspace setup
 
+For the full portal onboarding, public GitHub submission rules, security design, migration state, verification limits, and remaining work, see [Portal onboarding and project submissions](./PORTAL_ONBOARDING_AND_SUBMISSIONS.md).
+
 The admin workspace is available at `/admin`. It uses the existing Supabase Auth password sign-in, then checks the confirmed account email against a server-side allowlist on every protected page and API request. There is no public admin sign-up. The service key stays server-side; applicant and CMS tables keep RLS enabled with no direct client policies.
 
 ## Required configuration
@@ -33,7 +35,11 @@ RESEND_FROM_EMAIL=Devatrix Technologies <applications@your-verified-domain.examp
 ADMIN_EMAIL_SENDING_ENABLED=true
 ```
 
-Only then does **Send response** send the selected template immediately. The API records the recipient, administrator, template, provider message ID, and delivery status; it does not store message bodies. Idempotency keys prevent duplicate delivery on request retries, and delivery is rate-limited. Test this with an address you control before enabling real applicant mail. The 24-hour scheduler and password setup emails remain separate future work.
+Only then do **Send response** and **Send portal setup email** send messages. The API records the recipient, administrator, template, provider message ID, and delivery status; it does not store message bodies or setup tokens. Idempotency keys prevent duplicate delivery on request retries, and delivery is rate-limited. The portal action is limited to accepted internship applications with active access. It sends the application tracking ID and either a single-use link to verify the applicant's email and choose a password, or the portal sign-in link for an already confirmed account. No password is stored as readable text or displayed to admins. The applicant must explicitly continue from the setup page before the one-time link is consumed, which helps prevent email scanners from using it. Test this with an address you control before enabling real applicant mail. The 24-hour scheduler remains future work.
+
+Migration `20261116150503_admin_portal_setup_email.sql` adds the `portal_setup` audit template. It is applied to the development Supabase database; do not apply it to production until its migration state has been reviewed.
+
+Milestone project links must point to public GitHub repositories. The learner portal checks the public GitHub repository API when the field loses focus and again on final submission. GitHub's unauthenticated REST API is rate-limited; temporary API/network failures prevent submission and ask the learner to retry. Private and nonexistent repositories both appear as not publicly verifiable to unauthenticated requests, so the message asks the learner to check the link and ensure it is public.
 
 ## Public content CMS
 
