@@ -17,6 +17,8 @@ import {
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -26,9 +28,28 @@ export default function ContactPage() {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    if (submitting) return;
+    setSubmitting(true);
+    setSubmitError("");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, source: "contact" }),
+      });
+      const data = await res.json().catch(() => null);
+      if (res.ok && data?.success) {
+        setSubmitted(true);
+      } else {
+        setSubmitError(data?.error || "Unable to submit your inquiry. Please try again.");
+      }
+    } catch {
+      setSubmitError("Network error while sending inquiry. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const deliveryHub = {
@@ -164,11 +185,18 @@ export default function ContactPage() {
                       ></textarea>
                     </div>
 
+                    {submitError && (
+                      <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-xs font-medium">
+                        {submitError}
+                      </div>
+                    )}
+
                     <button
                       type="submit"
-                      className="w-full py-4 rounded-full bg-brand-500 hover:bg-brand-600 text-obsidian-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-brand-500/25 hover:brightness-105 flex items-center justify-center gap-2"
+                      disabled={submitting}
+                      className="w-full py-4 rounded-full bg-brand-500 hover:bg-brand-600 text-obsidian-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-brand-500/25 hover:brightness-105 flex items-center justify-center gap-2 disabled:opacity-60"
                     >
-                      <span>Submit Inquiry</span>
+                      <span>{submitting ? "Sending Inquiry..." : "Submit Inquiry"}</span>
                       <ArrowRight className="w-4 h-4" />
                     </button>
                   </form>

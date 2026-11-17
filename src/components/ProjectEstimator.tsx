@@ -20,6 +20,8 @@ export default function ProjectEstimator() {
   const [timeline, setTimeline] = useState<string>("accelerated");
   const [requireNda, setRequireNda] = useState<boolean>(true);
   const [submitted, setSubmitted] = useState<boolean>(false);
+  const [submitting, setSubmitting] = useState<boolean>(false);
+  const [submitError, setSubmitError] = useState<string>("");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -73,9 +75,37 @@ export default function ProjectEstimator() {
 
   const estimate = calculateEstimate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    if (submitting) return;
+    setSubmitting(true);
+    setSubmitError("");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          source: "estimator",
+          name: formData.name,
+          email: formData.email,
+          company: formData.company,
+          service: projectType,
+          budget: `$${estimate.minBudget.toLocaleString()} - $${estimate.maxBudget.toLocaleString()}`,
+          message: formData.notes || `Estimated ${estimate.weeks} weeks, ${estimate.engineers} engineers, NDA: ${requireNda ? "Yes" : "No"}`,
+          metadata: { projectType, teamScale, timeline, requireNda, estimate },
+        }),
+      });
+      const data = await res.json().catch(() => null);
+      if (res.ok && data?.success) {
+        setSubmitted(true);
+      } else {
+        setSubmitError(data?.error || "Unable to submit estimate request.");
+      }
+    } catch {
+      setSubmitError("Network error while submitting request.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -309,12 +339,17 @@ export default function ProjectEstimator() {
                   </label>
                 </div>
 
+                {submitError && (
+                  <p className="text-xs text-red-400 bg-red-950/50 border border-red-500/30 rounded-lg px-3 py-2">{submitError}</p>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full mt-2 py-2.5 rounded-lg bg-gradient-to-r from-brand-400 to-amber-600 text-obsidian-950 font-mono text-xs font-bold uppercase tracking-wider hover:brightness-110 shadow-lg shadow-brand-500/20 transition-all flex items-center justify-center gap-2"
+                  disabled={submitting}
+                  className="w-full mt-2 py-2.5 rounded-lg bg-gradient-to-r from-brand-400 to-amber-600 text-obsidian-950 font-mono text-xs font-bold uppercase tracking-wider hover:brightness-110 shadow-lg shadow-brand-500/20 transition-all flex items-center justify-center gap-2 disabled:opacity-60"
                 >
                   <FileText className="w-3.5 h-3.5" />
-                  <span>Generate NDA & Lock Consultation</span>
+                  <span>{submitting ? "Submitting Request..." : "Generate NDA & Lock Consultation"}</span>
                 </button>
               </form>
             )}

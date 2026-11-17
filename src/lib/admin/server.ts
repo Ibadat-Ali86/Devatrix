@@ -14,7 +14,7 @@ function allowedAdminEmails(): Set<string> {
 }
 
 export function isAdminEmail(email: string | undefined): boolean {
-  return Boolean(email && allowedAdminEmails().has(email.toLowerCase()));
+  return Boolean(email && allowedAdminEmails().has(email.trim().toLowerCase()));
 }
 
 export async function getAdminUser(): Promise<User | null> {
@@ -34,7 +34,7 @@ export async function requireAdminApi(): Promise<{ user: User } | { response: Ne
 }
 
 export function createAdminDatabaseClient() {
-  const url = process.env.SUPABASE_URL;
+  const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
   const secret = process.env.SUPABASE_SECRET_KEY;
   if (!url || !secret) return null;
   return createClient(url, secret, {

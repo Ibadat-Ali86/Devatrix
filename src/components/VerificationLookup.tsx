@@ -28,57 +28,39 @@ interface CredentialResult {
 export default function VerificationLookup() {
   const [certId, setCertId] = useState("");
   const [searched, setSearched] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<CredentialResult | null>(null);
 
-  // Mock verified registry database
-  const registry: Record<string, CredentialResult> = {
-    "DVX-ENG-2026-9041": {
-      id: "DVX-ENG-2026-9041",
-      recipient: "Hamza Tariq",
-      role: "Senior Distributed Systems Engineer",
-      track: "Tier-1 Autonomous Mesh & Kubernetes",
-      institution: "FAST-NUCES Islamabad (Class of 2024)",
-      issuedOn: "January 15, 2026",
-      status: "ACTIVE_VERIFIED",
-      hash: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    },
-    "DVX-VAN-2026-0128": {
-      id: "DVX-VAN-2026-0128",
-      recipient: "Fatima Noor",
-      role: "Devatrix Vanguard Fellow",
-      track: "Sovereign AI & Agent Swarm Architecture",
-      institution: "NUST SEECS (Class of 2025)",
-      issuedOn: "February 28, 2026",
-      status: "ACTIVE_VERIFIED",
-      hash: "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
-    },
-    "DVX-ARC-2025-4192": {
-      id: "DVX-ARC-2025-4192",
-      recipient: "Zubair Ahmed Khan",
-      role: "Principal Solutions Architect",
-      track: "Enterprise FinTech & High-Concurrency Systems",
-      institution: "LUMS SSE (Class of 2021)",
-      issuedOn: "November 10, 2025",
-      status: "ACTIVE_VERIFIED",
-      hash: "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
-    },
+  const runLookup = async (rawId: string) => {
+    const cleanId = rawId.trim().toUpperCase();
+    if (!cleanId) return;
+    setLoading(true);
+    setSearched(false);
+    setResult(null);
+    try {
+      const res = await fetch(`/api/verify?id=${encodeURIComponent(cleanId)}`, { cache: "no-store" });
+      const data = await res.json().catch(() => null);
+      if (res.ok && data?.found && data.credential) {
+        setResult(data.credential as CredentialResult);
+      } else {
+        setResult(null);
+      }
+    } catch {
+      setResult(null);
+    } finally {
+      setLoading(false);
+      setSearched(true);
+    }
   };
 
   const handleLookup = (e: React.FormEvent) => {
     e.preventDefault();
-    const cleanId = certId.trim().toUpperCase();
-    setSearched(true);
-    if (registry[cleanId]) {
-      setResult(registry[cleanId]);
-    } else {
-      setResult(null);
-    }
+    void runLookup(certId);
   };
 
   const fillSample = (sampleId: string) => {
     setCertId(sampleId);
-    setSearched(true);
-    setResult(registry[sampleId]);
+    void runLookup(sampleId);
   };
 
   return (
@@ -98,10 +80,11 @@ export default function VerificationLookup() {
           </div>
           <button
             type="submit"
-            className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-brand-400 to-amber-600 text-obsidian-950 font-mono text-xs font-bold uppercase tracking-wider hover:brightness-105 shadow-md shadow-brand-500/20 transition-all flex items-center justify-center gap-2"
+            disabled={loading}
+            className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-brand-400 to-amber-600 text-obsidian-950 font-mono text-xs font-bold uppercase tracking-wider hover:brightness-105 shadow-md shadow-brand-500/20 transition-all flex items-center justify-center gap-2 disabled:opacity-60"
           >
             <ShieldCheck className="w-4 h-4" />
-            <span>Verify Credential</span>
+            <span>{loading ? "Verifying..." : "Verify Credential"}</span>
           </button>
         </div>
 

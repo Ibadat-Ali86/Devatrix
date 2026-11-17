@@ -167,7 +167,7 @@ export async function POST(req: NextRequest) {
     let savedInSupabase = false;
 
     // 1. Attempt Supabase insert if credentials are provided
-    const supabaseUrl = process.env.SUPABASE_URL;
+    const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
     const secret = process.env.SUPABASE_SECRET_KEY;
     if (supabaseUrl && secret) {
       try {

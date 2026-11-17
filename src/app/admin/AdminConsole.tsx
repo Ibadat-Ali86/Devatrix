@@ -10,15 +10,16 @@ import {
   Mail, PencilLine, Search, ShieldCheck, Sparkles, Users, X,
 } from "lucide-react";
 import { parseFooterSettings } from "@/lib/content/footer";
+import OfferOnboardingPanel from "./OfferOnboardingPanel";
 
-type Section = "overview" | "internship" | "career" | "content";
+type Section = "overview" | "offers" | "internship" | "career" | "content";
 type Application = Record<string, unknown> & { id: string; full_name: string; email: string; status: string; created_at: string };
 type ContentItem = { slug: string; content_type: string; title: string; summary: string; badge: string; content: unknown; is_published: boolean; sort_order: number; updated_at: string };
 type Overview = { counts: { internships: number; careers: number }; recent: Array<Application & { kind: "internship" | "career"; position: string }> };
 
 const internshipStatuses = ["under_review", "in_review", "shortlisted", "rejected", "accepted", "completed"];
 const careerStatuses = ["review_pending", "in_review", "shortlisted", "rejected", "hired"];
-const sectionNames: Record<Section, string> = { overview: "Overview", internship: "Internship applications", career: "Career applications", content: "Website content" };
+const sectionNames: Record<Section, string> = { overview: "Overview", offers: "Offer letters & onboarding", internship: "Internship applications", career: "Career applications", content: "Website content" };
 
 function statusLabel(status: string) { return status.replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase()); }
 function valueText(value: unknown) { return typeof value === "string" && value ? value : "—"; }
@@ -255,8 +256,8 @@ export default function AdminConsole({ email }: { email: string }) {
             <div><p className="font-bold">Devatrix</p><p className="text-[10px] font-semibold uppercase tracking-[.17em] text-slate-400">Admin workspace</p></div>
           </div>
           <nav className="flex-1 space-y-1 px-3 py-6" aria-label="Admin sections">
-            {(["overview", "internship", "career", "content"] as Section[]).map((key) => {
-              const Icon = key === "overview" ? LayoutDashboard : key === "internship" ? Users : key === "career" ? BriefcaseBusiness : PencilLine;
+            {(["overview", "offers", "internship", "career", "content"] as Section[]).map((key) => {
+              const Icon = key === "overview" ? LayoutDashboard : key === "offers" ? Mail : key === "internship" ? Users : key === "career" ? BriefcaseBusiness : PencilLine;
               return <button key={key} onClick={() => selectSection(key)} className={`flex min-h-11 w-full items-center gap-3 rounded-lg border-l-2 px-3 text-left text-sm font-semibold transition-colors ${section === key ? "border-amber-400 bg-white/10 text-white" : "border-transparent text-slate-300 hover:bg-white/5 hover:text-white"}`}><Icon className={`h-4 w-4 ${section === key ? "text-amber-400" : "text-slate-400"}`} aria-hidden="true" />{sectionNames[key]}</button>;
             })}
             <Link href="/admin/learners" className="flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm font-semibold text-slate-300 transition-colors hover:bg-white/5 hover:text-white"><Sparkles className="h-4 w-4 text-amber-400" aria-hidden="true"/>Learner program</Link>
@@ -274,7 +275,7 @@ export default function AdminConsole({ email }: { email: string }) {
               <div className="flex items-center gap-2"><span className="hidden max-w-52 truncate text-xs text-slate-500 sm:block">{email}</span><IconButton label="Sign out" onClick={signOut}><LogOut className="h-4 w-4"/></IconButton></div>
             </div>
             <nav className="flex gap-1 overflow-x-auto border-t border-slate-100 px-3 py-2 lg:hidden" aria-label="Admin sections">
-              {(["overview", "internship", "career", "content"] as Section[]).map((key) => <button key={key} onClick={() => selectSection(key)} className={`min-h-10 shrink-0 rounded-lg px-3 text-xs font-semibold ${section === key ? "bg-[#071a36] text-white" : "text-slate-600 hover:bg-slate-100"}`}>{sectionNames[key]}</button>)}
+              {(["overview", "offers", "internship", "career", "content"] as Section[]).map((key) => <button key={key} onClick={() => selectSection(key)} className={`min-h-10 shrink-0 rounded-lg px-3 text-xs font-semibold ${section === key ? "bg-[#071a36] text-white" : "text-slate-600 hover:bg-slate-100"}`}>{sectionNames[key]}</button>)}
               <Link href="/admin/learners" className="inline-flex min-h-10 shrink-0 items-center rounded-lg bg-amber-50 px-3 text-xs font-semibold text-amber-950">Learner program</Link>
             </nav>
           </header>
@@ -282,6 +283,8 @@ export default function AdminConsole({ email }: { email: string }) {
           <div className="mx-auto max-w-[1400px] px-4 py-6 sm:px-7 sm:py-8 lg:px-10">
             {error && <div role="alert" className="mb-5 flex items-start gap-2 rounded-xl border border-rose-200 bg-rose-50 p-3 text-sm text-rose-800"><CircleAlert className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true"/>{error}<button className="ml-auto underline" onClick={() => setError("")}>Dismiss</button></div>}
             {notice && <div role="status" className="mb-5 flex items-start gap-2 rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-800"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true"/>{notice}<button className="ml-auto underline" onClick={() => setNotice("")}>Dismiss</button></div>}
+
+            {section === "offers" && <OfferOnboardingPanel />}
 
             {section === "overview" && <>
                 <div className="mb-7 flex flex-col justify-between gap-3 sm:flex-row sm:items-end"><div><p className="text-sm text-slate-600">A clear view of recent applications and website content.</p><p className="mt-1 text-xs text-slate-500">Applicant information is available only to this authorized workspace.</p></div><button onClick={() => { setOverviewLoading(true); void loadOverview(); }} className="inline-flex min-h-10 items-center justify-center gap-2 self-start rounded-lg border border-slate-300 bg-white px-3 text-sm font-semibold hover:bg-slate-50"><Clock3 className="h-4 w-4" aria-hidden="true"/>Refresh</button></div>

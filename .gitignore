@@ -28,6 +28,11 @@ yarn-error.log*
 # local env files
 .env*.local
 
+# local runtime fallback logs
+data/contact-inquiries.json
+data/offer-dispatch-log.json
+data/cohort-settings.json
+
 # vercel
 .vercel
 

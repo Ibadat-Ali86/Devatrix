@@ -6,7 +6,7 @@ export const metadata = { title: "Set up learner access | Devatrix", robots: { i
 export const dynamic = "force-dynamic";
 
 export default function SetPasswordPage() {
-  const configured = Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_PUBLISHABLE_KEY && process.env.SUPABASE_SECRET_KEY);
+  const configured = Boolean((process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL) && (process.env.SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY) && process.env.SUPABASE_SECRET_KEY);
   return <main className="flex min-h-screen flex-col bg-[#f3f6fa] text-slate-900">
     <header className="bg-[#061833] px-5 py-4 sm:px-8">
       <Link href="/" className="mx-auto flex max-w-6xl items-center gap-3 text-white" aria-label="Devatrix home">

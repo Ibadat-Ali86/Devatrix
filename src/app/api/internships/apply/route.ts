@@ -84,8 +84,8 @@ async function ensureApplicantAccount(supabase: SupabaseClient, email: string): 
     }
     if (!userId) return null;
 
-    const matchesReservation = (user: { id: string; email?: string; app_metadata: Record<string, unknown> } | null) =>
-      user?.id === userId && user.email?.toLowerCase() === email && user.app_metadata?.devatrix_applicant_id === userId;
+    const matchesReservation = (user: { id: string; email?: string; app_metadata?: Record<string, unknown> } | null) =>
+      user?.id === userId && user.email?.toLowerCase() === email;
     let auth = await supabase.auth.admin.getUserById(userId);
     if (auth.data.user) return matchesReservation(auth.data.user) ? userId : null;
     if (auth.error?.status !== 404) return null;
@@ -95,6 +95,17 @@ async function ensureApplicantAccount(supabase: SupabaseClient, email: string): 
       app_metadata: { devatrix_applicant_id: userId },
     });
     if (created.data.user) return matchesReservation(created.data.user) ? userId : null;
+
+    // Handle case where user already exists in Supabase Auth under another ID (e.g. admin or returning user)
+    if (created.error?.code === "email_exists") {
+      const listed = await supabase.auth.admin.listUsers({ page: 1, perPage: 200 });
+      const existingAuth = listed.data?.users?.find((u) => u.email?.toLowerCase() === email);
+      if (existingAuth) {
+        await supabase.from("intern_accounts").update({ user_id: existingAuth.id }).eq("email", email);
+        return existingAuth.id;
+      }
+    }
+
     auth = await supabase.auth.admin.getUserById(userId);
     return matchesReservation(auth.data.user) ? userId : null;
   } catch (err) {
@@ -102,6 +113,17 @@ async function ensureApplicantAccount(supabase: SupabaseClient, email: string): 
     return null;
   }
 }
+
+const TRACK_SLUG_MAP: Record<string, string> = {
+  "Frontend & Full-Stack Web Engineering": "web-fullstack",
+  "Applied AI & Agent Engineering": "ai-agents",
+  "Machine Learning & Data Science": "data-science",
+  "Data Analytics & Business Intelligence": "data-analytics",
+  "AI Engineer & Forward Deployed Engineer (FDE)": "ai-fde",
+  "DevOps Engineer & Cloud Infrastructure": "devops-engineering",
+  "React Native Mobile App Development": "react-native",
+  "Flutter Mobile App Development": "flutter",
+};
 
 export async function POST(req: NextRequest) {
   try {
@@ -167,7 +189,7 @@ export async function POST(req: NextRequest) {
     const timestamp = new Date().toISOString();
     const email = values.email.toLowerCase();
     const trackingCode = generateTrackingCode();
-    const trackSlug = values.track.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    let trackSlug = TRACK_SLUG_MAP[values.track] || values.track.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
     const application = {
       id,
@@ -192,11 +214,23 @@ export async function POST(req: NextRequest) {
     let savedInSupabase = false;
 
     // 1. Try Supabase storage if credentials exist
-    const url = process.env.SUPABASE_URL;
+    const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
     const secret = process.env.SUPABASE_SECRET_KEY;
     if (url && secret) {
       try {
         const supabase = createClient(url, secret, { auth: { persistSession: false, autoRefreshToken: false } });
+        const { data: publishedTrack } = await supabase
+          .from("site_content")
+          .select("slug")
+          .eq("content_type", "internship_track")
+          .eq("is_published", true)
+          .eq("title", values.track)
+          .maybeSingle();
+        if (publishedTrack?.slug) {
+          trackSlug = publishedTrack.slug;
+          application.track_slug = trackSlug;
+        }
+
         const userId = await ensureApplicantAccount(supabase, email);
         if (userId) {
           for (let attempt = 0; attempt < 3; attempt++) {
@@ -207,6 +241,8 @@ export async function POST(req: NextRequest) {
             if (!result.error) {
               savedInSupabase = true;
               break;
+            } else {
+              console.warn("Supabase register attempt error:", result.error);
             }
           }
         }
