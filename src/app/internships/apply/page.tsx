@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 
 const trackList = [
-  "Frontend & Full-Stack Web Engineering",
+  "Full-Stack Web Development",
   "Applied AI & Agent Engineering",
   "Machine Learning & Data Science",
   "Data Analytics & Business Intelligence",

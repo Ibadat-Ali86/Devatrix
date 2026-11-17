@@ -70,12 +70,12 @@ export default function InternshipsPage() {
   const tracks: Track[] = [
     {
       id: "web-fullstack",
-      title: "Frontend & Full-Stack Web Engineering",
+      title: "Full-Stack Web Development",
       category: "Web & Full-Stack",
-      badge: "Next.js & React 19",
+      badge: "Next.js, React & PostgreSQL",
       icon: Code2,
-      desc: "Learn to build high-performance web applications using modern React 19, Next.js App Router, TypeScript, and Tailwind CSS with real API integrations.",
-      skills: ["React 19", "Next.js 14+", "TypeScript", "Tailwind CSS", "REST & GraphQL APIs"],
+      desc: "Build and deploy a production full-stack web application using React 19, Next.js App Router, TypeScript, REST APIs, database persistence, and authentication.",
+      skills: ["React 19", "Next.js App Router", "TypeScript", "Tailwind CSS", "REST APIs", "PostgreSQL / Supabase", "Auth & Deployment"],
       duration: "6 Weeks (Intensive Virtual Sprint)",
       commitment: "6 to 8 Hours / Week (Flexible)",
       prerequisites: [
@@ -84,15 +84,18 @@ export default function InternshipsPage() {
         "Understanding of Git version control and clean code principles"
       ],
       deliverables: [
-        { week: "Weeks 1–2", title: "Component System & Responsive Layout", desc: "Build a production-grade UI design system with Tailwind CSS and responsive navigation." },
-        { week: "Weeks 3–4", title: "State Architecture & REST API Hooks", desc: "Integrate asynchronous data fetching, dynamic pagination, and robust client-side validation." },
-        { week: "Weeks 5–6", title: "Full-Stack SaaS MVP with Auth & DB", desc: "Deploy a live production full-stack application with database persistence and public URL." }
+        { week: "Week 1", title: "React & TypeScript Foundations", desc: "Architect modular, strictly typed React components with clear props, hooks, and state boundaries; set up Git workflow and linting standards." },
+        { week: "Week 2", title: "Responsive Design System & Navigation", desc: "Build reusable UI primitives with Tailwind CSS and accessible responsive navigation validated across mobile, tablet, and desktop viewports." },
+        { week: "Week 3", title: "Next.js App Router & Data Architecture", desc: "Implement dynamic App Router routes, server/client component boundaries, and REST API data loading with loading, empty, and error states." },
+        { week: "Week 4", title: "Forms, Validation & Backend APIs", desc: "Create full-stack API route handlers with schema validation, resilient form flows, optimistic UX feedback, and structured error handling." },
+        { week: "Week 5", title: "Database Persistence & Authentication", desc: "Connect a relational database (PostgreSQL/Supabase), design normalized tables, and enforce server-side authentication and role-based access control." },
+        { week: "Week 6", title: "Production Deployment, Capstone & Handover", desc: "Ship the live full-stack SaaS MVP to Vercel with safe environment configuration, performance checks, architecture docs, and technical review." }
       ],
       outcomes: [
-        "Verified Devatrix Certificate of Completion",
-        "Distinguished 'Top Performer' Gold Badge for High Achievers",
-        "Official Letter of Recommendation (LOR) for Top Performers",
-        "Direct fast-track interview for junior developer roles"
+        "A live, deployed full-stack web application with database persistence and authentication",
+        "Hands-on experience with React 19, Next.js App Router, TypeScript, and REST API design",
+        "A clean GitHub repository with setup guide, architecture notes, and testing checklist",
+        "Completion recognition based on the published program requirements"
       ]
     },
     {
@@ -219,10 +222,10 @@ export default function InternshipsPage() {
       id: "react-native",
       title: "React Native Mobile App Development",
       category: "Mobile Apps",
-      badge: "iOS & Android (Expo & CLI)",
+      badge: "iOS & Android (Expo & TypeScript)",
       icon: Smartphone,
-      desc: "Develop high-performance cross-platform mobile apps for iOS and Android using React Native, TypeScript, Expo, and modern state management.",
-      skills: ["React Native", "TypeScript", "Expo", "Redux Toolkit / Zustand", "REST APIs", "AsyncStorage"],
+      desc: "Engineer cross-platform iOS and Android applications using React Native, TypeScript, Expo, modern state management, offline storage, and release builds.",
+      skills: ["React Native", "TypeScript", "Expo", "React Navigation", "Redux Toolkit / Zustand", "REST APIs", "AsyncStorage & Push"],
       duration: "6 Weeks (Intensive Virtual Sprint)",
       commitment: "6 to 8 Hours / Week (Flexible)",
       prerequisites: [
@@ -231,25 +234,28 @@ export default function InternshipsPage() {
         "A physical smartphone (iOS/Android) with Expo Go or local emulator"
       ],
       deliverables: [
-        { week: "Weeks 1–2", title: "Mobile UI Layout & Stack Navigation", desc: "Build responsive mobile screens with React Navigation (tabs, stacks) and custom UI styling." },
-        { week: "Weeks 3–4", title: "State Management & REST API Hooks", desc: "Integrate dynamic API calls, data caching, offline persistence, and error boundaries." },
-        { week: "Weeks 5–6", title: "Complete Production App & APK Build", desc: "Build an end-to-end mobile application with device permissions, push notifications, and release APK generation." }
+        { week: "Week 1", title: "React Native, TypeScript & Expo Foundations", desc: "Configure Expo and TypeScript, build typed mobile UI components, and verify live rendering on a physical device or iOS/Android emulator." },
+        { week: "Week 2", title: "Mobile Layouts & Stack/Tab Navigation", desc: "Design responsive mobile screens using Flexbox, safe-area handling, gesture-friendly controls, and React Navigation (stacks, tabs, and modals)." },
+        { week: "Week 3", title: "State Management & REST API Integration", desc: "Implement predictable app state with Zustand or Redux Toolkit, fetch remote REST data, and handle loading, pagination, empty, and error states." },
+        { week: "Week 4", title: "Offline Persistence & Resilient Error Handling", desc: "Integrate local persistence with AsyncStorage or SQLite, cache critical views for offline continuity, and recover cleanly from network interruptions." },
+        { week: "Week 5", title: "Device Capabilities & Release Preparation", desc: "Add native device capabilities (camera, location, permissions, or push notifications), validate platform behavior, and configure EAS build profiles." },
+        { week: "Week 6", title: "Mobile Capstone, APK Build & Handover", desc: "Deliver an end-to-end installable Android APK, clean GitHub repository, demo walkthrough, and documentation of setup and known limitations." }
       ],
       outcomes: [
-        "Verified Devatrix Certificate of Completion",
-        "Distinguished 'Top Performer' Gold Badge for High Achievers",
-        "Installable Android APK and clean GitHub repository",
-        "Direct consideration for junior mobile engineer openings"
+        "An installable cross-platform mobile application (Android APK) built with React Native & Expo",
+        "Hands-on practice with navigation, global state, REST APIs, offline storage, and device APIs",
+        "A clean GitHub repository with architecture notes, setup steps, and release configuration",
+        "Completion recognition based on the published program requirements"
       ]
     },
     {
       id: "flutter",
       title: "Flutter Mobile App Development",
       category: "Mobile Apps",
-      badge: "Dart & Material UI",
+      badge: "Dart, Material 3 & Firebase",
       icon: Layers,
-      desc: "Build beautiful, natively compiled multi-platform applications from a single codebase using Flutter, Dart, Provider/Bloc, and Firebase.",
-      skills: ["Flutter", "Dart", "Provider / Bloc", "Firebase Auth & Firestore", "REST APIs", "Material & Cupertino UI"],
+      desc: "Build natively compiled cross-platform mobile apps from a single codebase using Flutter, Dart, Provider or BLoC state architecture, REST APIs, and Firebase.",
+      skills: ["Flutter", "Dart", "Provider / BLoC", "REST APIs", "Firebase Auth & Firestore", "Hive / SQLite", "Material 3 UI"],
       duration: "6 Weeks (Intensive Virtual Sprint)",
       commitment: "6 to 8 Hours / Week (Flexible)",
       prerequisites: [
@@ -258,15 +264,18 @@ export default function InternshipsPage() {
         "Flutter SDK installed with Android Studio or VS Code"
       ],
       deliverables: [
-        { week: "Weeks 1–2", title: "Widget Architecture & Custom Theme", desc: "Craft pixel-perfect Flutter UI layouts with smooth animations, custom themes, and navigation." },
-        { week: "Weeks 3–4", title: "State Management & API / Firebase Sync", desc: "Manage application state with Provider/Bloc, connect to REST endpoints or Firebase Firestore." },
-        { week: "Weeks 5–6", title: "Production Cross-Platform App & Release Build", desc: "Implement local caching with Hive/SQLite and generate signed APK releases." }
+        { week: "Week 1", title: "Dart & Flutter Widget Foundations", desc: "Master null-safe Dart fundamentals, configure the Flutter SDK, and build composable stateless and stateful widget trees with clean separation." },
+        { week: "Week 2", title: "Responsive Layouts, Navigation & Custom Theme", desc: "Craft adaptive Material 3 / Cupertino screens with custom theming, dark/light tokens, smooth animations, and named or GoRouter navigation." },
+        { week: "Week 3", title: "State Management & REST API Integration", desc: "Structure business logic using Provider or BLoC, connect typed HTTP/Dio REST services, and handle loading, retry, and error states cleanly." },
+        { week: "Week 4", title: "Firebase Auth & Cloud Service Integration", desc: "Connect Firebase Authentication and Cloud Firestore (or an approved backend), manage real-time streams, and enforce safe user data boundaries." },
+        { week: "Week 5", title: "Local Persistence, Testing & Release Signing", desc: "Implement offline caching with Hive or SQLite, write widget/unit checks for key flows, and configure signed release builds with safe secret handling." },
+        { week: "Week 6", title: "Cross-Platform Capstone, APK Build & Handover", desc: "Present the finished Flutter application with signed release APK, documented Dart architecture, setup instructions, and technical review." }
       ],
       outcomes: [
-        "Verified Devatrix Certificate of Completion",
-        "Distinguished 'Top Performer' Gold Badge for High Achievers",
-        "Production mobile portfolio asset showcasing clean Dart architecture",
-        "Priority interview pipeline for Flutter developer roles"
+        "A cross-platform Flutter application delivered with a signed Android APK release build",
+        "Hands-on practice with Dart, Provider/BLoC state management, REST APIs, and Firebase",
+        "A clean GitHub repository with modular Dart architecture and handover documentation",
+        "Completion recognition based on the published program requirements"
       ]
     },
     {

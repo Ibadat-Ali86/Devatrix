@@ -115,6 +115,7 @@ async function ensureApplicantAccount(supabase: SupabaseClient, email: string): 
 }
 
 const TRACK_SLUG_MAP: Record<string, string> = {
+  "Full-Stack Web Development": "web-fullstack",
   "Frontend & Full-Stack Web Engineering": "web-fullstack",
   "Applied AI & Agent Engineering": "ai-agents",
   "Machine Learning & Data Science": "data-science",
