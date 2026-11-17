@@ -59,13 +59,12 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // 2. Cohort-Driven Daily Reminder Engine (PKT Timezone)
+    // 2. Cohort-Driven Daily Reminder Engine (PKT Timezone, Hobby daily-cron safe)
     const { pktDate, pktHour } = getPktDateAndHour();
     if (
       settings.auto_reminder_enabled &&
       settings.reminder_start_date &&
-      pktDate >= settings.reminder_start_date &&
-      pktHour === settings.reminder_hour_pkt
+      pktDate >= settings.reminder_start_date
     ) {
       const dueForReminder = overview.applicants
         .filter((app) => {
