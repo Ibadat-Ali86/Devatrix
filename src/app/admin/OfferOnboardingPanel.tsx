@@ -82,7 +82,7 @@ export default function OfferOnboardingPanel() {
     whatsapp_group_url: "",
     reminder_start_date: "2026-11-28",
     reminder_hour_pkt: 17,
-    auto_send_24h_enabled: true,
+    auto_send_24h_enabled: false,
     auto_reminder_enabled: false,
   });
 
@@ -182,10 +182,22 @@ export default function OfferOnboardingPanel() {
         </div>
       )}
 
-      {data && data.mailerMode !== "none" && (
+      {data && data.mailerMode !== "none" && !data.settings.auto_send_24h_enabled && !data.settings.auto_reminder_enabled && (
+        <div className="rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-xs text-amber-950 flex items-start gap-2.5">
+          <Clock3 className="mt-0.5 h-4 w-4 shrink-0 text-amber-700" />
+          <div>
+            <p className="font-bold">Intake-Only Mode — Automated Emails Paused</p>
+            <p className="mt-0.5 text-amber-900 leading-relaxed">
+              New internship applications are being saved directly to Supabase with instant Tracking IDs, and zero automated emails are being sent. When your Learner Portal is ready, enable <strong>Autopilot</strong> below and click <strong>Save Settings</strong> (or click <strong>Send Offers to All Unsent</strong> to catch up everyone in one click).
+            </p>
+          </div>
+        </div>
+      )}
+
+      {data && data.mailerMode !== "none" && (data.settings.auto_send_24h_enabled || data.settings.auto_reminder_enabled) && (
         <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-2.5 text-xs font-semibold text-emerald-900 flex items-center gap-2">
           <CheckCircle2 className="h-4 w-4 text-emerald-700" />
-          Live Email Engine Active ({data.mailerMode === "smtp" ? "Company SMTP Mail" : "Resend API"}) — PDF Offer Letters attach automatically.
+          Autopilot Active ({data.mailerMode === "smtp" ? "Company SMTP Mail" : "Resend API"}) — PDF Offer Letters attach automatically.
         </div>
       )}
 

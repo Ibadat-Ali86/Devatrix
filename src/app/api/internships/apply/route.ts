@@ -255,16 +255,18 @@ export async function POST(req: NextRequest) {
     // 2. Always persist to local database as primary storage or backup
     saveLocalInternshipApplication(application);
 
-    // 3. Optional receipt email if configured
-    try {
-      receiptEmailSent = await sendApplicationReceipt({
-        idempotencyKey: id,
-        name: values.fullName,
-        email,
-        track: values.track,
-      });
-    } catch {
-      // Non-blocking
+    // 3. Receipt email is paused by default during intake-only mode (enable via APPLICATION_RECEIPT_EMAIL_ENABLED=true)
+    if (process.env.APPLICATION_RECEIPT_EMAIL_ENABLED === "true") {
+      try {
+        receiptEmailSent = await sendApplicationReceipt({
+          idempotencyKey: id,
+          name: values.fullName,
+          email,
+          track: values.track,
+        });
+      } catch {
+        // Non-blocking
+      }
     }
 
     // 4. Background Sync to Google Sheets if webhook configured

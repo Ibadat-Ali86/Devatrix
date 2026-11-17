@@ -20,7 +20,7 @@ create table if not exists public.cohort_settings (
   whatsapp_group_url text not null default 'https://wa.me/923156179410',
   reminder_start_date date,
   reminder_hour_pkt integer not null default 17 check (reminder_hour_pkt >= 0 and reminder_hour_pkt <= 23),
-  auto_send_24h_enabled boolean not null default true,
+  auto_send_24h_enabled boolean not null default false,
   auto_reminder_enabled boolean not null default false,
   updated_at timestamptz not null default now()
 );

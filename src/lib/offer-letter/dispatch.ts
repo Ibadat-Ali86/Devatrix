@@ -26,7 +26,7 @@ export const DEFAULT_COHORT_SETTINGS: CohortSettings = {
   whatsapp_group_url: "https://wa.me/923156179410",
   reminder_start_date: "2026-11-28",
   reminder_hour_pkt: 17,
-  auto_send_24h_enabled: true,
+  auto_send_24h_enabled: false,
   auto_reminder_enabled: false,
 };
 

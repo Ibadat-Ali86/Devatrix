@@ -71,8 +71,16 @@ function ApplyFormContent() {
     fullName: string;
     track: string;
     email: string;
-    receiptEmailSent: boolean;
+    trackingCode: string;
   } | null>(null);
+  const [copiedId, setCopiedId] = useState(false);
+
+  const copyTrackingId = (code: string) => {
+    if (!code) return;
+    navigator.clipboard.writeText(code);
+    setCopiedId(true);
+    setTimeout(() => setCopiedId(false), 2500);
+  };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -115,7 +123,7 @@ function ApplyFormContent() {
           fullName: formData.fullName,
           track: selectedTrack,
           email: formData.email,
-          receiptEmailSent: Boolean(data.receiptEmailSent),
+          trackingCode: typeof data.trackingCode === "string" ? data.trackingCode : "",
         });
       } else {
         setFormStatus("error");
@@ -169,15 +177,34 @@ function ApplyFormContent() {
                 Congratulations, {submittedCandidate.fullName}!
               </h3>
               <p className="text-sm text-slate-600 max-w-lg mx-auto leading-relaxed">
-                Your application for <span className="font-bold text-slate-900">{submittedCandidate.track}</span> has been successfully received and added to our review queue.
-              </p>
-              <p className="text-sm text-slate-600 max-w-lg mx-auto leading-relaxed">
-                {submittedCandidate.receiptEmailSent
-                  ? `A receipt was sent to ${submittedCandidate.email}.`
-                  : "No test receipt was sent; instant email is restricted to the allowlisted local test address."}
-                {" "}This receipt does not include portal credentials or your private tracking reference.
+                Your application for <span className="font-bold text-slate-900">{submittedCandidate.track}</span> has been securely saved in our system and added to our cohort review queue.
               </p>
             </div>
+
+            {/* Official Tracking ID Display Box */}
+            {submittedCandidate.trackingCode && (
+              <div className="p-5 rounded-2xl bg-[#061833] text-white max-w-md mx-auto space-y-3 shadow-lg">
+                <span className="text-[11px] font-mono text-slate-400 block tracking-wider uppercase">
+                  Official Application Tracking ID
+                </span>
+                <div className="flex items-center justify-center gap-3">
+                  <span className="text-2xl font-mono font-black text-brand-400 tracking-widest">
+                    {submittedCandidate.trackingCode}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => copyTrackingId(submittedCandidate.trackingCode)}
+                    className="px-3 py-1 rounded-md bg-white/10 hover:bg-white/20 text-xs font-mono text-white transition-colors"
+                    title="Copy Tracking ID"
+                  >
+                    {copiedId ? "Copied!" : "Copy"}
+                  </button>
+                </div>
+                <span className="text-[11px] text-slate-300 block leading-relaxed">
+                  Please save this Tracking ID for reference. Your official Devatrix Offer Letter &amp; Learner Portal link will be emailed to <strong className="text-white">{submittedCandidate.email}</strong> once cohort onboarding opens.
+                </span>
+              </div>
+            )}
 
             {/* Next Steps Guidance */}
             <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 text-left max-w-lg mx-auto space-y-2 text-xs text-slate-700">
