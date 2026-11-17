@@ -17,8 +17,11 @@ export const metadata: Metadata = {
   title: "Devatrix Technologies | Sovereign AI & Mission-Critical Software Systems",
   description: "Devatrix Technologies is an AI-native software house engineering sovereign AI platforms, distributed cloud architectures, and high-concurrency systems.",
   icons: {
-    icon: "/logo-transparent.png",
-    apple: "/logo-transparent.png",
+    icon: [
+      { url: "/devatrix-favicon.png", type: "image/png", sizes: "192x192" },
+    ],
+    shortcut: "/devatrix-favicon.png",
+    apple: "/devatrix-favicon.png",
   },
 };
 
