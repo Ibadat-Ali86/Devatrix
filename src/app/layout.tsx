@@ -18,10 +18,10 @@ export const metadata: Metadata = {
   description: "Devatrix Technologies is an AI-native software house engineering sovereign AI platforms, distributed cloud architectures, and high-concurrency systems.",
   icons: {
     icon: [
-      { url: "/devatrix-favicon.png", type: "image/png", sizes: "192x192" },
+      { url: "/devatrix-favicon.png?v=2", type: "image/png", sizes: "192x192" },
     ],
-    shortcut: "/devatrix-favicon.png",
-    apple: "/devatrix-favicon.png",
+    shortcut: "/devatrix-favicon.png?v=2",
+    apple: "/devatrix-favicon.png?v=2",
   },
 };
 
