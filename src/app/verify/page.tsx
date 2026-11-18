@@ -1,12 +1,44 @@
 import React from "react";
+import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import VerificationLookup from "@/components/VerificationLookup";
+import JsonLd from "@/components/JsonLd";
+import { buildBreadcrumbJsonLd, buildPageMetadata, SITE_URL } from "@/lib/seo/metadata";
 import { ShieldCheck, FileCheck2, Lock, Award, CheckCircle2 } from "lucide-react";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "Verify Devatrix Certificate & Internship Credential",
+  description:
+    "Verify official Devatrix Technologies internship certificates, tracking IDs, and Vanguard fellowship credentials online using the tamper-proof Devatrix Verification Registry.",
+  path: "/verify",
+  keywords: [
+    "Devatrix certificate verification",
+    "verify Devatrix internship certificate",
+    "Devatrix tracking ID lookup",
+    "Devatrix credential registry",
+  ],
+});
+
+const verifySchema = [
+  buildBreadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Verify Credential", path: "/verify" },
+  ]),
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "Devatrix Official Credential Verification Engine",
+    url: `${SITE_URL}/verify`,
+    applicationCategory: "UtilitiesApplication",
+    operatingSystem: "Web",
+  },
+];
 
 export default function VerifyPage() {
   return (
     <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans">
+      <JsonLd data={verifySchema} />
       <Navbar />
 
       <main className="flex-1 pt-14 sm:pt-24">

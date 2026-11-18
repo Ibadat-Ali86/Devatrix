@@ -1,12 +1,23 @@
 import React from "react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import JsonLd from "@/components/JsonLd";
+import { buildBreadcrumbJsonLd, buildPageMetadata } from "@/lib/seo/metadata";
 import { ShieldCheck, Lock, Mail, MessageCircle, FileText } from "lucide-react";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "Privacy Policy",
+  description:
+    "Read the Devatrix Technologies Privacy Policy detailing how we protect client data, internship applications, learner portal credentials, and contact inquiries.",
+  path: "/privacy",
+});
 
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
+      <JsonLd data={buildBreadcrumbJsonLd([{ name: "Home", path: "/" }, { name: "Privacy Policy", path: "/privacy" }])} />
       <Navbar />
 
       <main className="flex-1 pt-14 sm:pt-20">

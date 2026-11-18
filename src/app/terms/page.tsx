@@ -1,12 +1,23 @@
 import React from "react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import JsonLd from "@/components/JsonLd";
+import { buildBreadcrumbJsonLd, buildPageMetadata } from "@/lib/seo/metadata";
 import { FileCheck, Shield, Mail, MessageCircle } from "lucide-react";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "Terms of Service",
+  description:
+    "Review Devatrix Technologies Terms of Service governing software engineering engagements, virtual internship cohorts, certificate issuance, and website use.",
+  path: "/terms",
+});
 
 export default function TermsPage() {
   return (
     <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
+      <JsonLd data={buildBreadcrumbJsonLd([{ name: "Home", path: "/" }, { name: "Terms of Service", path: "/terms" }])} />
       <Navbar />
 
       <main className="flex-1 pt-14 sm:pt-20">

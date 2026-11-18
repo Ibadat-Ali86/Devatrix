@@ -1,10 +1,13 @@
 import React from "react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CoreCapabilities from "@/components/CoreCapabilities";
 import ExecutiveCTA from "@/components/ExecutiveCTA";
+import JsonLd from "@/components/JsonLd";
 import { getPublishedSiteContent } from "@/lib/content/server";
+import { buildBreadcrumbJsonLd, buildPageMetadata, SITE_NAME, SITE_URL } from "@/lib/seo/metadata";
 import { 
   Code2, 
   Cloud, 
@@ -21,6 +24,48 @@ import {
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "Software Development Services | AI, SaaS, Web, Mobile & Cloud",
+  description:
+    "Explore Devatrix Technologies software engineering services: custom SaaS & full-stack web apps, applied AI & autonomous LLM agents, React Native & Flutter mobile apps, cloud DevOps, UI/UX design, and dedicated engineering squads.",
+  path: "/services",
+  keywords: [
+    "Devatrix services",
+    "custom software development services",
+    "AI agent development company",
+    "Next.js SaaS development",
+    "React Native Flutter app development",
+    "DevOps cloud infrastructure consulting",
+    "dedicated software engineering teams",
+  ],
+});
+
+const servicesSchema = [
+  buildBreadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Services", path: "/services" },
+  ]),
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    serviceType: "Software Engineering & AI Development",
+    provider: { "@id": `${SITE_URL}/#organization`, name: SITE_NAME },
+    areaServed: "Worldwide",
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Devatrix Engineering Services",
+      itemListElement: [
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Custom Software & Full-Stack Web Development (Next.js, React, Node.js)" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Applied AI, RAG Chatbots & Autonomous Agent Engineering" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Cross-Platform Mobile App Development (React Native & Flutter)" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Enterprise Cloud Architecture & DevOps Infrastructure (AWS, Docker, Terraform)" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "UI/UX Product Design & Design Systems" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Dedicated Engineering Teams & Staff Augmentation" } },
+      ],
+    },
+  },
+];
 
 export default async function ServicesPage() {
   const content = await getPublishedSiteContent();
@@ -83,6 +128,7 @@ export default async function ServicesPage() {
 
   return (
     <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
+      <JsonLd data={servicesSchema} />
       <Navbar />
 
       <main className="flex-1 pt-14 sm:pt-20">

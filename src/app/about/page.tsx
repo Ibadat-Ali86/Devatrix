@@ -1,9 +1,12 @@
 import React from "react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ExecutiveCTA from "@/components/ExecutiveCTA";
+import JsonLd from "@/components/JsonLd";
 import { getPublishedSiteContent } from "@/lib/content/server";
+import { buildBreadcrumbJsonLd, buildPageMetadata, SITE_URL } from "@/lib/seo/metadata";
 import { 
   Globe2, 
   MapPin, 
@@ -17,6 +20,34 @@ import {
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "About Devatrix Technologies | AI-Native Software House",
+  description:
+    "Learn about Devatrix Technologies — our engineering center in Lahore, Pakistan, our remote-first global delivery model, 100% client IP ownership commitment, and talent development mission.",
+  path: "/about",
+  keywords: [
+    "About Devatrix",
+    "About Devatrix Technologies",
+    "Devatrix Lahore",
+    "software house Lahore Pakistan",
+    "remote software engineering partner",
+  ],
+});
+
+const aboutSchema = [
+  buildBreadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "About Us", path: "/about" },
+  ]),
+  {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    name: "About Devatrix Technologies",
+    url: `${SITE_URL}/about`,
+    mainEntity: { "@id": `${SITE_URL}/#organization` },
+  },
+];
 
 export default async function AboutPage() {
   const content = await getPublishedSiteContent();
@@ -48,6 +79,7 @@ export default async function AboutPage() {
 
   return (
     <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
+      <JsonLd data={aboutSchema} />
       <Navbar />
 
       <main className="flex-1 pt-14 sm:pt-20">

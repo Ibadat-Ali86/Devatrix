@@ -1,9 +1,12 @@
 import React from "react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ExecutiveCTA from "@/components/ExecutiveCTA";
+import JsonLd from "@/components/JsonLd";
 import { getPublishedSiteContent } from "@/lib/content/server";
+import { buildBreadcrumbJsonLd, buildPageMetadata, SITE_URL } from "@/lib/seo/metadata";
 import { 
   Activity, 
   ArrowRight, 
@@ -15,6 +18,34 @@ import {
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "Case Studies & Engineering Portfolio",
+  description:
+    "Review Devatrix Technologies production case studies: multi-tenant SaaS subscription engines, applied AI RAG platforms, cross-platform mobile apps, and high-availability cloud architectures.",
+  path: "/work",
+  keywords: [
+    "Devatrix portfolio",
+    "Devatrix case studies",
+    "multi-tenant SaaS case study",
+    "enterprise AI case studies",
+    "software engineering projects Pakistan",
+  ],
+});
+
+const workSchema = [
+  buildBreadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Case Studies", path: "/work" },
+  ]),
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Devatrix Technologies Case Studies & Engineering Portfolio",
+    url: `${SITE_URL}/work`,
+    isPartOf: { "@id": `${SITE_URL}/#website` },
+  },
+];
 
 export default async function WorkPage() {
   const content = await getPublishedSiteContent();
@@ -69,6 +100,7 @@ export default async function WorkPage() {
 
   return (
     <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
+      <JsonLd data={workSchema} />
       <Navbar />
 
       <main className="flex-1 pt-14 sm:pt-20">

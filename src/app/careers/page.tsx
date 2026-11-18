@@ -1,8 +1,11 @@
 import React from "react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ExecutiveCTA from "@/components/ExecutiveCTA";
+import JsonLd from "@/components/JsonLd";
+import { buildBreadcrumbJsonLd, buildPageMetadata, SITE_URL } from "@/lib/seo/metadata";
 import { 
   Briefcase, 
   MapPin, 
@@ -14,6 +17,34 @@ import {
   Laptop,
   GraduationCap
 } from "lucide-react";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "Careers & Open Software Engineering Roles",
+  description:
+    "Join Devatrix Technologies. Explore full-time remote and Lahore hybrid engineering openings in distributed systems, AI/ML architecture, full-stack web, mobile development, and DevOps.",
+  path: "/careers",
+  keywords: [
+    "Devatrix careers",
+    "Devatrix jobs",
+    "software engineer jobs Lahore",
+    "remote AI engineer jobs Pakistan",
+    "full-stack developer jobs Devatrix",
+  ],
+});
+
+const careersSchema = [
+  buildBreadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Careers", path: "/careers" },
+  ]),
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Careers at Devatrix Technologies",
+    url: `${SITE_URL}/careers`,
+    isPartOf: { "@id": `${SITE_URL}/#website` },
+  },
+];
 
 export default function CareersPage() {
   const roles = [
@@ -80,6 +111,7 @@ export default function CareersPage() {
 
   return (
     <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
+      <JsonLd data={careersSchema} />
       <Navbar />
 
       <main className="flex-1 pt-14 sm:pt-20">

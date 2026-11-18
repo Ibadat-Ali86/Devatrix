@@ -1,13 +1,45 @@
 import React from "react";
+import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProjectEstimator from "@/components/ProjectEstimator";
 import ComparisonMatrix from "@/components/ComparisonMatrix";
+import JsonLd from "@/components/JsonLd";
+import { buildBreadcrumbJsonLd, buildPageMetadata, SITE_URL } from "@/lib/seo/metadata";
 import { Calculator, ShieldCheck, Lock, FileText, CheckCircle2 } from "lucide-react";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "Software Project Cost & Timeline Estimator",
+  description:
+    "Calculate an instant scope, architecture blueprint, and timeline estimate for your SaaS MVP, AI agent platform, web app, or mobile app with the Devatrix Technologies interactive estimator.",
+  path: "/estimator",
+  keywords: [
+    "software development cost estimator",
+    "SaaS MVP cost calculator",
+    "AI project timeline estimator",
+    "Devatrix project estimator",
+  ],
+});
+
+const estimatorSchema = [
+  buildBreadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Project Estimator", path: "/estimator" },
+  ]),
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "Devatrix Project Cost & Architecture Estimator",
+    url: `${SITE_URL}/estimator`,
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
+  },
+];
 
 export default function EstimatorPage() {
   return (
     <div className="min-h-screen bg-obsidian-950 text-slate-100 flex flex-col">
+      <JsonLd data={estimatorSchema} />
       <Navbar />
 
       <main className="flex-1 pt-14 sm:pt-28 pb-12 sm:pb-20">
