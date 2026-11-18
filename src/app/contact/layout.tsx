@@ -4,7 +4,7 @@ import JsonLd from "@/components/JsonLd";
 import { buildBreadcrumbJsonLd, buildPageMetadata, SITE_URL } from "@/lib/seo/metadata";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Contact Devatrix Technologies | Start Your Software Project",
+  title: "Contact Us — Start Your Software Project",
   description:
     "Contact Devatrix Technologies in Lahore or globally online to scope custom SaaS platforms, AI agent workflows, web & mobile apps, or cloud architecture.",
   path: "/contact",

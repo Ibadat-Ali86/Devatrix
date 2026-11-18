@@ -22,7 +22,7 @@ import {
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "About Devatrix Technologies | AI-Native Software House",
+  title: "About Us — AI-Native Software House in Lahore",
   description:
     "Learn about Devatrix Technologies — our engineering center in Lahore, Pakistan, our remote-first global delivery model, 100% client IP ownership commitment, and talent development mission.",
   path: "/about",

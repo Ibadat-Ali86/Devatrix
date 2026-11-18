@@ -4,7 +4,7 @@ import JsonLd from "@/components/JsonLd";
 import { buildBreadcrumbJsonLd, buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Apply for Engineering Careers at Devatrix Technologies",
+  title: "Apply for Engineering Careers",
   description:
     "Submit your software engineering job application to Devatrix Technologies for full-time remote and Lahore hybrid roles across Full-Stack, AI/ML, Mobile, and Cloud.",
   path: "/careers/apply",
