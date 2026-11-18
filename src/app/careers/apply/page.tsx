@@ -17,18 +17,10 @@ import {
 } from "lucide-react";
 
 const roleOptions = [
-  "General / Future Engineering Roles",
-  "Senior Distributed Systems Engineer",
-  "Principal AI & Machine Learning Architect",
-  "Senior Full-Stack Next.js Engineer",
+  "Full Stack Developer",
+  "AI Engineer",
   "Lead Cloud Platform & DevOps Engineer",
-  "Mobile App Engineer (React Native / Flutter)",
-  "Backend & Database Engineer (Node.js / Python / Go)",
-  "Frontend React / Next.js Specialist",
-  "Data Scientist / Predictive Modeler",
-  "Data Analyst / Business Intelligence",
-  "QA / Test Automation Engineer",
-  "Other Specialization"
+  "General / Future Engineering Roles",
 ];
 
 function CareerApplyFormContent() {
