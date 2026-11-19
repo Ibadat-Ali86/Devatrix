@@ -29,10 +29,10 @@ export default function Footer() {
     <footer className="bg-[#040e1f] text-slate-300 font-sans border-t border-slate-800/80 relative overflow-hidden">
       {/* Main 5-Column Navigation Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-14 border-b border-slate-800">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8 pb-14 border-b border-slate-800">
           
-          {/* Column 1: Brand & Operational Status (4 cols on lg) */}
-          <div className="lg:col-span-4 space-y-5">
+          {/* Column 1: Brand & Operational Status (4 cols on lg, full width on mobile) */}
+          <div className="col-span-2 md:col-span-2 lg:col-span-4 space-y-5">
             <Link href="/" className="flex items-center gap-3 group">
               <div className="relative w-9 h-9 flex items-center justify-center rounded-xl bg-slate-900 border border-slate-700 p-1.5 shadow-sm group-hover:scale-105 transition-transform">
                 <Image
@@ -115,8 +115,8 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Column 2: 2027 Cohort Tracks (2 cols on lg) */}
-          <div className="lg:col-span-2 space-y-3">
+          {/* Column 2: 2027 Cohort Tracks (col-span-1 on mobile, 2 cols on lg) */}
+          <div className="col-span-1 lg:col-span-2 space-y-3">
             <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-white">
               2027 Cohort Tracks
             </h4>
@@ -155,8 +155,8 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 3: Studio Engineering (2 cols on lg) */}
-          <div className="lg:col-span-2 space-y-3">
+          {/* Column 3: Studio Engineering (col-span-1 on mobile, 2 cols on lg) */}
+          <div className="col-span-1 lg:col-span-2 space-y-3">
             <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-white">
               Engineering Studio
             </h4>
@@ -189,8 +189,8 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 4: Verification & Trust (2 cols on lg) */}
-          <div className="lg:col-span-2 space-y-3">
+          {/* Column 4: Verification & Trust (col-span-1 on mobile, 2 cols on lg) */}
+          <div className="col-span-1 lg:col-span-2 space-y-3">
             <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-white">
               Trust &amp; Verification
             </h4>
@@ -224,8 +224,8 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 5: Regional Hub & Direct Contact (2 cols on lg) */}
-          <div className="lg:col-span-2 space-y-3 text-xs">
+          {/* Column 5: Regional Hub & Direct Contact (col-span-1 on mobile, 2 cols on lg) */}
+          <div className="col-span-1 lg:col-span-2 space-y-3 text-xs">
             <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-white">
               Engineering Base
             </h4>
