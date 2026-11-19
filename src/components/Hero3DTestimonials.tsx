@@ -75,33 +75,33 @@ const devatrixTestimonials = [
 
 function HeroTestimonialCard({ img, name, username, body, country, role }: (typeof devatrixTestimonials)[number]) {
   return (
-    <Card className="w-52 sm:w-60 bg-white/95 border-slate-200/90 shadow-sm hover:shadow-lg hover:border-amber-300 transition-all rounded-2xl group cursor-pointer">
-      <CardContent className="p-3.5 sm:p-4">
-        <div className="flex items-center gap-2.5">
-          <Avatar className="h-9 w-9 border border-slate-200 shrink-0">
+    <Card className="w-44 sm:w-52 md:w-56 lg:w-60 bg-white/95 border-slate-200/90 shadow-xs hover:shadow-lg hover:border-amber-300 transition-all rounded-2xl group cursor-pointer">
+      <CardContent className="p-3 sm:p-4">
+        <div className="flex items-center gap-2 sm:gap-2.5">
+          <Avatar className="h-8 w-8 sm:h-9 sm:w-9 border border-slate-200 shrink-0">
             <AvatarImage src={img} alt={name} />
             <AvatarFallback>{name[0]}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col min-w-0">
-            <figcaption className="text-xs font-bold text-slate-900 flex items-center gap-1 truncate">
-              <span>{name}</span>
-              <span className="text-[10px]">{country}</span>
+            <figcaption className="text-[11px] sm:text-xs font-bold text-slate-900 flex items-center gap-1 truncate">
+              <span className="truncate">{name}</span>
+              <span className="text-[9px] sm:text-[10px] shrink-0">{country}</span>
             </figcaption>
-            <p className="text-[10px] font-mono text-slate-500 truncate">{role}</p>
+            <p className="text-[9px] sm:text-[10px] font-mono text-slate-500 truncate">{role}</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-0.5 text-amber-400 mt-2">
+        <div className="flex items-center gap-0.5 text-amber-400 mt-1.5 sm:mt-2">
           {[...Array(5)].map((_, i) => (
-            <Star key={i} className="w-3 h-3 fill-current" />
+            <Star key={i} className="w-2.5 h-2.5 sm:w-3 sm:h-3 fill-current" />
           ))}
-          <span className="text-[9px] font-mono text-emerald-600 font-bold ml-1.5 flex items-center gap-0.5">
+          <span className="text-[8px] sm:text-[9px] font-mono text-emerald-600 font-bold ml-1 sm:ml-1.5 flex items-center gap-0.5">
             <ShieldCheck className="w-2.5 h-2.5" />
             Verified
           </span>
         </div>
 
-        <blockquote className="mt-2 text-[11px] sm:text-xs text-slate-600 leading-snug line-clamp-3 italic">
+        <blockquote className="mt-1.5 sm:mt-2 text-[10px] sm:text-xs text-slate-600 leading-snug line-clamp-3 italic">
           &ldquo;{body}&rdquo;
         </blockquote>
       </CardContent>
@@ -111,49 +111,51 @@ function HeroTestimonialCard({ img, name, username, body, country, role }: (type
 
 export default function Hero3DTestimonials() {
   return (
-    <div className="relative w-full h-[420px] sm:h-[480px] lg:h-[520px] flex items-center justify-center overflow-hidden [perspective:800px] select-none">
+    <div className="relative w-full max-w-full h-[360px] sm:h-[440px] lg:h-[500px] flex items-center justify-center overflow-hidden [perspective:800px] select-none">
       
       {/* Live Trust Header Pill */}
-      <div className="absolute top-2 z-30 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/95 backdrop-blur-md border border-slate-200 shadow-xs text-[10px] font-mono font-bold text-slate-700">
-        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-        <span>1,200+ VERIFIED 2026 ALUMNI &amp; ENTERPRISE REVIEWS</span>
+      <div className="absolute top-2 z-30 inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-white/95 backdrop-blur-md border border-slate-200 shadow-xs text-[9px] sm:text-[10px] font-mono font-bold text-slate-700 max-w-[90vw] truncate">
+        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+        <span className="truncate">1,200+ VERIFIED 2026 ALUMNI &amp; ENTERPRISE REVIEWS</span>
       </div>
 
-      {/* 3D Tilted Marquee Stage */}
+      {/* 3D Tilted Marquee Stage (2 columns on mobile/tablet, 3 columns on desktop) */}
       <div
-        className="flex flex-row items-center gap-3 sm:gap-4 shrink-0"
+        className="flex flex-row items-center gap-2.5 sm:gap-4 shrink-0 scale-[0.88] sm:scale-95 lg:scale-100 origin-center transition-transform"
         style={{
           transform:
-            "translateX(-25px) translateY(0px) translateZ(-40px) rotateX(16deg) rotateY(-10deg) rotateZ(16deg)",
+            "translateX(-10px) translateY(0px) translateZ(-30px) rotateX(15deg) rotateY(-8deg) rotateZ(12deg)",
         }}
       >
-        {/* Column 1: Downward */}
-        <Marquee vertical pauseOnHover repeat={3} className="[--duration:38s]">
+        {/* Column 1: Downward (All screens) */}
+        <Marquee vertical pauseOnHover repeat={3} className="[--duration:36s]">
           {devatrixTestimonials.map((review) => (
             <HeroTestimonialCard key={`h1-${review.username}`} {...review} />
           ))}
         </Marquee>
 
-        {/* Column 2: Upward */}
-        <Marquee vertical pauseOnHover reverse repeat={3} className="[--duration:44s]">
+        {/* Column 2: Upward (All screens) */}
+        <Marquee vertical pauseOnHover reverse repeat={3} className="[--duration:42s]">
           {devatrixTestimonials.map((review) => (
             <HeroTestimonialCard key={`h2-${review.username}`} {...review} />
           ))}
         </Marquee>
 
-        {/* Column 3: Downward */}
-        <Marquee vertical pauseOnHover repeat={3} className="[--duration:50s]">
-          {devatrixTestimonials.map((review) => (
-            <HeroTestimonialCard key={`h3-${review.username}`} {...review} />
-          ))}
-        </Marquee>
+        {/* Column 3: Downward (Desktop only: md and above) */}
+        <div className="hidden md:flex">
+          <Marquee vertical pauseOnHover repeat={3} className="[--duration:48s]">
+            {devatrixTestimonials.map((review) => (
+              <HeroTestimonialCard key={`h3-${review.username}`} {...review} />
+            ))}
+          </Marquee>
+        </div>
       </div>
 
       {/* Gradient fade masks for seamless 3D depth fade */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#FAF9F6] via-[#FAF9F6]/85 to-transparent z-20" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#FAF9F6] via-[#FAF9F6]/85 to-transparent z-20" />
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#FAF9F6] to-transparent z-20" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#FAF9F6] to-transparent z-20" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-20 sm:h-24 bg-gradient-to-b from-[#FAF9F6] via-[#FAF9F6]/85 to-transparent z-20" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 sm:h-28 bg-gradient-to-t from-[#FAF9F6] via-[#FAF9F6]/85 to-transparent z-20" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-10 sm:w-20 bg-gradient-to-r from-[#FAF9F6] to-transparent z-20" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-10 sm:w-20 bg-gradient-to-l from-[#FAF9F6] to-transparent z-20" />
     </div>
   );
 }

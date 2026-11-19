@@ -97,7 +97,21 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll(); // Run initial check
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMobileMenuOpen(false);
+    };
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) setMobileMenuOpen(false);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("resize", handleResize);
+    };
   }, [hasDarkHero]);
 
   const navLinks = [
@@ -231,13 +245,19 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Floating Mobile Drawer */}
+      {/* Floating Mobile Drawer & Backdrop */}
       {mobileMenuOpen && (
-        <div className={`pointer-events-auto max-w-md mx-auto mt-2 p-4 rounded-3xl backdrop-blur-2xl shadow-2xl transition-all animate-in fade-in slide-in-from-top-4 duration-200 lg:hidden ${
-          isDarkBackground
-            ? "bg-white/98 border border-slate-200 text-slate-900"
-            : "bg-[#061833]/98 border border-slate-700 text-white"
-        }`}>
+        <>
+          <div 
+            className="fixed inset-0 bg-slate-950/40 backdrop-blur-xs z-[-1] pointer-events-auto lg:hidden"
+            onClick={() => setMobileMenuOpen(false)}
+            aria-hidden="true"
+          />
+          <div className={`pointer-events-auto max-w-sm sm:max-w-md mx-auto mt-2 p-4 rounded-3xl backdrop-blur-2xl shadow-2xl transition-all animate-in fade-in slide-in-from-top-4 duration-200 lg:hidden ${
+            isDarkBackground
+              ? "bg-white/98 border border-slate-200 text-slate-900"
+              : "bg-[#061833]/98 border border-slate-700 text-white"
+          }`}>
           <div className="space-y-1">
             {navLinks.map((link) => (
               <Link
@@ -292,7 +312,8 @@ export default function Navbar() {
             </Link>
           </div>
         </div>
-      )}
+      </>
+    )}
     </header>
   );
 }
