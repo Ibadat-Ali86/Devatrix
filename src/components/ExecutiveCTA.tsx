@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowRight, Mail, Phone, MapPin, GraduationCap, Building2, CheckCircle2 } from "lucide-react";
+import { ArrowRight, MapPin, GraduationCap, Building2 } from "lucide-react";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export default function ExecutiveCTA() {
   return (
@@ -9,7 +10,8 @@ export default function ExecutiveCTA() {
       <div className="absolute top-0 right-1/4 w-[500px] h-[300px] bg-amber-500/10 rounded-full blur-[140px] pointer-events-none"></div>
       <div className="absolute bottom-0 left-1/4 w-[400px] h-[300px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none"></div>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 space-y-7">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <ScrollReveal direction="up" delay={0.1} distance={24} className="space-y-7">
         
         <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-xs font-mono font-bold uppercase tracking-widest text-amber-400">
           START THE CONVERSATION
@@ -59,6 +61,7 @@ export default function ExecutiveCTA() {
             <span>Direct Architect Communication</span>
           </div>
         </div>
+        </ScrollReveal>
 
       </div>
     </section>

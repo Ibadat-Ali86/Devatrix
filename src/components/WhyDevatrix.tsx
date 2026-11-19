@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { CheckCircle2, ArrowRight, ShieldCheck, GitPullRequest, Award, FileCode } from "lucide-react";
+import { CheckCircle2, ArrowRight } from "lucide-react";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export default function WhyDevatrix() {
   const comparisons = [
@@ -42,85 +43,91 @@ export default function WhyDevatrix() {
           
           {/* Left Column: Heading & Pedagogy */}
           <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-28">
-            <span className="text-xs font-mono font-bold uppercase tracking-widest text-amber-800 bg-amber-100/70 px-3 py-1 rounded-full border border-amber-300/60 inline-block">
-              THE APPRENTICESHIP STANDARD
-            </span>
+            <ScrollReveal direction="up" delay={0.1}>
+              <span className="text-xs font-mono font-bold uppercase tracking-widest text-amber-800 bg-amber-100/70 px-3 py-1 rounded-full border border-amber-300/60 inline-block">
+                THE APPRENTICESHIP STANDARD
+              </span>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight font-sans leading-tight">
-              Real Production Code, <br />
-              <span className="font-editorial italic font-normal text-amber-700">Never Simulated Exercises.</span>
-            </h2>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight font-sans leading-tight mt-3">
+                Real Production Code, <br />
+                <span className="font-editorial italic font-normal text-amber-700">Never Simulated Exercises.</span>
+              </h2>
 
-            <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
-              Most online courses teach you how to copy code from a tutorial. Devatrix immerses you in the actual cadence of an elite engineering organization: writing testable features, defending pull request design choices, and maintaining high software reliability.
-            </p>
+              <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal mt-4">
+                Most online courses teach you how to copy code from a tutorial. Devatrix immerses you in the actual cadence of an elite engineering organization: writing testable features, defending pull request design choices, and maintaining high software reliability.
+              </p>
 
-            {/* Quick Proof Badges */}
-            <div className="space-y-3 pt-2">
-              <div className="flex items-center gap-2.5 text-xs font-semibold text-slate-800">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>6-Week Sprints configured around university exam schedules</span>
+              {/* Quick Proof Badges */}
+              <div className="space-y-3 pt-4">
+                <div className="flex items-center gap-2.5 text-xs font-semibold text-slate-800">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>6-Week Sprints configured around university exam schedules</span>
+                </div>
+                <div className="flex items-center gap-2.5 text-xs font-semibold text-slate-800">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>Top performers receive direct fast-track junior engineer interviews</span>
+                </div>
+                <div className="flex items-center gap-2.5 text-xs font-semibold text-slate-800">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>Official Letter of Recommendation (LOR) for verified distinctions</span>
+                </div>
               </div>
-              <div className="flex items-center gap-2.5 text-xs font-semibold text-slate-800">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Top performers receive direct fast-track junior engineer interviews</span>
-              </div>
-              <div className="flex items-center gap-2.5 text-xs font-semibold text-slate-800">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Official Letter of Recommendation (LOR) for verified distinctions</span>
-              </div>
-            </div>
 
-            <div className="pt-2">
-              <Link
-                href="/about"
-                className="dx-btn-secondary px-5 py-2.5 text-xs sm:text-sm font-bold shadow-xs inline-flex items-center gap-2"
-              >
-                <span>Read About Our Pedagogy &amp; Mentors</span>
-                <ArrowRight className="w-4 h-4 text-slate-500" />
-              </Link>
-            </div>
+              <div className="pt-4">
+                <Link
+                  href="/about"
+                  className="dx-btn-secondary px-5 py-2.5 text-xs sm:text-sm font-bold shadow-xs inline-flex items-center gap-2"
+                >
+                  <span>Read About Our Pedagogy &amp; Mentors</span>
+                  <ArrowRight className="w-4 h-4 text-slate-500" />
+                </Link>
+              </div>
+            </ScrollReveal>
           </div>
 
           {/* Right Column: Comparison Matrix (No AI-slop icons, clean technical layout) */}
           <div className="lg:col-span-7 space-y-4">
-            {comparisons.map((item) => (
-              <div
+            {comparisons.map((item, idx) => (
+              <ScrollReveal
                 key={item.num}
-                className="dx-card p-6 border border-slate-200/90 hover:border-amber-400 transition-all space-y-3"
+                delay={idx * 0.1}
+                direction="up"
+                distance={20}
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2.5">
-                    <span className="font-mono text-xs font-bold text-slate-400">
-                      [{item.num}]
+                <div className="dx-card p-6 border border-slate-200/90 hover:border-amber-400 transition-all space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      <span className="font-mono text-xs font-bold text-slate-400">
+                        [{item.num}]
+                      </span>
+                      <h3 className="text-sm sm:text-base font-bold text-slate-900 font-sans">
+                        {item.dimension}
+                      </h3>
+                    </div>
+                    <span className="font-mono text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
+                      {item.benefit}
                     </span>
-                    <h3 className="text-sm sm:text-base font-bold text-slate-900 font-sans">
-                      {item.dimension}
-                    </h3>
-                  </div>
-                  <span className="font-mono text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
-                    {item.benefit}
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs">
-                  {/* Status Quo */}
-                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/60 text-slate-500 space-y-1">
-                    <span className="font-mono text-[10px] uppercase font-bold text-slate-400 block">
-                      Generic Courses &amp; Bootcamps
-                    </span>
-                    <p className="leading-relaxed">{item.statusQuo}</p>
                   </div>
 
-                  {/* Devatrix Way */}
-                  <div className="p-3 rounded-xl bg-amber-50/50 border border-amber-200/70 text-slate-800 space-y-1 font-medium">
-                    <span className="font-mono text-[10px] uppercase font-bold text-amber-800 block">
-                      The Devatrix Standard
-                    </span>
-                    <p className="leading-relaxed text-slate-900">{item.devatrixWay}</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs">
+                    {/* Status Quo */}
+                    <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/60 text-slate-500 space-y-1">
+                      <span className="font-mono text-[10px] uppercase font-bold text-slate-400 block">
+                        Generic Courses &amp; Bootcamps
+                      </span>
+                      <p className="leading-relaxed">{item.statusQuo}</p>
+                    </div>
+
+                    {/* Devatrix Way */}
+                    <div className="p-3 rounded-xl bg-amber-50/50 border border-amber-200/70 text-slate-800 space-y-1 font-medium">
+                      <span className="font-mono text-[10px] uppercase font-bold text-amber-800 block">
+                        The Devatrix Standard
+                      </span>
+                      <p className="leading-relaxed text-slate-900">{item.devatrixWay}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </ScrollReveal>
             ))}
           </div>
 
