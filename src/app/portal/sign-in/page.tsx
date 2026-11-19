@@ -6,7 +6,7 @@ export const metadata = { title: "Intern sign in | Devatrix", robots: { index: f
 
 export default function PortalSignInPage() {
   return (
-    <main className="flex min-h-screen flex-col bg-[#f3f6fa] text-slate-900">
+    <main className="dx-workspace flex min-h-screen flex-col bg-[#f3f6fa] text-slate-900">
       <header className="bg-[#061833] px-5 py-5 sm:px-8">
         <Link href="/" className="mx-auto flex max-w-6xl items-center gap-3 text-white">
           <Image src="/logo-transparent.png" alt="" width={40} height={40} priority />

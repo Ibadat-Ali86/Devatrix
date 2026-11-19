@@ -40,7 +40,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
+    <div className="dx-public min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
       <Navbar />
 
       <main className="flex-1 pt-14 sm:pt-20">

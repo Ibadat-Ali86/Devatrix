@@ -495,7 +495,7 @@ function CareerApplyFormContent() {
 
 export default function CareerApplyPage() {
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
+    <div className="dx-public min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
       <Navbar />
       <main className="flex-1 pt-14 sm:pt-20">
         <Suspense fallback={<div className="py-24 text-center text-xs font-mono text-slate-500">Loading Application Form...</div>}>

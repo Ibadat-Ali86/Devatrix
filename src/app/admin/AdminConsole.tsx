@@ -247,7 +247,7 @@ export default function AdminConsole({ email }: { email: string }) {
   const selectedKind = section === "career" ? "career" : "internship";
 
   return (
-    <div className="min-h-screen bg-[#f3f6fa] text-slate-900">
+    <div className="dx-workspace min-h-screen bg-[#f3f6fa] text-slate-900">
       <div className="mx-auto flex min-h-screen max-w-[1600px]">
         <aside className="hidden w-64 shrink-0 flex-col border-r border-white/10 bg-[#071a36] text-white lg:flex">
           <div className="flex h-20 items-center gap-3 border-b border-white/10 px-6">
@@ -257,7 +257,7 @@ export default function AdminConsole({ email }: { email: string }) {
           <nav className="flex-1 space-y-1 px-3 py-6" aria-label="Admin sections">
             {(["overview", "internship", "career", "content"] as Section[]).map((key) => {
               const Icon = key === "overview" ? LayoutDashboard : key === "internship" ? Users : key === "career" ? BriefcaseBusiness : PencilLine;
-              return <button key={key} onClick={() => selectSection(key)} className={`flex min-h-11 w-full items-center gap-3 rounded-lg border-l-2 px-3 text-left text-sm font-semibold transition-colors ${section === key ? "border-amber-400 bg-white/10 text-white" : "border-transparent text-slate-300 hover:bg-white/5 hover:text-white"}`}><Icon className={`h-4 w-4 ${section === key ? "text-amber-400" : "text-slate-400"}`} aria-hidden="true" />{sectionNames[key]}</button>;
+              return <button key={key} onClick={() => selectSection(key)} className={`flex min-h-11 w-full items-center gap-3 rounded-lg px-3 text-left text-sm font-semibold transition-colors ${section === key ? "bg-white/10 text-white" : "text-slate-300 hover:bg-white/5 hover:text-white"}`}><Icon className={`h-4 w-4 ${section === key ? "text-amber-400" : "text-slate-400"}`} aria-hidden="true" />{sectionNames[key]}</button>;
             })}
             <Link href="/admin/learners" className="flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm font-semibold text-slate-300 transition-colors hover:bg-white/5 hover:text-white"><Sparkles className="h-4 w-4 text-amber-400" aria-hidden="true"/>Learner program</Link>
           </nav>

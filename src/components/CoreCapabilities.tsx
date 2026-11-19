@@ -1,120 +1,141 @@
 import React from "react";
 import Link from "next/link";
-import { 
-  Code2, 
-  Cloud, 
-  Cpu, 
-  Smartphone, 
-  Palette, 
-  Users2, 
-  ArrowRight,
-  CheckCircle2
-} from "lucide-react";
+import { ArrowRight, CheckCircle2, GitBranch, Terminal } from "lucide-react";
 
 export default function CoreCapabilities() {
-  const capabilities = [
+  const tracks = [
     {
-      icon: Code2,
-      title: "Custom Software Development",
-      desc: "Robust, scalable software solutions architected to streamline complex business workflows, replace legacy systems, and accelerate time-to-market.",
-      tags: ["Go", "Node.js", "Python", "TypeScript", "Microservices"],
+      id: "01",
+      title: "Frontend & Full-Stack Web Engineering",
+      tagline: "React 19, Next.js 16 App Router & TypeScript",
+      desc: "Architect high-performance web applications with Server Components, optimistic UI updates, multi-tenant authentication, and server-side PostgreSQL integration.",
+      capstone: "Shipped: Multi-tenant SaaS with Stripe billing and RBAC permissions",
+      tools: ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS", "PostgreSQL"],
     },
     {
-      icon: Cloud,
-      title: "Enterprise Cloud & DevOps",
-      desc: "High-availability multi-cloud infrastructure on AWS and Azure, automated CI/CD deployment pipelines, and zero-downtime Kubernetes management.",
-      tags: ["AWS", "Azure", "Docker", "Kubernetes", "Terraform"],
+      id: "02",
+      title: "Applied AI & Agent Engineering",
+      tagline: "Production RAG, Vector Search & Autonomous Tooling",
+      desc: "Implement enterprise retrieval-augmented generation pipelines, schema-constrained function calling, vector indexing with pgvector, and multi-agent coordination.",
+      capstone: "Shipped: Hybrid semantic document search engine with sub-50ms latency",
+      tools: ["Python", "FastAPI", "Qdrant / pgvector", "LlamaIndex", "LangChain"],
     },
     {
-      icon: Cpu,
-      title: "AI & Machine Learning",
-      desc: "Pragmatic enterprise AI integration including autonomous workflow automation, intelligent document processing, and private LLM deployments.",
-      tags: ["Machine Learning", "NLP", "LLM Integration", "Python", "RAG"],
+      id: "03",
+      title: "Enterprise Cloud & DevOps Infrastructure",
+      tagline: "Docker, Kubernetes & Automated CI/CD Pipelines",
+      desc: "Provision production infrastructure as code with Terraform, containerize microservices with multi-stage non-root Docker builds, and configure zero-downtime rolling deploys.",
+      capstone: "Shipped: Automated GitHub Actions CI/CD to AWS with rolling healthchecks",
+      tools: ["Docker", "Kubernetes", "AWS", "Terraform", "GitHub Actions"],
     },
     {
-      icon: Smartphone,
-      title: "Web & Mobile Applications",
-      desc: "High-density enterprise web applications and cross-platform mobile apps engineered with lightning-fast load times and seamless UX.",
-      tags: ["React", "Next.js", "Flutter", "React Native", "iOS & Android"],
+      id: "04",
+      title: "Data Science & Predictive Analytics",
+      tagline: "Statistical Modeling, Feature Pipelines & SQL Warehouses",
+      desc: "Translate raw relational and event streams into decision models. Perform data quality audits, build Star-Schema models in Power BI, and write high-efficiency analytical CTEs.",
+      capstone: "Shipped: Production revenue churn predictor and executive telemetry dashboard",
+      tools: ["Python", "Pandas", "PostgreSQL", "Power BI", "Scikit-Learn"],
     },
     {
-      icon: Palette,
-      title: "UI/UX & Product Design",
-      desc: "User-centric interface design, comprehensive design systems, interactive Figma prototypes, and research-backed user experiences.",
-      tags: ["Design Systems", "Figma", "User Research", "Prototyping"],
+      id: "05",
+      title: "Cross-Platform Mobile App Engineering",
+      tagline: "React Native & Flutter Native-Performance Mobile",
+      desc: "Build fluid, responsive iOS and Android applications with offline-first synchronization, native device sensor integration, and automated release builds.",
+      capstone: "Shipped: Real-time telemetry mobile companion with push notifications",
+      tools: ["React Native", "Flutter", "TypeScript", "Zustand", "REST APIs"],
     },
     {
-      icon: Users2,
-      title: "Dedicated Engineering Pods",
-      desc: "Augment your internal technical capacity with self-managed pods of senior software engineers, QA leads, and cloud architects.",
-      tags: ["Staff Augmentation", "Dedicated Teams", "Agile Pods", "Senior Talent"],
+      id: "06",
+      title: "Dedicated Senior Engineering Pods",
+      tagline: "Autonomous Product Delivery for Client Partners",
+      desc: "Scale your software roadmap with self-managed pods of vetted senior staff engineers, architects, and QA leads. 100% Day-One IP ownership guaranteed.",
+      capstone: "Shipped: Full-cycle architecture and MVP delivery within 6 to 8 weeks",
+      tools: ["Senior Pods", "100% IP Sovereignty", "Milestone Sprints", "SOC 2 Aligned"],
     },
   ];
 
   return (
-    <section className="py-24 bg-white text-slate-900 border-b border-slate-200">
+    <section className="py-20 sm:py-28 bg-[#FAF9F6] text-slate-900 border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-xs font-mono font-bold uppercase tracking-widest text-brand-600 mb-2 block">
-            WHAT WE DO
+        <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-20">
+          <span className="text-xs font-mono font-bold uppercase tracking-widest text-amber-800 bg-amber-100/70 px-3 py-1 rounded-full border border-amber-300/60 inline-block mb-3">
+            2027 COHORT TRACKS • 2026 VERIFIED CAPSTONES
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight font-sans">
-            Comprehensive Digital Services <br />
-            <span className="text-brand-600">Engineered for Growth</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight font-sans">
+            Engineered Tracks &amp; <br />
+            <span className="font-editorial italic font-normal text-amber-700">Production Capstones</span>
           </h2>
-          <p className="mt-4 text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
-            We partner with businesses to deliver practical, high-quality digital solutions that eliminate operational friction and drive measurable enterprise value.
+          <p className="mt-4 text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
+            Admissions are open for our upcoming 2027 cohorts across 6 specialized domains. Built on the proven architecture capstones shipped by over 1,200+ engineers in 2026.
           </p>
         </div>
 
-        {/* 6-Card Services Grid - 2 columns on mobile, 3 on desktop */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-8">
-          {capabilities.map((item) => {
-            const Icon = item.icon;
-            return (
-              <div
-                key={item.title}
-                className="p-3.5 sm:p-8 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-500/50 hover:bg-white hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
-              >
-                <div>
-                  <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-brand-50 border border-brand-200 flex items-center justify-center p-1.5 sm:p-3 text-brand-600 mb-3 sm:mb-6 group-hover:scale-110 group-hover:bg-brand-500 group-hover:text-obsidian-950 transition-all">
-                    <Icon className="w-full h-full" />
-                  </div>
-
-                  <h3 className="text-sm sm:text-xl font-bold text-slate-900 mb-1.5 sm:mb-3 group-hover:text-brand-600 transition-colors font-sans leading-tight">
-                    {item.title}
-                  </h3>
-
-                  <p className="text-[11px] sm:text-sm text-slate-600 leading-relaxed font-normal mb-3 sm:mb-6 line-clamp-3 sm:line-clamp-none">
-                    {item.desc}
-                  </p>
+        {/* 6 Engineering Blueprint Cards (No AI-slop icons, clean technical layout) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          {tracks.map((track) => (
+            <div
+              key={track.id}
+              className="dx-card p-6 sm:p-8 flex flex-col justify-between group hover:border-amber-400"
+            >
+              <div>
+                {/* Track Index and Tagline */}
+                <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
+                  <span className="font-mono text-xs font-bold text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded border border-amber-200/80">
+                    TRACK {track.id}
+                  </span>
+                  <span className="text-[11px] font-mono font-medium text-slate-500">
+                    6-Week Sprints
+                  </span>
                 </div>
 
-                <div>
-                  <div className="hidden sm:flex flex-wrap gap-1.5 pt-4 border-t border-slate-200 mb-4">
-                    {item.tags.map((t) => (
-                      <span
-                        key={t}
-                        className="text-[11px] font-mono px-2 py-0.5 rounded bg-white border border-slate-200 text-slate-700 font-medium"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
+                <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-1 font-sans leading-snug group-hover:text-amber-800 transition-colors">
+                  {track.title}
+                </h3>
 
-                  <Link
-                    href="/services"
-                    className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-bold text-brand-700 group-hover:text-brand-800 transition-colors font-sans pt-1 sm:pt-0"
-                  >
-                    <span>Learn More</span>
-                    <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                </div>
+                <p className="text-xs font-mono text-amber-700 font-semibold mb-3">
+                  {track.tagline}
+                </p>
+
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal mb-5">
+                  {track.desc}
+                </p>
               </div>
-            );
-          })}
+
+              <div>
+                {/* Real Production Capstone Callout */}
+                <div className="p-3.5 rounded-xl bg-[#FAF9F6] border border-slate-200/80 mb-4">
+                  <div className="text-[10px] font-mono uppercase tracking-wider text-amber-800 font-bold mb-1">
+                    2026 Verified Milestone Capstone
+                  </div>
+                  <div className="text-xs font-semibold text-slate-800 leading-snug">
+                    {track.capstone}
+                  </div>
+                </div>
+
+                {/* Technology Tags */}
+                <div className="flex flex-wrap gap-1.5 pb-4 mb-4 border-b border-slate-100">
+                  {track.tools.map((tool) => (
+                    <span
+                      key={tool}
+                      className="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200"
+                    >
+                      {tool}
+                    </span>
+                  ))}
+                </div>
+
+                <Link
+                  href="/internships"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-700 hover:text-amber-800 transition-colors font-sans"
+                >
+                  <span>Explore Detailed Syllabus &amp; Rubric</span>
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+            </div>
+          ))}
         </div>
 
       </div>

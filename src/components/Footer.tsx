@@ -3,11 +3,17 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin, ArrowRight, ShieldCheck, Award, Lock, MessageCircle, Mail, Globe2 } from "lucide-react";
+import { 
+  MapPin, 
+  ArrowRight, 
+  ShieldCheck, 
+  MessageCircle 
+} from "lucide-react";
 import { DEFAULT_FOOTER_SETTINGS, parseFooterSettings } from "@/lib/content/footer";
 
 export default function Footer() {
   const [footer, setFooter] = useState(DEFAULT_FOOTER_SETTINGS);
+
   useEffect(() => {
     let active = true;
     fetch("/api/public/content", { cache: "no-store" })
@@ -16,51 +22,68 @@ export default function Footer() {
       .catch(() => undefined);
     return () => { active = false; };
   }, []);
+
   const whatsappUrl = `https://wa.me/${footer.whatsappNumber.replace(/\D/g, "")}`;
+
   return (
-    <footer className="bg-[#040E20] border-t border-white/10 pt-16 pb-12 text-white font-sans">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Top Multi-Column Grid - 2 columns on mobile, 5 on desktop */}
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-6 sm:gap-10 pb-12 border-b border-white/10">
+    <footer className="bg-[#040e1f] text-slate-300 font-sans border-t border-slate-800/80 relative overflow-hidden">
+      {/* Main 5-Column Navigation Grid */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-14 border-b border-slate-800">
           
-          {/* Brand Column */}
-          <div className="col-span-2 lg:col-span-2 space-y-4">
-            <Link href="/" className="flex items-center gap-3">
-              <div className="relative w-9 h-9 flex items-center justify-center shrink-0">
+          {/* Column 1: Brand & Operational Status (4 cols on lg) */}
+          <div className="lg:col-span-4 space-y-5">
+            <Link href="/" className="flex items-center gap-3 group">
+              <div className="relative w-9 h-9 flex items-center justify-center rounded-xl bg-slate-900 border border-slate-700 p-1.5 shadow-sm group-hover:scale-105 transition-transform">
                 <Image
                   src="/logo-transparent.png"
                   alt="Devatrix"
                   width={36}
                   height={36}
-                  className="object-contain"
+                  className="w-full h-full object-contain"
                 />
               </div>
               <div className="flex flex-col">
-                <span className="text-xl font-extrabold tracking-tight text-white font-sans">
+                <span className="text-xl font-extrabold tracking-tight text-white leading-tight">
                   Devatrix
                 </span>
-                <span className="text-xs tracking-widest uppercase text-slate-400 font-medium -mt-0.5">
-                  Technologies
+                <span className="text-[10px] tracking-wider uppercase text-amber-400 font-bold font-mono">
+                  Academy &amp; Engineering Studio
                 </span>
               </div>
             </Link>
 
-            <p className="text-sm text-slate-400 leading-relaxed max-w-sm font-normal">
+            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-sm">
               {footer.description}
             </p>
 
-            <div className="pt-2 flex flex-wrap items-center gap-2 text-xs text-slate-400 font-mono">
-              {footer.proofPoints.map((point) => <span key={point} className="px-2.5 py-1 rounded bg-white/5 border border-white/10">{point}</span>)}
+            {/* Live Operational & Admissions Status Indicator */}
+            <div className="p-3 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-1.5 max-w-sm">
+              <div className="flex items-center gap-2 text-xs font-mono font-bold text-emerald-400">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                <span>Admissions Active · Batch 2027.1</span>
+              </div>
+              <p className="text-[11px] text-slate-400 font-sans">
+                Applications reviewed on a rolling basis. Direct line of architect code reviews.
+              </p>
+            </div>
+
+            {/* Proof Points */}
+            <div className="flex flex-wrap items-center gap-1.5 text-[11px] text-slate-400 font-mono">
+              {footer.proofPoints.map((point) => (
+                <span key={point} className="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-slate-300">
+                  {point}
+                </span>
+              ))}
             </div>
 
             {/* Social Channels */}
-            <div className="pt-3 flex items-center gap-3">
+            <div className="pt-1 flex items-center gap-2.5">
               <a
                 href={footer.linkedinUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-lg bg-white/5 hover:bg-brand-500 hover:text-obsidian-950 text-slate-300 transition-all border border-white/10"
+                className="w-9 h-9 rounded-full bg-white/5 hover:bg-amber-500 hover:text-slate-950 text-slate-300 transition-all border border-white/10 flex items-center justify-center"
                 aria-label="LinkedIn"
               >
                 <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -72,7 +95,7 @@ export default function Footer() {
                 href={footer.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-lg bg-white/5 hover:bg-brand-500 hover:text-obsidian-950 text-slate-300 transition-all border border-white/10"
+                className="w-9 h-9 rounded-full bg-white/5 hover:bg-amber-500 hover:text-slate-950 text-slate-300 transition-all border border-white/10 flex items-center justify-center"
                 aria-label="Instagram"
               >
                 <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -84,7 +107,7 @@ export default function Footer() {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-lg bg-white/5 hover:bg-emerald-500 hover:text-white text-slate-300 transition-all border border-white/10"
+                className="w-9 h-9 rounded-full bg-white/5 hover:bg-emerald-500 hover:text-white text-slate-300 transition-all border border-white/10 flex items-center justify-center"
                 aria-label="WhatsApp"
               >
                 <MessageCircle className="w-4 h-4" />
@@ -92,93 +115,136 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Column 2: Services */}
-          <div>
-            <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-200 mb-4">
-              Services
+          {/* Column 2: 2027 Cohort Tracks (2 cols on lg) */}
+          <div className="lg:col-span-2 space-y-3">
+            <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-white">
+              2027 Cohort Tracks
             </h4>
-            <ul className="space-y-2.5 text-sm text-slate-400 font-normal">
+            <ul className="space-y-2 text-xs sm:text-sm text-slate-400">
               <li>
-                <Link href="/services" className="hover:text-brand-400 transition-colors">
-                  Custom Software Development
+                <Link href="/internships#tracks" className="hover:text-amber-400 transition-colors">
+                  Applied AI &amp; Agents
                 </Link>
               </li>
               <li>
-                <Link href="/services" className="hover:text-brand-400 transition-colors">
-                  Enterprise Cloud & DevOps
+                <Link href="/internships#tracks" className="hover:text-amber-400 transition-colors">
+                  Frontend &amp; Next.js 16
                 </Link>
               </li>
               <li>
-                <Link href="/services" className="hover:text-brand-400 transition-colors">
-                  AI & Machine Learning
+                <Link href="/internships#tracks" className="hover:text-amber-400 transition-colors">
+                  DevOps &amp; Cloud (Docker)
                 </Link>
               </li>
               <li>
-                <Link href="/services" className="hover:text-brand-400 transition-colors">
-                  Web & Mobile Applications
+                <Link href="/internships#tracks" className="hover:text-amber-400 transition-colors">
+                  Data Science &amp; Analytics
                 </Link>
               </li>
               <li>
-                <Link href="/services" className="hover:text-brand-400 transition-colors">
-                  UI/UX & Product Design
+                <Link href="/internships#tracks" className="hover:text-amber-400 transition-colors">
+                  React Native &amp; Mobile
+                </Link>
+              </li>
+              <li className="pt-1">
+                <Link href="/internships" className="text-amber-400 hover:underline font-bold text-xs inline-flex items-center gap-1 font-mono">
+                  <span>View All 6 Syllabi</span>
+                  <ArrowRight className="w-3 h-3" />
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Column 3: Company */}
-          <div>
-            <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-200 mb-4">
-              Company
+          {/* Column 3: Studio Engineering (2 cols on lg) */}
+          <div className="lg:col-span-2 space-y-3">
+            <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-white">
+              Engineering Studio
             </h4>
-            <ul className="space-y-2.5 text-sm text-slate-400 font-normal">
+            <ul className="space-y-2 text-xs sm:text-sm text-slate-400">
               <li>
-                <Link href="/about" className="hover:text-brand-400 transition-colors">
-                  About Us
+                <Link href="/services" className="hover:text-amber-400 transition-colors">
+                  Custom SaaS &amp; MVPs
                 </Link>
               </li>
               <li>
-                <Link href="/work" className="hover:text-brand-400 transition-colors">
-                  Case Studies
+                <Link href="/services" className="hover:text-amber-400 transition-colors">
+                  Enterprise Cloud &amp; DevOps
                 </Link>
               </li>
               <li>
-                <Link href="/careers" className="hover:text-brand-400 transition-colors">
-                  Careers
+                <Link href="/services" className="hover:text-amber-400 transition-colors">
+                  Sovereign AI &amp; RAG
                 </Link>
               </li>
               <li>
-                <Link href="/internships" className="hover:text-brand-400 transition-colors text-brand-400 font-semibold flex items-center gap-1.5">
-                  <span>Internships</span>
-                  <span className="text-xs uppercase px-1.5 py-0.2 rounded bg-brand-500/20 text-brand-300 font-mono">Open</span>
+                <Link href="/work" className="hover:text-amber-400 transition-colors">
+                  Production Case Studies
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-brand-400 transition-colors">
-                  Contact Us
+                <Link href="/estimator" className="hover:text-amber-400 transition-colors">
+                  Project Cost Estimator
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Column 4: Engineering Base & Direct Reach */}
-          <div>
-            <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-200 mb-4">
+          {/* Column 4: Verification & Trust (2 cols on lg) */}
+          <div className="lg:col-span-2 space-y-3">
+            <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-white">
+              Trust &amp; Verification
+            </h4>
+            <ul className="space-y-2 text-xs sm:text-sm text-slate-400">
+              <li>
+                <Link href="/verify" className="hover:text-amber-400 transition-colors text-amber-400 font-semibold flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  <span>Verify Certificate</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/portal/sign-in" className="hover:text-amber-400 transition-colors">
+                  Learner Portal
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="hover:text-amber-400 transition-colors">
+                  Architecture Principles
+                </Link>
+              </li>
+              <li>
+                <Link href="/careers" className="hover:text-amber-400 transition-colors">
+                  Staff Engineering Roles
+                </Link>
+              </li>
+              <li>
+                <Link href="/admin/sign-in" className="hover:text-slate-200 transition-colors text-slate-500 text-xs">
+                  Reviewer Console
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 5: Regional Hub & Direct Contact (2 cols on lg) */}
+          <div className="lg:col-span-2 space-y-3 text-xs">
+            <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-white">
               Engineering Base
             </h4>
-            <div className="space-y-3 text-xs text-slate-400 font-sans">
+            <div className="space-y-2.5 text-slate-400">
               <div>
-                <p className="font-semibold text-white">{footer.officeCity}</p>
-                <p className="text-slate-500">{footer.officeDescription}</p>
+                <p className="font-bold text-white flex items-center gap-1.5">
+                  <MapPin className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                  <span>{footer.officeCity}</span>
+                </p>
+                <p className="text-slate-400 text-[11px] mt-0.5">{footer.officeDescription}</p>
               </div>
               <div>
-                <p className="font-semibold text-white">{footer.remoteTitle}</p>
-                <p className="text-slate-500">{footer.remoteDescription}</p>
+                <p className="font-bold text-white">{footer.remoteTitle}</p>
+                <p className="text-slate-400 text-[11px] mt-0.5">{footer.remoteDescription}</p>
               </div>
-              <div className="pt-2 border-t border-white/10 space-y-1.5">
+              <div className="pt-2 border-t border-slate-800 space-y-1.5">
                 <a 
                   href={`mailto:${footer.contactEmail}`}
-                  className="text-brand-400 hover:underline font-semibold block break-all"
+                  className="text-amber-400 hover:underline font-semibold block break-all text-[11px]"
                 >
                   {footer.contactEmail}
                 </a>
@@ -186,9 +252,9 @@ export default function Footer() {
                   href={whatsappUrl}
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-emerald-400 hover:underline font-semibold flex items-center gap-1.5"
+                  className="text-emerald-400 hover:underline font-semibold flex items-center gap-1 text-[11px]"
                 >
-                  <MessageCircle className="w-3.5 h-3.5" />
+                  <MessageCircle className="w-3 h-3" />
                   <span>{footer.whatsappLabel}</span>
                 </a>
               </div>
@@ -197,15 +263,15 @@ export default function Footer() {
 
         </div>
 
-        {/* Bottom Disclosures */}
-        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500 font-sans">
+        {/* Bottom Disclosures Bar */}
+        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <div>
             © {new Date().getFullYear()} {footer.legalName}. {footer.copyrightText}
           </div>
           <div className="flex items-center gap-6">
             <Link href="/privacy" className="hover:text-slate-300">Privacy Policy</Link>
             <Link href="/terms" className="hover:text-slate-300">Terms of Service</Link>
-            <Link href="/contact" className="hover:text-brand-400 text-brand-500 font-semibold">
+            <Link href="/contact" className="hover:text-amber-400 text-amber-400 font-semibold">
               Get in Touch
             </Link>
           </div>

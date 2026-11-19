@@ -9,7 +9,7 @@ export const metadata: Metadata = { title: "Admin sign in | Devatrix", robots: {
 export default async function AdminSignInPage() {
   if (await getAdminUser()) redirect("/admin");
   return (
-    <main className="min-h-screen bg-[#f4f7fb] px-4 py-12 text-slate-900 sm:grid sm:place-items-center">
+    <main className="dx-workspace min-h-screen bg-[#f4f7fb] px-4 py-12 text-slate-900 sm:grid sm:place-items-center">
       <section className="mx-auto w-full max-w-md rounded-2xl border border-slate-200 bg-white p-7 shadow-sm sm:p-9">
         <div className="mb-8 flex items-center gap-3">
           <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#071a36] p-1.5">

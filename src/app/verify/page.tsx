@@ -6,7 +6,7 @@ import { ShieldCheck, FileCheck2, Lock, Award, CheckCircle2 } from "lucide-react
 
 export default function VerifyPage() {
   return (
-    <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans">
+    <div className="dx-public min-h-screen bg-white text-slate-900 flex flex-col font-sans">
       <Navbar />
 
       <main className="flex-1 pt-14 sm:pt-24">
