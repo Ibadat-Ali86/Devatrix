@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { ChevronDown, HelpCircle, Sparkles } from "lucide-react";
+import { ChevronDown, HelpCircle } from "lucide-react";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export default function InternshipFAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
@@ -38,50 +39,58 @@ export default function InternshipFAQ() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
-        <div className="text-center space-y-4 mb-14">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-300 text-slate-800 text-xs font-mono font-bold uppercase tracking-wider">
-            <HelpCircle className="w-3.5 h-3.5 text-amber-600" />
-            <span>COMMONLY ASKED QUESTIONS</span>
+        <ScrollReveal direction="up" delay={0.1}>
+          <div className="text-center space-y-4 mb-14">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-300 text-slate-800 text-xs font-mono font-bold uppercase tracking-wider">
+              <HelpCircle className="w-3.5 h-3.5 text-amber-600" />
+              <span>COMMONLY ASKED QUESTIONS</span>
+            </div>
+
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-950 tracking-tight font-sans">
+              Frequently Asked <span className="font-editorial italic font-normal text-amber-700">Questions.</span>
+            </h2>
+
+            <p className="text-base text-slate-600 font-normal">
+              Everything you need to know about eligibility, schedule flexibility, pull request reviews, and certification.
+            </p>
           </div>
+        </ScrollReveal>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-950 tracking-tight font-sans">
-            Frequently Asked <span className="font-editorial italic font-normal text-amber-700">Questions.</span>
-          </h2>
-
-          <p className="text-base text-slate-600 font-normal">
-            Everything you need to know about eligibility, schedule flexibility, pull request reviews, and certification.
-          </p>
-        </div>
-
-        {/* Accordion FAQ Items */}
+        {/* Accordion FAQ Items with Staggered ScrollReveal */}
         <div className="space-y-3.5">
           {faqs.map((faq, idx) => {
             const isOpen = openIndex === idx;
             return (
-              <div
+              <ScrollReveal
                 key={faq.q}
-                className="rounded-2xl border border-slate-200/90 bg-[#FAF9F6] overflow-hidden transition-all duration-200 hover:border-amber-400"
+                delay={idx * 0.07}
+                direction="up"
+                distance={16}
               >
-                <button
-                  type="button"
-                  onClick={() => setOpenIndex(isOpen ? null : idx)}
-                  className="w-full px-6 py-5 flex items-center justify-between text-left gap-4 font-sans focus:outline-none"
-                  aria-expanded={isOpen}
+                <div
+                  className="rounded-2xl border border-slate-200/90 bg-[#FAF9F6] overflow-hidden transition-all duration-200 hover:border-amber-400"
                 >
-                  <span className="text-base font-bold text-slate-900 leading-snug">
-                    {faq.q}
-                  </span>
-                  <span className={`w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center shrink-0 transition-transform duration-200 ${isOpen ? "rotate-180 bg-amber-50 border-amber-300 text-amber-800" : "text-slate-500"}`}>
-                    <ChevronDown className="w-4 h-4" />
-                  </span>
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => setOpenIndex(isOpen ? null : idx)}
+                    className="w-full px-6 py-5 flex items-center justify-between text-left gap-4 font-sans focus:outline-none"
+                    aria-expanded={isOpen}
+                  >
+                    <span className="text-base font-bold text-slate-900 leading-snug">
+                      {faq.q}
+                    </span>
+                    <span className={`w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center shrink-0 transition-transform duration-200 ${isOpen ? "rotate-180 bg-amber-50 border-amber-300 text-amber-800" : "text-slate-500"}`}>
+                      <ChevronDown className="w-4 h-4" />
+                    </span>
+                  </button>
 
-                {isOpen && (
-                  <div className="px-6 pb-6 pt-1 text-sm text-slate-600 leading-relaxed font-normal border-t border-slate-200/60 animate-in fade-in duration-150">
-                    {faq.a}
-                  </div>
-                )}
-              </div>
+                  {isOpen && (
+                    <div className="px-6 pb-6 pt-1 text-sm text-slate-600 leading-relaxed font-normal border-t border-slate-200/60 animate-in fade-in duration-150">
+                      {faq.a}
+                    </div>
+                  )}
+                </div>
+              </ScrollReveal>
             );
           })}
         </div>

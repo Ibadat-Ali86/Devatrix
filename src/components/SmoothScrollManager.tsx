@@ -3,12 +3,20 @@
 import React, { useEffect, useState } from "react";
 import { motion, useScroll, useSpring } from "motion/react";
 import { ArrowUp } from "lucide-react";
+import Lenis from "lenis";
+
+declare global {
+  interface Window {
+    __lenis?: Lenis;
+  }
+}
 
 /**
  * SmoothScrollManager provides:
- * 1. An ultra-sleek, hardware-accelerated top scroll progress bar tracking page depth from 0% to 100%.
- * 2. A floating, accessible "Scroll to top" button with smooth easing that appears when scrolled past 320px.
- * 3. Interception of internal anchor links (#hash) to ensure smooth animated scrolling with navbar offset.
+ * 1. Global buttery-smooth momentum scrolling powered by Lenis (hardware-accelerated 60/120fps physics).
+ * 2. An ultra-sleek, hardware-accelerated top scroll progress bar tracking page depth from 0% to 100%.
+ * 3. A floating, accessible "Scroll to top" button with smooth easing that appears when scrolled past 320px.
+ * 4. Interception of internal anchor links (#hash) to ensure smooth animated scrolling with navbar offset.
  */
 export default function SmoothScrollManager() {
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -22,6 +30,32 @@ export default function SmoothScrollManager() {
   });
 
   useEffect(() => {
+    // Respect system preference for reduced motion
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    let lenis: Lenis | null = null;
+    let animationFrameId: number | undefined;
+
+    if (!prefersReducedMotion) {
+      lenis = new Lenis({
+        duration: 1.15,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: "vertical",
+        gestureOrientation: "vertical",
+        smoothWheel: true,
+        wheelMultiplier: 1.0,
+        touchMultiplier: 1.4,
+      });
+
+      window.__lenis = lenis;
+
+      const raf = (time: number) => {
+        lenis?.raf(time);
+        animationFrameId = requestAnimationFrame(raf);
+      };
+      animationFrameId = requestAnimationFrame(raf);
+    }
+
     const unsubscribe = scrollY.on("change", (latest) => {
       setShowScrollTop(latest > 320);
     });
@@ -38,15 +72,23 @@ export default function SmoothScrollManager() {
         if (element) {
           e.preventDefault();
           const navOffset = 90; // Accounts for fixed floating navbar
-          const bodyRect = document.body.getBoundingClientRect().top;
-          const elementRect = element.getBoundingClientRect().top;
-          const elementPosition = elementRect - bodyRect;
-          const offsetPosition = elementPosition - navOffset;
 
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: "smooth",
-          });
+          if (window.__lenis) {
+            window.__lenis.scrollTo(element, {
+              offset: -navOffset,
+              duration: 1.15,
+            });
+          } else {
+            const bodyRect = document.body.getBoundingClientRect().top;
+            const elementRect = element.getBoundingClientRect().top;
+            const elementPosition = elementRect - bodyRect;
+            const offsetPosition = elementPosition - navOffset;
+
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: "smooth",
+            });
+          }
 
           // Update URL hash without jumping
           window.history.pushState(null, "", href);
@@ -59,14 +101,25 @@ export default function SmoothScrollManager() {
     return () => {
       unsubscribe();
       document.removeEventListener("click", handleAnchorClick);
+      if (animationFrameId !== undefined) {
+        cancelAnimationFrame(animationFrameId);
+      }
+      if (lenis) {
+        lenis.destroy();
+        delete window.__lenis;
+      }
     };
   }, [scrollY]);
 
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    if (window.__lenis) {
+      window.__lenis.scrollTo(0, { duration: 1.25 });
+    } else {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
   };
 
   return (

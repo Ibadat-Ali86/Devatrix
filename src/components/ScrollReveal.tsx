@@ -7,20 +7,28 @@ interface ScrollRevealProps {
   children: React.ReactNode;
   className?: string;
   delay?: number;
+  duration?: number;
   direction?: "up" | "down" | "left" | "right" | "none";
   distance?: number;
+  scale?: number;
+  blur?: boolean;
+  once?: boolean;
 }
 
 /**
  * ScrollReveal provides buttery-smooth viewport entry animations as the user scrolls through the page.
- * Respects system prefers-reduced-motion settings.
+ * Features subtle blur-to-focus transitions, directional offsets, and respects prefers-reduced-motion.
  */
 export default function ScrollReveal({
   children,
   className = "",
   delay = 0,
+  duration = 0.65,
   direction = "up",
   distance = 24,
+  scale,
+  blur = true,
+  once = true,
 }: ScrollRevealProps) {
   const shouldReduceMotion = useReducedMotion();
 
@@ -48,13 +56,24 @@ export default function ScrollReveal({
 
   return (
     <motion.div
-      initial={{ opacity: 0, ...offset }}
-      whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
+      initial={{
+        opacity: 0,
+        ...offset,
+        ...(scale !== undefined ? { scale } : {}),
+        ...(blur ? { filter: "blur(6px)" } : {}),
+      }}
+      whileInView={{
+        opacity: 1,
+        x: 0,
+        y: 0,
+        ...(scale !== undefined ? { scale: 1 } : {}),
+        ...(blur ? { filter: "blur(0px)" } : {}),
+      }}
+      viewport={{ once, margin: "0px 0px -40px 0px", amount: 0.08 }}
       transition={{
-        duration: 0.65,
+        duration,
         delay,
-        ease: [0.16, 1, 0.3, 1], // Smooth custom cubic-bezier
+        ease: [0.16, 1, 0.3, 1], // Smooth cubic-bezier for natural physical response
       }}
       className={className}
     >

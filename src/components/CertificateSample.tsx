@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { ArrowRight, Award, ShieldCheck, CheckCircle2, Sparkles, ExternalLink } from "lucide-react";
+import ScrollReveal from "@/components/ScrollReveal";
 
 /**
  * Authentic digital cursive executive signature for the CEO & Founder.
@@ -169,80 +170,83 @@ export default function CertificateSample() {
       <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[.85fr_1.15fr] lg:gap-16">
         
         {/* Left column: Explanatory copy & controls */}
-        <div>
-          <span className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-amber-800 bg-amber-100/70 px-3 py-1 rounded-full border border-amber-300/60">
-            <Award className="h-4 w-4 text-amber-700"/>
-            ACADEMIC CREDENTIAL
-          </span>
+        <ScrollReveal direction="up" delay={0.1}>
+          <div>
+            <span className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-amber-800 bg-amber-100/70 px-3 py-1 rounded-full border border-amber-300/60">
+              <Award className="h-4 w-4 text-amber-700"/>
+              ACADEMIC CREDENTIAL
+            </span>
 
-          <h2 id="certificate-sample-title" className="mt-4 text-3xl font-extrabold tracking-tight text-[#061833] sm:text-4xl lg:text-5xl font-sans">
-            Cryptographically Verifiable <br />
-            <span className="font-editorial italic font-normal text-amber-700">Recognition of Mastery</span>
-          </h2>
+            <h2 id="certificate-sample-title" className="mt-4 text-3xl font-extrabold tracking-tight text-[#061833] sm:text-4xl lg:text-5xl font-sans">
+              Cryptographically Verifiable <br />
+              <span className="font-editorial italic font-normal text-amber-700">Recognition of Mastery</span>
+            </h2>
 
-          <p className="mt-4 text-sm sm:text-base leading-relaxed text-slate-600">
-            Learners receive a permanent public verification URL and cryptographically signed certificate upon completing all six weekly milestone pull requests. Recruiters can independently inspect student code commits and rubric scorecards.
-          </p>
+            <p className="mt-4 text-sm sm:text-base leading-relaxed text-slate-600">
+              Learners receive a permanent public verification URL and cryptographically signed certificate upon completing all six weekly milestone pull requests. Recruiters can independently inspect student code commits and rubric scorecards.
+            </p>
 
-          {/* Simple vs Premium Format Toggle */}
-          <div className="mt-6 inline-flex rounded-full border border-slate-200 bg-slate-100 p-1" role="group" aria-label="Choose sample certificate style">
-            {(["simple", "premium"] as const).map((item) => (
-              <button 
-                key={item} 
-                type="button" 
-                onClick={() => setStyle(item)} 
-                aria-pressed={style === item} 
-                className={`min-h-9 rounded-full px-5 text-xs font-bold capitalize transition-all ${
-                  style === item 
-                    ? "bg-[#061833] text-white shadow-sm" 
-                    : "text-slate-600 hover:text-slate-900"
-                }`}
+            {/* Simple vs Premium Format Toggle */}
+            <div className="mt-6 inline-flex rounded-full border border-slate-200 bg-slate-100 p-1" role="group" aria-label="Choose sample certificate style">
+              {(["simple", "premium"] as const).map((item) => (
+                <button 
+                  key={item} 
+                  type="button" 
+                  onClick={() => setStyle(item)} 
+                  aria-pressed={style === item} 
+                  className={`min-h-9 rounded-full px-5 text-xs font-bold capitalize transition-all ${
+                    style === item 
+                      ? "bg-[#061833] text-white shadow-sm" 
+                      : "text-slate-600 hover:text-slate-900"
+                  }`}
+                >
+                  {item === "simple" ? "Simple Format" : "Premium Format"}
+                </button>
+              ))}
+            </div>
+
+            <div className="mt-6 flex flex-wrap gap-4 text-xs font-mono text-slate-600">
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>Student ID: DVX/2026/0842</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>Devatrix Core Logo Verified</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>Public GitHub Pull Requests Attached</span>
+              </div>
+            </div>
+
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <Link 
+                href="/portal/sign-in" 
+                className="dx-btn-primary px-6 py-3 text-xs sm:text-sm font-extrabold uppercase tracking-wide inline-flex items-center gap-2"
               >
-                {item === "simple" ? "Simple Format" : "Premium Format"}
-              </button>
-            ))}
-          </div>
-
-          <div className="mt-6 flex flex-wrap gap-4 text-xs font-mono text-slate-600">
-            <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-              <span>Student ID: DVX/2026/0842</span>
+                <span>Sign in to Preview Your Credential</span>
+                <ArrowRight className="h-4 w-4"/>
+              </Link>
+              <Link 
+                href="/verify" 
+                className="dx-btn-secondary px-5 py-3 text-xs sm:text-sm font-bold inline-flex items-center gap-2"
+              >
+                <span>Test Credential Lookup</span>
+                <ExternalLink className="h-3.5 w-3.5 text-slate-500" />
+              </Link>
             </div>
-            <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-              <span>Devatrix Core Logo Verified</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-              <span>Public GitHub Pull Requests Attached</span>
-            </div>
-          </div>
 
-          <div className="mt-8 flex flex-wrap items-center gap-4">
-            <Link 
-              href="/portal/sign-in" 
-              className="dx-btn-primary px-6 py-3 text-xs sm:text-sm font-extrabold uppercase tracking-wide inline-flex items-center gap-2"
-            >
-              <span>Sign in to Preview Your Credential</span>
-              <ArrowRight className="h-4 w-4"/>
-            </Link>
-            <Link 
-              href="/verify" 
-              className="dx-btn-secondary px-5 py-3 text-xs sm:text-sm font-bold inline-flex items-center gap-2"
-            >
-              <span>Test Credential Lookup</span>
-              <ExternalLink className="h-3.5 w-3.5 text-slate-500" />
-            </Link>
+            <p className="mt-4 inline-flex items-center gap-2 text-xs text-slate-500">
+              <ShieldCheck className="h-4 w-4 text-emerald-600 shrink-0"/>
+              Personal milestone and certificate details are secured behind learner authentication.
+            </p>
           </div>
-
-          <p className="mt-4 inline-flex items-center gap-2 text-xs text-slate-500">
-            <ShieldCheck className="h-4 w-4 text-emerald-600 shrink-0"/>
-            Personal milestone and certificate details are secured behind learner authentication.
-          </p>
-        </div>
+        </ScrollReveal>
 
         {/* Right column: Exact Certificate Preview Card */}
-        <div className="relative mx-auto w-full max-w-2xl">
+        <ScrollReveal direction="up" delay={0.2} scale={0.97} className="w-full">
+          <div className="relative mx-auto w-full max-w-2xl">
           
           {/* Certificate Container with outer matting */}
           <div className={`relative w-full rounded-2xl sm:rounded-3xl p-3 sm:p-5 transition-all duration-300 ${
@@ -436,7 +440,8 @@ export default function CertificateSample() {
             </div>
           </div>
 
-        </div>
+          </div>
+        </ScrollReveal>
 
       </div>
     </section>

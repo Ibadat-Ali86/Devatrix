@@ -32,44 +32,30 @@ export default async function HomePage() {
         <EnterpriseHero copy={homeHero ? { title: homeHero.title, highlight: homeHero.badge, summary: homeHero.summary } : undefined} />
 
         {/* 2. Institutional & Academic Trust Ticker */}
-        <ScrollReveal>
+        <ScrollReveal direction="up" delay={0.1}>
           <TrustTicker />
         </ScrollReveal>
 
         {/* 3. Why Choose Us: The Apprenticeship Standard vs Status Quo */}
-        <ScrollReveal>
-          <WhyDevatrix />
-        </ScrollReveal>
+        <WhyDevatrix />
 
         {/* 4. Internship Flow: 5-Stage Step-by-Step Cadence Roadmap */}
-        <ScrollReveal>
-          <InternshipFlow />
-        </ScrollReveal>
+        <InternshipFlow />
 
         {/* 5. Available Internship Domains & Specialization Tracks */}
-        <ScrollReveal>
-          <CoreCapabilities />
-        </ScrollReveal>
+        <CoreCapabilities />
 
         {/* 6. Cryptographically Verifiable Academic Credential Preview */}
-        <ScrollReveal>
-          <CertificateSample />
-        </ScrollReveal>
+        <CertificateSample />
 
         {/* 7. Student Community & Alumni Success Stories */}
-        <ScrollReveal>
-          <LearnerTestimonials />
-        </ScrollReveal>
+        <LearnerTestimonials />
 
         {/* 8. Frequently Asked Questions (FAQ) */}
-        <ScrollReveal>
-          <InternshipFAQ />
-        </ScrollReveal>
+        <InternshipFAQ />
 
         {/* 9. Final Cohort Intake Application CTA */}
-        <ScrollReveal>
-          <ExecutiveCTA />
-        </ScrollReveal>
+        <ExecutiveCTA />
 
       </main>
 
