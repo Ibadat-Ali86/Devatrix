@@ -1,73 +1,125 @@
 import React from "react";
 import Link from "next/link";
-import { ShieldCheck, Award, Users, CheckCircle2, Globe2, ArrowRight } from "lucide-react";
+import { CheckCircle2, ArrowRight, ShieldCheck, GitPullRequest, Award, FileCode } from "lucide-react";
 
 export default function WhyDevatrix() {
-  const pillars = [
+  const comparisons = [
     {
-      title: "Deliverable-Backed Execution",
-      desc: "We align directly with your business goals. Every phase is tied to tangible, verified milestones so you always have full visibility into sprint progress.",
+      num: "01",
+      dimension: "Code Artifacts & Repositories",
+      statusQuo: "Toy Jupyter notebooks, local code snippets, and unversioned tutorial exercises.",
+      devatrixWay: "Public GitHub repositories with clean commits, branch protection, and automated CI/CD checks.",
+      benefit: "Recruiter-Auditable Portfolio",
     },
     {
-      title: "100% Day-One IP Sovereignty",
-      desc: "You retain full ownership of all source code, architecture documentation, infrastructure scripts, and intellectual property from the first commit.",
+      num: "02",
+      dimension: "Engineering Feedback & Reviews",
+      statusQuo: "Automated multiple-choice quizzes, peer evaluations, or zero architectural oversight.",
+      devatrixWay: "Line-by-line pull request audits by senior staff architects on security, performance, and structure.",
+      benefit: "Staff-Level Code Mentorship",
     },
     {
-      title: "Senior Engineering Pods",
-      desc: "No bait-and-switch staffing. Your projects are architected and developed by vetted senior engineers with deep production distributed systems expertise.",
+      num: "03",
+      dimension: "Completion Credentials",
+      statusQuo: "Unverifiable static PDF certificates easily falsified and ignored by hiring managers.",
+      devatrixWay: "Cryptographically verifiable credentials with permanent SHA-256 IDs linked to submitted PRs.",
+      benefit: "Indisputable Technical Proof",
     },
     {
-      title: "Agile Remote-First Delivery",
-      desc: "Based in Lahore, Pakistan and operating as a remote-first software engineering house, delivering clear milestone demos, transparent communication, and flexible timezone alignment for clients worldwide.",
+      num: "04",
+      dimension: "Client IP & Deliverable Sovereignty",
+      statusQuo: "Murky IP assignment, hidden vendor lock-in, and unpredictable hourly invoice creep.",
+      devatrixWay: "100% Day-One client IP ownership, fixed-scope milestone sprints, and clean documentation.",
+      benefit: "Zero Intellectual Property Risk",
     },
   ];
 
   return (
-    <section className="py-24 bg-white text-slate-900 border-b border-slate-200">
+    <section className="py-20 sm:py-28 bg-white text-slate-900 border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           
-          {/* Left Column: Heading & Value Proposition */}
-          <div className="lg:col-span-5 space-y-6">
-            <span className="text-xs font-mono font-bold uppercase tracking-widest text-brand-600 block">
-              WHY DEVATRIX
+          {/* Left Column: Heading & Pedagogy */}
+          <div className="lg:col-span-5 space-y-6 sticky top-28">
+            <span className="text-xs font-mono font-bold uppercase tracking-widest text-amber-800 bg-amber-100/70 px-3 py-1 rounded-full border border-amber-300/60 inline-block">
+              THE APPRENTICESHIP STANDARD
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight font-sans">
-              A Trusted Partner <br />
-              <span className="text-brand-600">Built for Scale</span>
+
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight font-sans leading-tight">
+              Real Production Code, <br />
+              <span className="font-editorial italic font-normal text-amber-700">Never Simulated Exercises.</span>
             </h2>
-            <p className="text-base text-slate-600 leading-relaxed font-normal">
-              We bridge strategic consulting with deep hands-on software craftsmanship, helping high-growth businesses and enterprises navigate technological change with confidence.
+
+            <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
+              Most online courses teach you how to copy code from a tutorial. Devatrix immerses you in the actual cadence of an elite engineering organization: writing testable features, defending pull request design choices, and maintaining high software reliability.
             </p>
+
+            {/* Quick Proof Badges */}
+            <div className="space-y-3 pt-2">
+              <div className="flex items-center gap-2.5 text-xs font-semibold text-slate-800">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>6-Week Sprints configured around university exam schedules</span>
+              </div>
+              <div className="flex items-center gap-2.5 text-xs font-semibold text-slate-800">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>Top performers receive direct fast-track junior engineer interviews</span>
+              </div>
+              <div className="flex items-center gap-2.5 text-xs font-semibold text-slate-800">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>Official Letter of Recommendation (LOR) for verified distinctions</span>
+              </div>
+            </div>
 
             <div className="pt-2">
               <Link
                 href="/about"
-                className="inline-flex items-center gap-2 text-sm font-bold text-brand-700 hover:text-brand-800 transition-colors font-sans"
+                className="dx-btn-secondary px-5 py-2.5 text-xs sm:text-sm font-bold shadow-xs inline-flex items-center gap-2"
               >
-                <span>Learn More About Our Company</span>
-                <ArrowRight className="w-4 h-4" />
+                <span>Read About Our Pedagogy &amp; Mentors</span>
+                <ArrowRight className="w-4 h-4 text-slate-500" />
               </Link>
             </div>
           </div>
 
-          {/* Right Column: 4 Pillars 2x2 Grid on all screens */}
-          <div className="lg:col-span-7 grid grid-cols-2 gap-2.5 sm:gap-6">
-            {pillars.map((pillar) => (
+          {/* Right Column: Comparison Matrix (No AI-slop icons, clean technical layout) */}
+          <div className="lg:col-span-7 space-y-4">
+            {comparisons.map((item) => (
               <div
-                key={pillar.title}
-                className="p-3.5 sm:p-6 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-500/40 hover:bg-white hover:shadow-lg transition-all"
+                key={item.num}
+                className="dx-card p-6 border border-slate-200/90 hover:border-amber-400 transition-all space-y-3"
               >
-                <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg bg-brand-50 border border-brand-200 flex items-center justify-center text-brand-600 mb-2 sm:mb-4">
-                  <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5" />
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <span className="font-mono text-xs font-bold text-slate-400">
+                      [{item.num}]
+                    </span>
+                    <h3 className="text-sm sm:text-base font-bold text-slate-900 font-sans">
+                      {item.dimension}
+                    </h3>
+                  </div>
+                  <span className="font-mono text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
+                    {item.benefit}
+                  </span>
                 </div>
-                <h3 className="text-xs sm:text-lg font-bold text-slate-900 mb-1 sm:mb-2 font-sans leading-tight">
-                  {pillar.title}
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                  {pillar.desc}
-                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs">
+                  {/* Status Quo */}
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/60 text-slate-500 space-y-1">
+                    <span className="font-mono text-[10px] uppercase font-bold text-slate-400 block">
+                      Generic Courses &amp; Bootcamps
+                    </span>
+                    <p className="leading-relaxed">{item.statusQuo}</p>
+                  </div>
+
+                  {/* Devatrix Way */}
+                  <div className="p-3 rounded-xl bg-amber-50/50 border border-amber-200/70 text-slate-800 space-y-1 font-medium">
+                    <span className="font-mono text-[10px] uppercase font-bold text-amber-800 block">
+                      The Devatrix Standard
+                    </span>
+                    <p className="leading-relaxed text-slate-900">{item.devatrixWay}</p>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
