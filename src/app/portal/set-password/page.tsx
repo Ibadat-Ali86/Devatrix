@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 export default function SetPasswordPage() {
   const configured = Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_PUBLISHABLE_KEY && process.env.SUPABASE_SECRET_KEY);
-  return <main className="flex min-h-screen flex-col bg-[#f3f6fa] text-slate-900">
+  return <main className="dx-workspace flex min-h-screen flex-col bg-[#f3f6fa] text-slate-900">
     <header className="bg-[#061833] px-5 py-4 sm:px-8">
       <Link href="/" className="mx-auto flex max-w-6xl items-center gap-3 text-white" aria-label="Devatrix home">
         <Image src="/logo-transparent.png" alt="" width={40} height={40} priority/>

@@ -77,7 +77,7 @@ export default function LearnerManagement() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f3f6fa] text-slate-900">
+    <main className="dx-workspace min-h-screen bg-[#f3f6fa] text-slate-900">
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-[1500px] items-center justify-between gap-4 px-4 py-3 sm:px-7 lg:px-10">
           <div className="flex min-w-0 items-center gap-3"><div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg bg-[#071a36] p-1"><Image src="/logo-transparent.png" alt="Devatrix logo" fill sizes="40px" className="object-contain p-1"/></div><div><p className="text-[10px] font-semibold uppercase tracking-[.16em] text-slate-500">Devatrix Technologies</p><h1 className="text-lg font-bold text-[#061833] sm:text-xl">Learner program</h1></div></div>

@@ -393,26 +393,26 @@ export default function InternshipsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
+    <div className="dx-public min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
       <Navbar />
 
-      <main className="flex-1 pt-14 sm:pt-20">
+      <main className="flex-1 pt-16 sm:pt-24">
         {cmsContent?.announcement && <aside className="flex items-center justify-center gap-2 bg-amber-400 px-4 py-3 text-center text-sm font-semibold text-[#071a36]"><Sparkles className="h-4 w-4 shrink-0" aria-hidden="true"/><span>{cmsContent.announcement.title}{cmsContent.announcement.summary ? ` — ${cmsContent.announcement.summary}` : ""}</span></aside>}
         
         {/* Hero Section (#061833) */}
-        <section className="relative py-20 sm:py-24 bg-[#061833] text-white overflow-hidden border-b border-white/10">
+        <section data-navbar-theme="dark" className="relative py-20 sm:py-28 bg-[#061833] text-white overflow-hidden border-b border-white/10">
           <div className="absolute top-0 right-1/4 w-[500px] h-[300px] bg-brand-500/15 rounded-full blur-[140px] pointer-events-none"></div>
           <div className="absolute bottom-0 left-1/4 w-[400px] h-[250px] bg-blue-600/15 rounded-full blur-[120px] pointer-events-none"></div>
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-6">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-mono font-medium text-slate-300">
-              <GraduationCap className="w-3.5 h-3.5 text-brand-400" />
-              <span>DEVATRIX ACCELERATOR • BATCH 2026 APPLICATIONS OPEN</span>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-xs font-semibold text-amber-300">
+              <GraduationCap className="w-3.5 h-3.5 text-amber-400" />
+              <span>DEVATRIX ACCELERATOR • BATCH 2027 APPLICATIONS OPEN</span>
             </div>
             
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight font-sans">
               Software Engineering Internships. <br />
-              <span className="text-brand-500">Fast-Track Your Tech Career.</span>
+              <span className="font-editorial italic font-normal text-amber-400">Fast-Track Your Tech Career.</span>
             </h1>
 
             <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal">
@@ -636,7 +636,7 @@ export default function InternshipsPage() {
           <div className="mt-14 p-8 sm:p-10 rounded-3xl bg-[#061833] text-white border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-2 max-w-2xl">
               <span className="text-xs font-mono font-bold uppercase tracking-wider text-brand-400">
-                BATCH 2026 INTAKE
+                BATCH 2027 INTAKE
               </span>
               <h3 className="text-2xl font-black font-sans text-white">
                 Ready to Accelerate Your Engineering Career?

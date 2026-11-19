@@ -121,7 +121,7 @@ export default function PortalDashboard() {
   const activeRequest = preview && data ? requestsFor(preview.enrollmentId).find((item) => item.certificate_type === preview.style) : undefined;
 
   return (
-    <main className="min-h-screen bg-[#f3f6fa] text-slate-900">
+    <main className="dx-workspace min-h-screen bg-[#f3f6fa] text-slate-900">
       <header className="border-b border-white/10 bg-[#061833] text-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 sm:px-8">
           <Link href="/" className="flex min-w-0 items-center gap-3" aria-label="Devatrix home">
@@ -186,7 +186,29 @@ export default function PortalDashboard() {
                     {enrollment.status === "completed" ? <div className="mt-5 space-y-3">{(["simple", "premium"] as const).map((style) => {
                       const req = certificateRequests.find((item) => item.certificate_type === style);
                       const fee = style === "simple" ? certSettings?.simple_fee : certSettings?.premium_fee;
-                      return <div key={style} className="rounded-lg border border-slate-200 bg-white p-3"><div className="flex items-start justify-between gap-2"><div><p className="font-semibold capitalize text-[#061833]">{style}</p><p className="mt-1 text-xs text-slate-500">{fee === null || fee === undefined ? "Fee not configured" : `${certSettings?.currency ?? ""} ${Number(fee).toFixed(2)}`}</p></div>{req && <span className="text-right text-[11px] font-semibold capitalize text-blue-800">{titleFor(req.status)}</span>}</div><div className="mt-3 flex gap-2"><button onClick={() => setPreview({ enrollmentId: enrollment.id, style })} className="min-h-9 flex-1 rounded-md border border-slate-300 text-xs font-semibold text-[#061833] hover:bg-slate-50">Preview</button>{(!req || req.status === "rejected") && <button onClick={() => void post("/api/portal/certificates", { enrollmentId: enrollment.id, certificateType: style }, "Certificate request recorded. Follow the payment instructions shown by the team.")} disabled={fee === null || fee === undefined || Boolean(busy)} className="min-h-9 flex-1 rounded-md bg-amber-500 text-xs font-bold text-[#061833] hover:bg-amber-400 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-500">Request</button>}</div></div>;
+                      return (
+                        <div key={style} className="rounded-lg border border-slate-200 bg-white p-3">
+                          <div className="flex items-start justify-between gap-2">
+                            <div>
+                              <p className="font-semibold capitalize text-[#061833]">{style}</p>
+                              <p className="mt-1 text-xs text-slate-500">
+                                {fee === null || fee === undefined ? "Fee not configured" : `${certSettings?.currency ?? ""} ${Number(fee).toFixed(2)}`}
+                              </p>
+                            </div>
+                            {req && <span className="text-right text-[11px] font-semibold capitalize text-blue-800">{titleFor(req.status)}</span>}
+                          </div>
+                          <div className="mt-3 flex gap-2">
+                            <button onClick={() => setPreview({ enrollmentId: enrollment.id, style })} className="min-h-9 flex-1 rounded-md border border-slate-300 text-xs font-semibold text-[#061833] hover:bg-slate-50">Preview</button>
+                            {(!req || req.status === "rejected") && (
+                              <button
+                                onClick={() => void post("/api/portal/certificates", { enrollmentId: enrollment.id, certificateType: style }, "Certificate request recorded. Follow the payment instructions shown by the team.")}
+                                disabled={fee === null || fee === undefined || Boolean(busy)}
+                                className="min-h-9 flex-1 rounded-md bg-amber-500 text-xs font-bold text-[#061833] hover:bg-amber-400 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-600"
+                              >Request</button>
+                            )}
+                          </div>
+                        </div>
+                      );
                     })}<p className="text-xs leading-5 text-slate-500">Premium changes the certificate presentation only. Honors are earned through assessed performance and can’t be purchased.</p></div> : <p className="mt-5 rounded-lg bg-white px-3 py-3 text-sm leading-5 text-slate-600">Complete all six milestones and receive reviewer approval to unlock certificate previews.</p>}
                   </aside>
                 </div>

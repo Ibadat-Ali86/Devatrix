@@ -7,7 +7,7 @@ import { Calculator, ShieldCheck, Lock, FileText, CheckCircle2 } from "lucide-re
 
 export default function EstimatorPage() {
   return (
-    <div className="min-h-screen bg-obsidian-950 text-slate-100 flex flex-col">
+    <div className="dx-public dx-estimator min-h-screen bg-white text-slate-900 flex flex-col">
       <Navbar />
 
       <main className="flex-1 pt-14 sm:pt-28 pb-12 sm:pb-20">

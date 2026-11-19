@@ -82,23 +82,23 @@ export default async function ServicesPage() {
   });
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
+    <div className="dx-public min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
       <Navbar />
 
-      <main className="flex-1 pt-14 sm:pt-20">
+      <main className="flex-1 pt-16 sm:pt-24">
         
         {/* Enterprise Hero Banner (#061833) */}
-        <section className="relative py-20 bg-[#061833] text-white overflow-hidden border-b border-white/10">
-          <div className="absolute top-0 right-1/4 w-[500px] h-[300px] bg-brand-500/15 rounded-full blur-[140px] pointer-events-none"></div>
-          <div className="absolute bottom-0 left-1/4 w-[400px] h-[250px] bg-blue-600/15 rounded-full blur-[120px] pointer-events-none"></div>
+        <section data-navbar-theme="dark" className="relative py-20 sm:py-28 bg-[#061833] text-white overflow-hidden border-b border-white/10">
+          <div className="absolute top-0 right-1/4 w-[500px] h-[300px] bg-amber-500/10 rounded-full blur-[140px] pointer-events-none"></div>
+          <div className="absolute bottom-0 left-1/4 w-[400px] h-[250px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none"></div>
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-4">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-mono font-medium text-slate-300">
-              <Layers className="w-3.5 h-3.5 text-brand-500" />
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-5">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-xs font-semibold text-amber-300">
+              <Layers className="w-3.5 h-3.5 text-amber-400" />
               <span>END-TO-END TECHNOLOGY CAPABILITIES</span>
             </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight">
-              {intro?.title ?? <>Enterprise Software Services. <br />Engineered for</>} <span className="text-brand-500">{intro?.badge ?? "Scale."}</span>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight font-sans">
+              {intro?.title ?? <>Enterprise Software Services, <br />Engineered for</>} <span className="font-editorial italic font-normal text-amber-400">{intro?.badge ?? "Real Value & Scale."}</span>
             </h1>
             <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal">
               {intro?.summary ?? "From mission-critical distributed architectures to modern cloud platforms and practical enterprise AI integration."}
@@ -122,7 +122,7 @@ export default async function ServicesPage() {
             </div>
 
             {/* 2x2 Grid on all screens */}
-            <div className="grid grid-cols-2 gap-3 sm:gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
               {serviceDetails.map((service) => {
                 const Icon = service.icon;
                 return (

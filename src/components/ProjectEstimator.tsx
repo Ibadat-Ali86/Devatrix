@@ -137,7 +137,7 @@ export default function ProjectEstimator() {
               <label className="text-xs font-mono font-bold uppercase tracking-wider text-slate-300 block mb-3">
                 2. Pod Scale & Team Composition
               </label>
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {[
                   { id: "mvp", title: "Core MVP Pod", size: "2-3 Engineers", desc: "Prototype & Launch" },
                   { id: "scaleup", title: "Scale-Up Pod", size: "4-6 Engineers", desc: "Production Scale" },
