@@ -97,15 +97,17 @@ export default function InternshipFlow() {
           </p>
         </div>
 
-        {/* 5-Step Connected Flow (Desktop Horizontal / Mobile Vertical) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 sm:gap-4 relative">
+        {/* 5-Step Connected Flow (Desktop 5-col / Tablet 2-col / Mobile 1-col) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 sm:gap-4 relative">
           
           {steps.map((item, idx) => {
             const Icon = item.icon;
             return (
               <div 
                 key={item.step}
-                className="relative flex flex-col justify-between p-6 sm:p-5 rounded-2xl bg-white border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-amber-400 hover:-translate-y-1 transition-all duration-300 group"
+                className={`relative flex flex-col justify-between p-5 sm:p-5 rounded-2xl bg-white border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-amber-400 hover:-translate-y-1 transition-all duration-300 group ${
+                  idx === 4 ? "sm:col-span-2 lg:col-span-1 max-w-md sm:max-w-none mx-auto w-full" : ""
+                }`}
               >
                 {/* Step Header */}
                 <div className="space-y-4">

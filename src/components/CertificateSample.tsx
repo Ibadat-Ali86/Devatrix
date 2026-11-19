@@ -252,7 +252,7 @@ export default function CertificateSample() {
           }`}>
 
             {/* The Certificate Sheet */}
-            <div className={`relative w-full rounded-xl sm:rounded-2xl overflow-hidden px-5 py-7 sm:px-9 sm:py-9 text-center transition-all ${
+            <div className={`relative w-full rounded-xl sm:rounded-2xl overflow-hidden px-3.5 py-6 sm:px-9 sm:py-9 text-center transition-all ${
               premium 
                 ? "bg-gradient-to-br from-[#FFFDF9] via-[#FAF6ED] to-[#F5ECE0] border-2 border-[#c59d3f] ring-2 ring-[#e8d28e]/50 ring-offset-2 ring-offset-[#fffdf9]" 
                 : "bg-white border-2 border-slate-900/90 shadow-sm"
@@ -422,7 +422,7 @@ export default function CertificateSample() {
           </div>
 
           {/* Overlapping Bottom-Right Status Badge (Exact match to reference screenshot) */}
-          <div className="absolute -bottom-4 -right-2 sm:-bottom-5 sm:-right-4 z-20 flex items-center gap-2.5 rounded-2xl bg-white px-3.5 py-2 sm:px-4 sm:py-2.5 shadow-[0_12px_28px_-6px_rgba(0,0,0,0.18)] border border-slate-100 transition-transform hover:scale-105">
+          <div className="absolute -bottom-4 right-1 sm:-bottom-5 sm:-right-2 z-20 flex items-center gap-2 sm:gap-2.5 rounded-2xl bg-white px-3 py-1.5 sm:px-4 sm:py-2.5 shadow-[0_12px_28px_-6px_rgba(0,0,0,0.18)] border border-slate-100 transition-transform hover:scale-105">
             <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 shrink-0">
               <ShieldCheck className="h-5 w-5 stroke-[2.5]" />
             </div>

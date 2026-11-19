@@ -106,12 +106,12 @@ export default function EnterpriseHero({ copy }: { copy?: { title: string; highl
           </div>
 
           {/* RIGHT COLUMN: 3D Perspective Animated Verified Testimonials Marquee */}
-          <div className="lg:col-span-6 relative w-full flex items-center justify-center">
+          <div className="lg:col-span-6 relative w-full max-w-full flex items-center justify-center overflow-hidden">
             
             {/* Subtle Concentric Radar Grid Rings Behind 3D Stage */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="w-[340px] sm:w-[480px] h-[340px] sm:h-[480px] rounded-full border border-slate-300/60 opacity-60"></div>
-              <div className="absolute w-[240px] sm:w-[360px] h-[240px] sm:h-[360px] rounded-full border border-dashed border-slate-300/70"></div>
+              <div className="w-[280px] sm:w-[420px] lg:w-[480px] h-[280px] sm:h-[420px] lg:h-[480px] rounded-full border border-slate-300/60 opacity-60"></div>
+              <div className="absolute w-[200px] sm:w-[300px] lg:w-[360px] h-[200px] sm:h-[300px] lg:h-[360px] rounded-full border border-dashed border-slate-300/70"></div>
             </div>
 
             {/* The 3D Perspective Marquee Component */}

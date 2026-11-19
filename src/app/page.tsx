@@ -10,6 +10,7 @@ import CertificateSample from "@/components/CertificateSample";
 import LearnerTestimonials from "@/components/LearnerTestimonials";
 import InternshipFAQ from "@/components/InternshipFAQ";
 import ExecutiveCTA from "@/components/ExecutiveCTA";
+import ScrollReveal from "@/components/ScrollReveal";
 import { getPublishedSiteContent } from "@/lib/content/server";
 
 export const dynamic = "force-dynamic";
@@ -27,32 +28,48 @@ export default async function HomePage() {
       {/* Main Content with CodeAlpha-Inspired Professional Educational Flow */}
       <main className="flex-1">
         
-        {/* 1. Flagship Hero with 3-Mentors Portrait Hook & Trust Proof */}
+        {/* 1. Flagship Hero with 3-Mentors Portrait Hook & Trust Proof (Above-the-fold immediate render) */}
         <EnterpriseHero copy={homeHero ? { title: homeHero.title, highlight: homeHero.badge, summary: homeHero.summary } : undefined} />
 
         {/* 2. Institutional & Academic Trust Ticker */}
-        <TrustTicker />
+        <ScrollReveal>
+          <TrustTicker />
+        </ScrollReveal>
 
         {/* 3. Why Choose Us: The Apprenticeship Standard vs Status Quo */}
-        <WhyDevatrix />
+        <ScrollReveal>
+          <WhyDevatrix />
+        </ScrollReveal>
 
         {/* 4. Internship Flow: 5-Stage Step-by-Step Cadence Roadmap */}
-        <InternshipFlow />
+        <ScrollReveal>
+          <InternshipFlow />
+        </ScrollReveal>
 
         {/* 5. Available Internship Domains & Specialization Tracks */}
-        <CoreCapabilities />
+        <ScrollReveal>
+          <CoreCapabilities />
+        </ScrollReveal>
 
         {/* 6. Cryptographically Verifiable Academic Credential Preview */}
-        <CertificateSample />
+        <ScrollReveal>
+          <CertificateSample />
+        </ScrollReveal>
 
         {/* 7. Student Community & Alumni Success Stories */}
-        <LearnerTestimonials />
+        <ScrollReveal>
+          <LearnerTestimonials />
+        </ScrollReveal>
 
         {/* 8. Frequently Asked Questions (FAQ) */}
-        <InternshipFAQ />
+        <ScrollReveal>
+          <InternshipFAQ />
+        </ScrollReveal>
 
         {/* 9. Final Cohort Intake Application CTA */}
-        <ExecutiveCTA />
+        <ScrollReveal>
+          <ExecutiveCTA />
+        </ScrollReveal>
 
       </main>
 

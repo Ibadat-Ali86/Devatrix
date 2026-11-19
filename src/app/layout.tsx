@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Plus_Jakarta_Sans, Newsreader, Great_Vibes } from "next/font/google";
+import SmoothScrollManager from "@/components/SmoothScrollManager";
 import "./globals.css";
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -55,6 +56,7 @@ export default function RootLayout({
       <body
         className={`${plusJakarta.variable} ${newsreader.variable} ${greatVibes.variable} ${geistSans.variable} ${geistMono.variable} font-sans antialiased bg-[#FAF9F6] text-slate-900 selection:bg-amber-400 selection:text-slate-950`}
       >
+        <SmoothScrollManager />
         {children}
       </body>
     </html>

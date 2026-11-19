@@ -212,17 +212,17 @@ export default function TrustTicker() {
     <section className="py-12 sm:py-16 bg-[#FAF9F6] border-b border-slate-200/80 relative overflow-hidden select-none" aria-label="Ecosystem & Academic Partnerships">
       
       {/* Corner Fading Effects: Gradient masks on both left and right edges */}
-      <div className="pointer-events-none absolute left-0 inset-y-0 w-20 sm:w-40 bg-gradient-to-r from-[#FAF9F6] via-[#FAF9F6]/90 to-transparent z-20" aria-hidden="true" />
-      <div className="pointer-events-none absolute right-0 inset-y-0 w-20 sm:w-40 bg-gradient-to-l from-[#FAF9F6] via-[#FAF9F6]/90 to-transparent z-20" aria-hidden="true" />
+      <div className="pointer-events-none absolute left-0 inset-y-0 w-8 sm:w-20 md:w-36 lg:w-40 bg-gradient-to-r from-[#FAF9F6] via-[#FAF9F6]/90 to-transparent z-20" aria-hidden="true" />
+      <div className="pointer-events-none absolute right-0 inset-y-0 w-8 sm:w-20 md:w-36 lg:w-40 bg-gradient-to-l from-[#FAF9F6] via-[#FAF9F6]/90 to-transparent z-20" aria-hidden="true" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 text-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 sm:mb-8 text-center">
         {/* Subtle Section Badge */}
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100/80 text-amber-900 border border-amber-300/60 text-[10px] sm:text-xs font-mono font-bold tracking-widest uppercase mb-3">
-          <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-          <span>TOP UNIVERSITY TALENT × MODERN PRODUCTION STACKS</span>
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100/80 text-amber-900 border border-amber-300/60 text-[10px] sm:text-xs font-mono font-bold tracking-widest uppercase mb-3 max-w-[92vw] truncate">
+          <Sparkles className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+          <span className="truncate">TOP UNIVERSITY TALENT × MODERN PRODUCTION STACKS</span>
         </div>
 
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-[#061833] tracking-tight font-sans">
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#061833] tracking-tight font-sans">
           Connecting Ambitious Engineers With Enterprise Architectures
         </h2>
         <p className="mt-2 text-xs sm:text-sm text-slate-600 max-w-2xl mx-auto leading-relaxed">
@@ -231,7 +231,7 @@ export default function TrustTicker() {
       </div>
 
       {/* Marquee Container with dual continuous scrolling lanes */}
-      <div className="space-y-3 sm:space-y-4 relative w-full overflow-hidden">
+      <div className="space-y-2.5 sm:space-y-4 relative w-full overflow-hidden">
         
         {/* Lane 1: Top Universities (Left to Right moving ticker) */}
         <div className="w-full">
@@ -239,12 +239,12 @@ export default function TrustTicker() {
             pauseOnHover 
             reverse 
             repeat={4} 
-            className="[--duration:36s] [--gap:0.875rem] py-1"
+            className="[--duration:36s] [--gap:0.75rem] sm:[--gap:0.875rem] py-1"
           >
             {universities.map((uni) => (
               <div
                 key={uni.name}
-                className="flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-white border border-slate-200 shadow-xs hover:border-amber-400 hover:shadow-md transition-all cursor-pointer shrink-0"
+                className="flex items-center gap-2.5 sm:gap-3 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl sm:rounded-2xl bg-white border border-slate-200 shadow-xs hover:border-amber-400 hover:shadow-md transition-all cursor-pointer shrink-0"
               >
                 <UniversityBadge code={uni.code} color={uni.color} label={uni.name} />
                 <div className="text-left">
@@ -265,12 +265,12 @@ export default function TrustTicker() {
           <Marquee 
             pauseOnHover 
             repeat={4} 
-            className="[--duration:30s] [--gap:0.875rem] py-1"
+            className="[--duration:30s] [--gap:0.75rem] sm:[--gap:0.875rem] py-1"
           >
             {techStacks.map((tech) => (
               <div
                 key={tech.name}
-                className="flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-white border border-slate-200 shadow-xs hover:border-blue-400 hover:shadow-md transition-all cursor-pointer shrink-0"
+                className="flex items-center gap-2.5 sm:gap-3 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl sm:rounded-2xl bg-white border border-slate-200 shadow-xs hover:border-blue-400 hover:shadow-md transition-all cursor-pointer shrink-0"
               >
                 {tech.icon}
                 <div className="text-left">
