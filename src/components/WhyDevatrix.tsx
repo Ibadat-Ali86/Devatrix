@@ -41,7 +41,7 @@ export default function WhyDevatrix() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           
           {/* Left Column: Heading & Pedagogy */}
-          <div className="lg:col-span-5 space-y-6 sticky top-28">
+          <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-28">
             <span className="text-xs font-mono font-bold uppercase tracking-widest text-amber-800 bg-amber-100/70 px-3 py-1 rounded-full border border-amber-300/60 inline-block">
               THE APPRENTICESHIP STANDARD
             </span>
