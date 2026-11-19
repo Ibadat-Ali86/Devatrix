@@ -1,5 +1,9 @@
-import BrandLoader from "@/components/BrandLoader";
+import LiquidWaveSpinner from "@/components/ui/spinner-10";
 
 export default function Loading() {
-  return <BrandLoader />;
+  return (
+    <div className="flex h-screen min-h-[100dvh] w-full items-center justify-center bg-background">
+      <LiquidWaveSpinner size="md" />
+    </div>
+  );
 }
