@@ -184,6 +184,34 @@ body {
   border-color: var(--dx-blue);
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
+
+/* Explicit high-contrast support for dark-themed forms and surfaces */
+.dx-public input.dx-dark-input,
+.dx-public textarea.dx-dark-input,
+.dx-dark-input input,
+.dx-dark-input textarea,
+[data-navbar-theme="dark"] input:not([type="checkbox"]),
+[data-navbar-theme="dark"] textarea {
+  color: #ffffff !important;
+  background-color: #0b2042;
+  border-color: #334155;
+}
+.dx-public input.dx-dark-input::placeholder,
+.dx-public textarea.dx-dark-input::placeholder,
+[data-navbar-theme="dark"] input::placeholder,
+[data-navbar-theme="dark"] textarea::placeholder {
+  color: #94a3b8 !important;
+  opacity: 1;
+}
+.dx-public input.dx-dark-input:focus,
+.dx-public textarea.dx-dark-input:focus,
+[data-navbar-theme="dark"] input:focus,
+[data-navbar-theme="dark"] textarea:focus {
+  border-color: var(--dx-amber) !important;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.25) !important;
+  background-color: #0e2750 !important;
+}
+
 .dx-workspace { background: #f3f6fa; color: var(--dx-ink); }
 .dx-workspace [class*="rounded-2xl"], .dx-workspace [class*="rounded-3xl"] { border-radius: 0.875rem; }
 .dx-workspace button, .dx-workspace a { text-underline-offset: 3px; }
@@ -195,26 +223,6 @@ body {
 .dx-footer { background: var(--dx-navy); border-top: 1px solid #1a3152; }
 .dx-footer a { text-underline-offset: 3px; }
 .dx-footer a:hover { color: #fbbf24; }
-
-/* The estimator is a work surface: light controls, clear selection, one restrained result panel. */
-.dx-estimator #estimator { background: #f5f7fa; border-color: var(--dx-line); }
-.dx-estimator #estimator h2, .dx-estimator #estimator .text-white { color: var(--dx-ink) !important; }
-.dx-estimator #estimator .text-slate-300, .dx-estimator #estimator .text-slate-400 { color: var(--dx-muted) !important; }
-.dx-estimator #estimator .text-brand-400 { color: #965800 !important; }
-.dx-estimator #estimator [class*="border-white/"] { border-color: var(--dx-line); }
-.dx-estimator #estimator .bg-obsidian-900\/60,
-.dx-estimator #estimator [class*="lg:col-span-5"] {
-  color: var(--dx-ink);
-  background: #fff;
-  border: 1px solid var(--dx-line);
-  box-shadow: 0 1px 2px rgba(15, 35, 60, 0.05);
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
-}
-.dx-estimator #estimator [class*="lg:col-span-5"] { border-color: #e9bf68; }
-.dx-estimator #estimator [class*="bg-white/[0.02]"] { background: #fff; }
-.dx-estimator #estimator input:not([type="checkbox"]), .dx-estimator #estimator textarea { background: #fff; color: var(--dx-ink); border-color: #c7d2df; }
-.dx-estimator #estimator input::placeholder, .dx-estimator #estimator textarea::placeholder { color: #66768a; }
 
 /* The hero linework uses the existing palette and moves along the lines themselves. */
 .hero-visual-layer { -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 28%); mask-image: linear-gradient(to right, transparent 0%, #000 28%); }
