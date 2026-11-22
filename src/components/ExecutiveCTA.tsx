@@ -14,26 +14,25 @@ export default function ExecutiveCTA() {
         <ScrollReveal direction="up" delay={0.1} distance={24} className="space-y-7">
         
         <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-xs font-mono font-bold uppercase tracking-widest text-amber-400">
-          START THE CONVERSATION
+          EXECUTE WITH DETERMINISTIC CERTAINTY
         </span>
 
         <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight font-sans">
-          Whether Accelerating Your Career or <br />
-          <span className="font-editorial italic font-normal text-amber-400">Shipping a Production Platform.</span>
+          Ready to Architect Your Next <br />
+          <span className="font-editorial italic font-normal text-amber-400">Industrial-Grade Platform?</span>
         </h2>
 
         <p className="text-sm sm:text-base lg:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal">
-          Apply to our upcoming 6-week intensive engineering cohort, or partner with our senior software engineering pods to bring your product vision to life.
+          Partner with our autonomous senior squads or scope a fixed-price milestone sprint. 100% Day-One IP assignment, automated CI/CD test gates, and direct Slack communication with Principal Architects.
         </p>
 
-        {/* Dual Track CTAs */}
+        {/* Enterprise Client CTAs */}
         <div className="pt-3 flex flex-wrap items-center justify-center gap-4">
           <Link
-            href="/internships/apply"
-            className="dx-btn-primary px-7 py-4 text-xs sm:text-sm font-extrabold tracking-wide uppercase font-sans shrink-0"
+            href="/estimator"
+            className="dx-btn-primary px-7 py-4 text-xs sm:text-sm font-extrabold tracking-wide uppercase font-sans shrink-0 flex items-center gap-2"
           >
-            <GraduationCap className="w-4 h-4" />
-            <span>Apply for 2027 Cohort</span>
+            <span>Launch Project Estimator</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
 
@@ -42,7 +41,7 @@ export default function ExecutiveCTA() {
             className="inline-flex items-center gap-2 px-7 py-4 rounded-full bg-white/10 hover:bg-white/15 text-white border border-white/20 font-semibold text-xs sm:text-sm tracking-wide transition-all backdrop-blur-md shrink-0"
           >
             <Building2 className="w-4 h-4 text-slate-300" />
-            <span>Hire Our Engineering Pods</span>
+            <span>Schedule Architecture Consultation</span>
           </Link>
         </div>
 
