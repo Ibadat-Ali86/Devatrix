@@ -68,7 +68,7 @@ export default function Navbar() {
               Devatrix
             </span>
             <span className="text-[10px] tracking-wider uppercase font-bold mt-0.5 font-mono text-amber-400">
-              Software Studio
+              Technologies
             </span>
           </div>
         </Link>
