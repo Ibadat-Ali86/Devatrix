@@ -181,8 +181,29 @@ body {
 }
 .dx-public input::placeholder, .dx-public textarea::placeholder { color: #64748b; opacity: 1; }
 .dx-public input:focus, .dx-public select:focus, .dx-public textarea:focus {
-  border-color: var(--dx-blue);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+  border-color: var(--dx-amber, #f59e0b);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+}
+
+/* Explicit white & yellow high-contrast support for estimator form */
+.dx-public input.dx-estimator-input,
+.dx-public textarea.dx-estimator-input {
+  color: #0f172a !important;
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  border-width: 2px !important;
+  border-radius: 0.75rem !important;
+}
+.dx-public input.dx-estimator-input::placeholder,
+.dx-public textarea.dx-estimator-input::placeholder {
+  color: #94a3b8 !important;
+  opacity: 1 !important;
+}
+.dx-public input.dx-estimator-input:focus,
+.dx-public textarea.dx-estimator-input:focus {
+  border-color: #f59e0b !important;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.25) !important;
+  background-color: #ffffff !important;
 }
 
 /* Explicit high-contrast support for dark-themed forms and surfaces */
