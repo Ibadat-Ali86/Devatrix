@@ -7,8 +7,13 @@ export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });
   const protectResponse = () => {
     response.headers.set("Cache-Control", "private, no-store");
-    response.headers.set("X-Frame-Options", "DENY");
-    response.headers.set("Content-Security-Policy", "frame-ancestors 'none'");
+    if (request.nextUrl.pathname.startsWith("/api/portal/documents/")) {
+      response.headers.set("X-Frame-Options", "SAMEORIGIN");
+      response.headers.set("Content-Security-Policy", "frame-ancestors 'self'");
+    } else {
+      response.headers.set("X-Frame-Options", "DENY");
+      response.headers.set("Content-Security-Policy", "frame-ancestors 'none'");
+    }
     response.headers.set("Referrer-Policy", "no-referrer");
     return response;
   };
