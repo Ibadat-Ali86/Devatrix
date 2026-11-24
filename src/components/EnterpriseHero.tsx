@@ -7,7 +7,8 @@ import {
   ChevronRight, 
   CheckCircle2, 
   Play,
-  Star
+  Star,
+  Layers
 } from "lucide-react";
 import { motion } from "motion/react";
 import Hero3DTestimonials from "@/components/Hero3DTestimonials";
@@ -28,21 +29,21 @@ export default function EnterpriseHero({ copy }: { copy?: { title: string; highl
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
         
         {/* ========================================================================= */}
-        {/* HERO ROW: Left Value Proposition & Right 3-Mentors Hook */}
+        {/* HERO ROW: Left Value Proposition & Right 3D Perspective Testimonials Hook */}
         {/* ========================================================================= */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
           
           {/* LEFT COLUMN: Headings, Badge, CTAs, Trust Proof */}
           <div className="lg:col-span-6 space-y-6 text-left">
             
-            {/* Small Eyebrow Hook Badge */}
+            {/* Eyebrow Hook Badge: Software House & Architecture */}
             <div
-              className="animate-hero-reveal inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-rose-50 border border-rose-200/80 text-rose-600 text-xs font-bold tracking-wide shadow-sm"
+              className="animate-hero-reveal inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-rose-50 border border-rose-200/80 text-rose-600 text-xs font-bold tracking-wide shadow-xs"
               style={{ animationDelay: "60ms" }}
             >
               <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
               <span className="font-mono text-[11px] uppercase tracking-wider font-extrabold">
-                #1 ACCELERATOR FOR PRODUCTION ENGINEERING
+                ENTERPRISE SOFTWARE HOUSE &amp; INDUSTRIAL ARCHITECTURE
               </span>
             </div>
 
@@ -51,11 +52,22 @@ export default function EnterpriseHero({ copy }: { copy?: { title: string; highl
               className="animate-hero-reveal text-3xl sm:text-5xl lg:text-[3.65rem] font-black tracking-tight text-slate-950 leading-[1.12]"
               style={{ animationDelay: "140ms" }}
             >
-              {copy?.title ?? <>Flexible &amp; Scalable.</>} <br />
-              <span>Where Real Engineers</span> <br />
-              <span className="font-editorial italic font-normal text-amber-600">
-                {copy?.highlight ?? "Are Built."}
-              </span>
+              {copy ? (
+                <>
+                  {copy.title} <br />
+                  <span className="font-editorial italic font-normal text-amber-600">
+                    {copy.highlight}
+                  </span>
+                </>
+              ) : (
+                <>
+                  Flexible &amp; Scalable. <br />
+                  <span>Modern Software Solutions</span> <br />
+                  <span className="font-editorial italic font-normal text-amber-600">
+                    Engineered for Real Impact.
+                  </span>
+                </>
+              )}
             </h1>
 
             {/* Subtitle */}
@@ -63,7 +75,7 @@ export default function EnterpriseHero({ copy }: { copy?: { title: string; highl
               className="animate-hero-reveal text-base sm:text-lg text-slate-600 leading-relaxed font-normal max-w-xl"
               style={{ animationDelay: "220ms" }}
             >
-              {copy?.summary ?? "Taking weeks, not years. Learn alongside principal architects, ship production cloud and AI platforms, and graduate with verified public GitHub pull requests."}
+              {copy?.summary ?? "A modern engineering studio delivering custom web, mobile, cloud architectures, and practical AI solutions with an uncompromising focus on quality, reliability, and client success."}
             </p>
 
             {/* CTAs */}
@@ -72,25 +84,25 @@ export default function EnterpriseHero({ copy }: { copy?: { title: string; highl
               style={{ animationDelay: "300ms" }}
             >
               <Link
-                href="/internships/apply"
+                href="/estimator"
                 className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[#061833] text-white hover:bg-slate-900 text-sm font-bold tracking-wide transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 group"
               >
-                <span>Apply for 2027 Cohort</span>
+                <span>Scope Your Project</span>
                 <ArrowRight className="w-4 h-4 text-amber-400 group-hover:translate-x-1 transition-transform" />
               </Link>
 
-              <a
-                href="#how-it-works"
+              <Link
+                href="/services"
                 className="inline-flex items-center gap-3 text-slate-800 hover:text-slate-950 font-bold text-sm tracking-wide group transition-colors"
               >
                 <span className="w-11 h-11 rounded-full bg-rose-500 text-white flex items-center justify-center shadow-md shadow-rose-500/30 group-hover:scale-105 transition-transform">
                   <Play className="w-4 h-4 fill-white ml-0.5" />
                 </span>
-                <span>Internship Flow</span>
-              </a>
+                <span>Explore Solutions</span>
+              </Link>
             </div>
 
-            {/* Trust Proof Metrics (Relating 2026 Historical Performance) */}
+            {/* Trust Proof Metrics */}
             <div
               className="animate-hero-reveal pt-4 border-t border-slate-200/80 flex flex-wrap items-center gap-6 sm:gap-8 text-xs sm:text-sm text-slate-600"
               style={{ animationDelay: "380ms" }}
@@ -107,15 +119,15 @@ export default function EnterpriseHero({ copy }: { copy?: { title: string; highl
                     <span className="text-amber-500 flex">
                       <Star className="w-3.5 h-3.5 fill-amber-500" />
                     </span>
-                    4.92 / 5.0 Rating · 1,200+ Alumni in 2026
+                    4.92 / 5.0 Rating · Trusted Engineering Partner
                   </div>
-                  <div className="text-[11px] text-slate-500">FAST, NUST, ITU &amp; global 2026 talent</div>
+                  <div className="text-[11px] text-slate-500">Delivering across US, EMEA &amp; APAC timezones</div>
                 </div>
               </div>
 
               <div className="flex items-center gap-2 text-xs font-mono text-slate-700 border-l border-slate-200 pl-6">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>100% Verified Public GitHub PRs</span>
+                <span>100% Day-One IP Ownership</span>
               </div>
             </div>
 

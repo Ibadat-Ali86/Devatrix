@@ -18,7 +18,7 @@ export default function InternshipBanner() {
               
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-xs font-semibold text-amber-300">
                 <GraduationCap className="w-4 h-4 text-amber-400" />
-                <span>APPLICATIONS OPEN FOR 2027 ENGINEERING COHORT</span>
+                <span>DEVATRIX FELLOWSHIP · OUR SOFTWARE HOUSE ALSO TRAINS ELITE TALENT</span>
               </div>
 
               <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight font-sans leading-tight">
@@ -27,7 +27,7 @@ export default function InternshipBanner() {
               </h2>
 
               <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal max-w-2xl">
-                Designed for university students and fresh graduates in Lahore and remote. You won&rsquo;t watch passive tutorial videos. You will submit verified GitHub pull requests, receive line-by-line feedback from staff architects, and graduate with an indisputable engineering portfolio.
+                Beyond client delivery, our software house operates an elite 6-week engineering fellowship for ambitious university scholars in Lahore and remote. You will submit verified GitHub pull requests, receive line-by-line feedback from staff architects, and graduate with an indisputable portfolio.
               </p>
 
               <div className="pt-2 flex flex-wrap gap-4 text-xs font-mono text-slate-300">

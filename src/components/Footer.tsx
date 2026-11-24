@@ -48,7 +48,7 @@ export default function Footer() {
                   Devatrix
                 </span>
                 <span className="text-[10px] tracking-wider uppercase text-amber-400 font-bold font-mono">
-                  Academy &amp; Engineering Studio
+                  Technologies
                 </span>
               </div>
             </Link>

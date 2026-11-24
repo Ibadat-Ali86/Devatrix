@@ -18,6 +18,7 @@ import {
   Server,
   CloudCog
 } from "lucide-react";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export default function ServicesGrid() {
   const [activeTab, setActiveTab] = useState<"all" | "core" | "ai" | "accelerators">("all");
@@ -119,141 +120,154 @@ export default function ServicesGrid() {
     : services.filter(s => s.category === activeTab);
 
   return (
-    <section id="services" className="py-24 bg-slate-50 text-slate-900 relative border-b border-slate-200">
+    <section id="services-grid" className="py-20 sm:py-28 bg-[#FAF9F6] text-slate-900 relative border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-100/80 border border-brand-300 text-xs font-mono font-semibold text-brand-900 mb-3">
-              <Layers className="w-3.5 h-3.5 text-brand-600" />
-              <span>3-TIER CAPABILITY TAXONOMY</span>
+        <ScrollReveal direction="up" delay={0.1}>
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 gap-6">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100/80 border border-amber-300/60 text-xs font-mono font-semibold text-amber-900 mb-3">
+                <Layers className="w-3.5 h-3.5 text-amber-700" />
+                <span>3-TIER CAPABILITY TAXONOMY</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight font-sans">
+                Enterprise Engineering. <br />
+                <span className="font-editorial italic font-normal text-amber-700">Modular by Design.</span>
+              </h2>
+              <p className="mt-3 text-sm sm:text-base text-slate-600 max-w-xl font-normal leading-relaxed">
+                From mission-critical distributed systems to sovereign on-premise AI agents and pre-engineered software accelerators.
+              </p>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-              Enterprise Engineering. <br />
-              <span className="text-brand-600">Modular by Design.</span>
-            </h2>
-            <p className="mt-3 text-sm sm:text-base text-slate-600 max-w-xl">
-              From mission-critical distributed systems to sovereign on-premise AI agents and pre-engineered software accelerators.
-            </p>
-          </div>
 
-          {/* Filter Pills */}
-          <div className="flex flex-wrap gap-2 mt-6 md:mt-0 bg-white p-1.5 rounded-xl border border-slate-200 shadow-sm font-mono text-xs">
-            <button
-              onClick={() => setActiveTab("all")}
-              className={`px-3.5 py-1.5 rounded-lg transition-all ${
-                activeTab === "all" 
-                  ? "bg-brand-500 text-obsidian-950 font-bold shadow-sm" 
-                  : "text-slate-600 hover:text-slate-900"
-              }`}
-            >
-              All Capabilities (9)
-            </button>
-            <button
-              onClick={() => setActiveTab("core")}
-              className={`px-3.5 py-1.5 rounded-lg transition-all ${
-                activeTab === "core" 
-                  ? "bg-brand-500 text-obsidian-950 font-bold shadow-sm" 
-                  : "text-slate-600 hover:text-slate-900"
-              }`}
-            >
-              Core Systems
-            </button>
-            <button
-              onClick={() => setActiveTab("ai")}
-              className={`px-3.5 py-1.5 rounded-lg transition-all ${
-                activeTab === "ai" 
-                  ? "bg-brand-500 text-obsidian-950 font-bold shadow-sm" 
-                  : "text-slate-600 hover:text-slate-900"
-              }`}
-            >
-              Sovereign AI
-            </button>
-            <button
-              onClick={() => setActiveTab("accelerators")}
-              className={`px-3.5 py-1.5 rounded-lg transition-all ${
-                activeTab === "accelerators" 
-                  ? "bg-brand-500 text-obsidian-950 font-bold shadow-sm" 
-                  : "text-slate-600 hover:text-slate-900"
-              }`}
-            >
-              IP Accelerators
-            </button>
+            {/* Filter Pills */}
+            <div className="flex flex-wrap gap-1.5 sm:gap-2 bg-white p-1.5 rounded-xl border border-slate-200/90 shadow-sm font-mono text-xs shrink-0">
+              <button
+                type="button"
+                onClick={() => setActiveTab("all")}
+                className={`px-3.5 py-1.5 rounded-lg transition-all ${
+                  activeTab === "all" 
+                    ? "bg-[#061833] text-white font-bold shadow-sm" 
+                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                }`}
+              >
+                All Capabilities (9)
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab("core")}
+                className={`px-3.5 py-1.5 rounded-lg transition-all ${
+                  activeTab === "core" 
+                    ? "bg-[#061833] text-white font-bold shadow-sm" 
+                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                }`}
+              >
+                Core Systems
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab("ai")}
+                className={`px-3.5 py-1.5 rounded-lg transition-all ${
+                  activeTab === "ai" 
+                    ? "bg-[#061833] text-white font-bold shadow-sm" 
+                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                }`}
+              >
+                Sovereign AI
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab("accelerators")}
+                className={`px-3.5 py-1.5 rounded-lg transition-all ${
+                  activeTab === "accelerators" 
+                    ? "bg-[#061833] text-white font-bold shadow-sm" 
+                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                }`}
+              >
+                IP Accelerators
+              </button>
+            </div>
           </div>
-        </div>
+        </ScrollReveal>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch">
           {filteredServices.map((service, idx) => {
             const Icon = service.icon;
             return (
-              <div
+              <ScrollReveal
                 key={service.title}
-                className={`group relative p-6 sm:p-7 rounded-2xl transition-all duration-300 flex flex-col justify-between bg-white border ${
-                  service.accent 
-                    ? "border-brand-300 shadow-md shadow-brand-500/5 hover:border-brand-500 hover:shadow-xl" 
-                    : "border-slate-200 hover:border-slate-300 shadow-sm hover:shadow-xl"
-                }`}
+                delay={(idx % 3) * 0.08}
+                direction="up"
+                distance={20}
+                className="h-full flex"
               >
-                <div>
-                  {/* Top Bar: Tier & Badge */}
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-[11px] font-mono text-slate-500 uppercase tracking-wider font-semibold">
-                      {service.tier}
-                    </span>
-                    <span className={`text-xs font-mono px-2 py-0.5 rounded-full border ${
-                      service.accent 
-                        ? "bg-brand-50 text-brand-800 border-brand-200 font-bold" 
-                        : "bg-slate-100 text-slate-700 border-slate-200"
-                    }`}>
-                      {service.badge}
-                    </span>
-                  </div>
-
-                  {/* Icon & Title */}
-                  <div className="flex items-center gap-3.5 mb-3">
-                    <div className={`w-11 h-11 rounded-xl flex items-center justify-center p-2.5 transition-transform group-hover:scale-105 ${
-                      service.accent 
-                        ? "bg-brand-100 text-brand-700 border border-brand-200" 
-                        : "bg-slate-100 text-slate-800 border border-slate-200 group-hover:text-brand-600"
-                    }`}>
-                      <Icon className="w-full h-full" />
-                    </div>
-                    <h3 className="text-lg font-bold text-slate-900 group-hover:text-brand-600 transition-colors">
-                      {service.title}
-                    </h3>
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-sm text-slate-600 leading-relaxed mb-6 font-normal">
-                    {service.desc}
-                  </p>
-                </div>
-
-                {/* Tech Tags & CTA */}
-                <div>
-                  <div className="flex flex-wrap gap-1.5 pt-4 border-t border-slate-100 mb-4">
-                    {service.tags.map(tag => (
-                      <span 
-                        key={tag}
-                        className="text-xs font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200 font-medium"
-                      >
-                        {tag}
+                <div
+                  className={`dx-card group relative p-6 sm:p-7 flex flex-col justify-between w-full transition-all duration-300 ${
+                    service.accent 
+                      ? "border-amber-300/90 shadow-md shadow-amber-500/5 hover:border-amber-500" 
+                      : "hover:border-slate-300"
+                  }`}
+                >
+                  <div>
+                    {/* Top Bar: Tier & Badge */}
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-[11px] font-mono text-slate-500 uppercase tracking-wider font-semibold">
+                        {service.tier}
                       </span>
-                    ))}
+                      <span className={`text-xs font-mono px-2.5 py-0.5 rounded-full border ${
+                        service.accent 
+                          ? "bg-amber-50 text-amber-800 border-amber-200 font-bold" 
+                          : "bg-slate-100 text-slate-700 border-slate-200/80 font-medium"
+                      }`}>
+                        {service.badge}
+                      </span>
+                    </div>
+
+                    {/* Icon & Title */}
+                    <div className="flex items-center gap-3.5 mb-3">
+                      <div className={`w-11 h-11 rounded-xl flex items-center justify-center p-2.5 transition-transform group-hover:scale-105 ${
+                        service.accent 
+                          ? "bg-amber-50 text-amber-800 border border-amber-200" 
+                          : "bg-slate-100 text-slate-800 border border-slate-200 group-hover:text-amber-700"
+                      }`}>
+                        <Icon className="w-full h-full" />
+                      </div>
+                      <h3 className="text-lg font-bold text-slate-900 group-hover:text-amber-800 transition-colors font-sans leading-snug">
+                        {service.title}
+                      </h3>
+                    </div>
+
+                    {/* Description */}
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6 font-normal">
+                      {service.desc}
+                    </p>
                   </div>
 
-                  <Link 
-                    href="/estimator"
-                    className="inline-flex items-center text-xs font-mono font-semibold text-brand-700 group-hover:text-brand-800 gap-1.5 group/link"
-                  >
-                    <span>Architecture Deep Dive</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover/link:translate-x-1 transition-transform" />
-                  </Link>
-                </div>
+                  {/* Tech Tags & CTA */}
+                  <div>
+                    <div className="flex flex-wrap gap-1.5 pt-4 border-t border-slate-100 mb-4">
+                      {service.tags.map(tag => (
+                        <span 
+                          key={tag}
+                          className="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200/80 font-medium"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
 
-              </div>
+                    <Link 
+                      href="/estimator"
+                      className="inline-flex items-center text-xs font-mono font-semibold text-amber-800 hover:text-amber-900 gap-1.5 group/link"
+                    >
+                      <span>Architecture Deep Dive</span>
+                      <ArrowRight className="w-3.5 h-3.5 group-hover/link:translate-x-1 transition-transform" />
+                    </Link>
+                  </div>
+
+                </div>
+              </ScrollReveal>
             );
           })}
         </div>

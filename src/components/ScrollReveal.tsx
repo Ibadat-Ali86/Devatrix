@@ -23,9 +23,9 @@ export default function ScrollReveal({
   children,
   className = "",
   delay = 0,
-  duration = 0.65,
+  duration = 0.5,
   direction = "up",
-  distance = 24,
+  distance = 20,
   scale,
   blur = true,
   once = true,
@@ -60,7 +60,7 @@ export default function ScrollReveal({
         opacity: 0,
         ...offset,
         ...(scale !== undefined ? { scale } : {}),
-        ...(blur ? { filter: "blur(6px)" } : {}),
+        ...(blur ? { filter: "blur(4px)" } : {}),
       }}
       whileInView={{
         opacity: 1,
@@ -69,7 +69,7 @@ export default function ScrollReveal({
         ...(scale !== undefined ? { scale: 1 } : {}),
         ...(blur ? { filter: "blur(0px)" } : {}),
       }}
-      viewport={{ once, margin: "0px 0px -40px 0px", amount: 0.08 }}
+      viewport={{ once, margin: "0px 0px -10px 0px", amount: "some" }}
       transition={{
         duration,
         delay,

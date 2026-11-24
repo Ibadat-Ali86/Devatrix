@@ -38,8 +38,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Devatrix Technologies | Software Studio & Engineering Academy",
-  description: "Devatrix Technologies pairs mission-critical software engineering with an elite talent accelerator in Lahore & remote. Explore 6-week intensive cohorts, verified GitHub milestones, and production software delivery.",
+  title: "Devatrix Technologies | Enterprise Software House & Engineering Solutions",
+  description: "Devatrix Technologies delivers mission-critical software engineering, resilient cloud architectures, and practical AI solutions for scaling global ventures, alongside elite engineering talent fellowships.",
   icons: {
     icon: "/logo-transparent.png",
     apple: "/logo-transparent.png",

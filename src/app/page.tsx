@@ -4,11 +4,9 @@ import Footer from "@/components/Footer";
 import EnterpriseHero from "@/components/EnterpriseHero";
 import TrustTicker from "@/components/TrustTicker";
 import WhyDevatrix from "@/components/WhyDevatrix";
-import InternshipFlow from "@/components/InternshipFlow";
 import CoreCapabilities from "@/components/CoreCapabilities";
-import CertificateSample from "@/components/CertificateSample";
-import LearnerTestimonials from "@/components/LearnerTestimonials";
-import InternshipFAQ from "@/components/InternshipFAQ";
+import FeaturedWork from "@/components/FeaturedWork";
+import InternshipBanner from "@/components/InternshipBanner";
 import ExecutiveCTA from "@/components/ExecutiveCTA";
 import ScrollReveal from "@/components/ScrollReveal";
 import { getPublishedSiteContent } from "@/lib/content/server";
@@ -18,43 +16,45 @@ export const dynamic = "force-dynamic";
 export default async function HomePage() {
   const content = await getPublishedSiteContent();
   const homeHero = content?.find((item) => item.slug === "home-hero");
+  const cmsCaseStudies = content
+    ?.filter((item) => item.content_type === "case_study")
+    ?.map((item) => ({
+      id: item.slug,
+      title: item.title,
+      summary: item.summary ?? "",
+      badge: item.badge ?? "",
+    }));
 
   return (
     <div className="dx-public min-h-screen bg-[#FAF9F6] text-slate-900 flex flex-col font-sans selection:bg-amber-400 selection:text-slate-950">
       
-      {/* Floating Island Navigation (Adaptive Dual-Mode Contrast) */}
+      {/* Floating Island Navigation (Adaptive, Non-Blinking Dark Navy Capsule) */}
       <Navbar />
 
-      {/* Main Content with CodeAlpha-Inspired Professional Educational Flow */}
+      {/* Main Content: Trust-First Industrial Software House with Single Internship Section at the End */}
       <main className="flex-1">
         
-        {/* 1. Flagship Hero with 3-Mentors Portrait Hook & Trust Proof (Above-the-fold immediate render) */}
+        {/* 1. Flagship Hero with 3D Testimonials Card Showcase & Software House Value Proposition */}
         <EnterpriseHero copy={homeHero ? { title: homeHero.title, highlight: homeHero.badge, summary: homeHero.summary } : undefined} />
 
-        {/* 2. Institutional & Academic Trust Ticker */}
+        {/* 2. Enterprise Tech Stacks & Academic Trust Ticker */}
         <ScrollReveal direction="up" delay={0.1}>
           <TrustTicker />
         </ScrollReveal>
 
-        {/* 3. Why Choose Us: The Apprenticeship Standard vs Status Quo */}
+        {/* 3. The Architectural Standard: Senior Squads vs Traditional Outsource Agencies */}
         <WhyDevatrix />
 
-        {/* 4. Internship Flow: 5-Stage Step-by-Step Cadence Roadmap */}
-        <InternshipFlow />
-
-        {/* 5. Available Internship Domains & Specialization Tracks */}
+        {/* 4. Industrial Architecture Solutions & Core Capabilities */}
         <CoreCapabilities />
 
-        {/* 6. Cryptographically Verifiable Academic Credential Preview */}
-        <CertificateSample />
+        {/* 5. Production Blueprints & Delivered Case Studies */}
+        <FeaturedWork cmsCaseStudies={cmsCaseStudies && cmsCaseStudies.length > 0 ? cmsCaseStudies : undefined} />
 
-        {/* 7. Student Community & Alumni Success Stories */}
-        <LearnerTestimonials />
+        {/* 6. The Single Dedicated Internship Section: Devatrix Engineering Fellowship */}
+        <InternshipBanner />
 
-        {/* 8. Frequently Asked Questions (FAQ) */}
-        <InternshipFAQ />
-
-        {/* 9. Final Cohort Intake Application CTA */}
+        {/* 7. Final Executive Project Scoping & Architecture Consultation CTA */}
         <ExecutiveCTA />
 
       </main>

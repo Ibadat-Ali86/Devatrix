@@ -7,31 +7,31 @@ export default function WhyDevatrix() {
   const comparisons = [
     {
       num: "01",
-      dimension: "Code Artifacts & Repositories",
-      statusQuo: "Toy Jupyter notebooks, local code snippets, and unversioned tutorial exercises.",
-      devatrixWay: "Public GitHub repositories with clean commits, branch protection, and automated CI/CD checks.",
-      benefit: "Recruiter-Auditable Portfolio",
+      dimension: "Delivery Cadence & Accountability",
+      statusQuo: "Unpredictable hourly billing, scope creep, and months of unvalidated requirement drift.",
+      devatrixWay: "2-week milestone sprints, fixed-price predictability, and continuous staging deployments.",
+      benefit: "Deterministic Velocity",
     },
     {
       num: "02",
-      dimension: "Engineering Feedback & Reviews",
-      statusQuo: "Automated multiple-choice quizzes, peer evaluations, or zero architectural oversight.",
-      devatrixWay: "Line-by-line pull request audits by senior staff architects on security, performance, and structure.",
-      benefit: "Staff-Level Code Mentorship",
+      dimension: "Talent Seniority & Staffing",
+      statusQuo: "Senior partners pitch the contract, then delegate execution to unsupervised junior developers.",
+      devatrixWay: "Dedicated squads staffed exclusively by vetted senior staff architects and engineers.",
+      benefit: "Staff-Level Only",
     },
     {
       num: "03",
-      dimension: "Completion Credentials",
-      statusQuo: "Unverifiable static PDF certificates easily falsified and ignored by hiring managers.",
-      devatrixWay: "Cryptographically verifiable credentials with permanent SHA-256 IDs linked to submitted PRs.",
-      benefit: "Indisputable Technical Proof",
+      dimension: "Code Quality & Vulnerability Auditing",
+      statusQuo: "Minimal test coverage, manual superficial reviews, and vulnerabilities caught late in production.",
+      devatrixWay: "Zero-defect CI/CD pipelines, automated AST security analysis, and 95%+ test coverage.",
+      benefit: "Zero-Defect SLA",
     },
     {
       num: "04",
-      dimension: "Client IP & Deliverable Sovereignty",
-      statusQuo: "Murky IP assignment, hidden vendor lock-in, and unpredictable hourly invoice creep.",
-      devatrixWay: "100% Day-One client IP ownership, fixed-scope milestone sprints, and clean documentation.",
-      benefit: "Zero Intellectual Property Risk",
+      dimension: "Intellectual Property & Sovereignty",
+      statusQuo: "Murky IP assignment, hidden proprietary vendor lock-in, and painful handovers.",
+      devatrixWay: "100% Day-One client IP ownership, 60-second bilateral NDA, and clean documented git history.",
+      benefit: "100% Sovereign IP",
     },
   ];
 
@@ -41,51 +41,51 @@ export default function WhyDevatrix() {
         
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           
-          {/* Left Column: Heading & Pedagogy */}
+          {/* Left Column: Heading & Value Proposition */}
           <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-28">
             <ScrollReveal direction="up" delay={0.1}>
               <span className="text-xs font-mono font-bold uppercase tracking-widest text-amber-800 bg-amber-100/70 px-3 py-1 rounded-full border border-amber-300/60 inline-block">
-                THE APPRENTICESHIP STANDARD
+                THE ARCHITECTURAL STANDARD
               </span>
 
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight font-sans leading-tight mt-3">
-                Real Production Code, <br />
-                <span className="font-editorial italic font-normal text-amber-700">Never Simulated Exercises.</span>
+                Real Production Engineering, <br />
+                <span className="font-editorial italic font-normal text-amber-700">Never Compromised Quality.</span>
               </h2>
 
               <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal mt-4">
-                Most online courses teach you how to copy code from a tutorial. Devatrix immerses you in the actual cadence of an elite engineering organization: writing testable features, defending pull request design choices, and maintaining high software reliability.
+                Most software agencies rely on junior bait-and-switch staffing and unverified code churn. Devatrix provides autonomous senior squads and milestone-gated delivery, building resilient architectures with 100% client IP sovereignty.
               </p>
 
               {/* Quick Proof Badges */}
               <div className="space-y-3 pt-4">
                 <div className="flex items-center gap-2.5 text-xs font-semibold text-slate-800">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>6-Week Sprints configured around university exam schedules</span>
+                  <span>Staff-level engineers and principal architects on every engagement</span>
                 </div>
                 <div className="flex items-center gap-2.5 text-xs font-semibold text-slate-800">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Top performers receive direct fast-track junior engineer interviews</span>
+                  <span>Automated CI/CD test gates &amp; AST security scans before staging</span>
                 </div>
                 <div className="flex items-center gap-2.5 text-xs font-semibold text-slate-800">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Official Letter of Recommendation (LOR) for verified distinctions</span>
+                  <span>100% Day-One client IP ownership and clean git repositories</span>
                 </div>
               </div>
 
               <div className="pt-4">
                 <Link
-                  href="/about"
+                  href="/services"
                   className="dx-btn-secondary px-5 py-2.5 text-xs sm:text-sm font-bold shadow-xs inline-flex items-center gap-2"
                 >
-                  <span>Read About Our Pedagogy &amp; Mentors</span>
+                  <span>Explore Delivery Frameworks</span>
                   <ArrowRight className="w-4 h-4 text-slate-500" />
                 </Link>
               </div>
             </ScrollReveal>
           </div>
 
-          {/* Right Column: Comparison Matrix (No AI-slop icons, clean technical layout) */}
+          {/* Right Column: Comparison Matrix (Preserving exact clean technical layout) */}
           <div className="lg:col-span-7 space-y-4">
             {comparisons.map((item, idx) => (
               <ScrollReveal
@@ -113,7 +113,7 @@ export default function WhyDevatrix() {
                     {/* Status Quo */}
                     <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/60 text-slate-500 space-y-1">
                       <span className="font-mono text-[10px] uppercase font-bold text-slate-400 block">
-                        Generic Courses &amp; Bootcamps
+                        Traditional Outsource Agencies
                       </span>
                       <p className="leading-relaxed">{item.statusQuo}</p>
                     </div>

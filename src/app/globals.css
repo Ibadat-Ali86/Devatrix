@@ -181,9 +181,58 @@ body {
 }
 .dx-public input::placeholder, .dx-public textarea::placeholder { color: #64748b; opacity: 1; }
 .dx-public input:focus, .dx-public select:focus, .dx-public textarea:focus {
-  border-color: var(--dx-blue);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+  border-color: var(--dx-amber, #f59e0b);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
 }
+
+/* Explicit white & yellow high-contrast support for estimator form */
+.dx-public input.dx-estimator-input,
+.dx-public textarea.dx-estimator-input {
+  color: #0f172a !important;
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  border-width: 2px !important;
+  border-radius: 0.75rem !important;
+}
+.dx-public input.dx-estimator-input::placeholder,
+.dx-public textarea.dx-estimator-input::placeholder {
+  color: #94a3b8 !important;
+  opacity: 1 !important;
+}
+.dx-public input.dx-estimator-input:focus,
+.dx-public textarea.dx-estimator-input:focus {
+  border-color: #f59e0b !important;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.25) !important;
+  background-color: #ffffff !important;
+}
+
+/* Explicit high-contrast support for dark-themed forms and surfaces */
+.dx-public input.dx-dark-input,
+.dx-public textarea.dx-dark-input,
+.dx-dark-input input,
+.dx-dark-input textarea,
+[data-navbar-theme="dark"] input:not([type="checkbox"]),
+[data-navbar-theme="dark"] textarea {
+  color: #ffffff !important;
+  background-color: #0b2042;
+  border-color: #334155;
+}
+.dx-public input.dx-dark-input::placeholder,
+.dx-public textarea.dx-dark-input::placeholder,
+[data-navbar-theme="dark"] input::placeholder,
+[data-navbar-theme="dark"] textarea::placeholder {
+  color: #94a3b8 !important;
+  opacity: 1;
+}
+.dx-public input.dx-dark-input:focus,
+.dx-public textarea.dx-dark-input:focus,
+[data-navbar-theme="dark"] input:focus,
+[data-navbar-theme="dark"] textarea:focus {
+  border-color: var(--dx-amber) !important;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.25) !important;
+  background-color: #0e2750 !important;
+}
+
 .dx-workspace { background: #f3f6fa; color: var(--dx-ink); }
 .dx-workspace [class*="rounded-2xl"], .dx-workspace [class*="rounded-3xl"] { border-radius: 0.875rem; }
 .dx-workspace button, .dx-workspace a { text-underline-offset: 3px; }
@@ -195,26 +244,6 @@ body {
 .dx-footer { background: var(--dx-navy); border-top: 1px solid #1a3152; }
 .dx-footer a { text-underline-offset: 3px; }
 .dx-footer a:hover { color: #fbbf24; }
-
-/* The estimator is a work surface: light controls, clear selection, one restrained result panel. */
-.dx-estimator #estimator { background: #f5f7fa; border-color: var(--dx-line); }
-.dx-estimator #estimator h2, .dx-estimator #estimator .text-white { color: var(--dx-ink) !important; }
-.dx-estimator #estimator .text-slate-300, .dx-estimator #estimator .text-slate-400 { color: var(--dx-muted) !important; }
-.dx-estimator #estimator .text-brand-400 { color: #965800 !important; }
-.dx-estimator #estimator [class*="border-white/"] { border-color: var(--dx-line); }
-.dx-estimator #estimator .bg-obsidian-900\/60,
-.dx-estimator #estimator [class*="lg:col-span-5"] {
-  color: var(--dx-ink);
-  background: #fff;
-  border: 1px solid var(--dx-line);
-  box-shadow: 0 1px 2px rgba(15, 35, 60, 0.05);
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
-}
-.dx-estimator #estimator [class*="lg:col-span-5"] { border-color: #e9bf68; }
-.dx-estimator #estimator [class*="bg-white/[0.02]"] { background: #fff; }
-.dx-estimator #estimator input:not([type="checkbox"]), .dx-estimator #estimator textarea { background: #fff; color: var(--dx-ink); border-color: #c7d2df; }
-.dx-estimator #estimator input::placeholder, .dx-estimator #estimator textarea::placeholder { color: #66768a; }
 
 /* The hero linework uses the existing palette and moves along the lines themselves. */
 .hero-visual-layer { -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 28%); mask-image: linear-gradient(to right, transparent 0%, #000 28%); }
@@ -289,4 +318,326 @@ body {
 .animate-hero-reveal {
   opacity: 0;
   animation: heroReveal 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Floo Sign-In & Concentric Orbit Animations (Learner Portal)                */
+/* -------------------------------------------------------------------------- */
+@keyframes floo-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes floo-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes floo-wave {
+  0% {
+    transform: scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(3.3);
+    opacity: 0;
+  }
+}
+
+@keyframes floo-in-a {
+  from {
+    transform: rotate(-140deg) scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: rotate(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes floo-in-b {
+  from {
+    transform: rotate(140deg) scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: rotate(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes floo-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes floo-sweep {
+  0%, 60% {
+    left: -50%;
+  }
+  100% {
+    left: 130%;
+  }
+}
+
+.floo-signin {
+  --navy: #061833;
+  --amber: #f59e0b;
+  --amber-dark: #d97706;
+  --mist: #fef3c7;
+  --muted: #64748b;
+  --tx: 0px;
+  --ty: 0px;
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  color: var(--navy);
+  font-family: var(--font-plus-jakarta), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: radial-gradient(ellipse 55% 65% at 94% 4%, rgba(245, 158, 11, 0.16), transparent 62%),
+              radial-gradient(ellipse 55% 65% at 4% 98%, rgba(6, 24, 51, 0.14), transparent 62%),
+              #FAF9F6;
+}
+
+.floo-signin button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.floo-signin a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.floo-signin .floo-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.floo-signin .top {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.floo-signin .join {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.floo-signin .join a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 38px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid #DCE2F3;
+  color: var(--navy);
+  font-weight: 600;
+  font-size: 13px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.floo-signin .join a:hover {
+  border-color: #f59e0b;
+  background: #fff;
+}
+
+.floo-signin .foot {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.floo-signin .col {
+  position: relative;
+  z-index: 10;
+  width: min(440px, calc(100% - 32px));
+  margin: 0 auto;
+  text-align: center;
+}
+
+.floo-signin .mark {
+  width: 56px;
+  height: 56px;
+  overflow: visible;
+  filter: drop-shadow(0 10px 16px rgba(6, 24, 51, 0.15));
+}
+
+.floo-signin .mark path,
+.floo-signin .mark rect {
+  transform-box: view-box;
+  transform-origin: 12px 12px;
+}
+
+.floo-signin .field-container {
+  text-align: left;
+}
+
+.floo-signin .field-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.floo-signin .field {
+  position: relative;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  border: 1.5px solid #dce2f3;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #0f172a;
+  font-size: 15px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.floo-signin .field:focus-within {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+}
+
+.floo-signin .field input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  color: #0f172a;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.floo-signin .field input::placeholder {
+  color: #94a3b8;
+}
+
+.floo-signin .field .ic {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  color: #64748b;
+}
+
+.floo-signin .field:focus-within .ic {
+  color: #d97706;
+}
+
+.floo-signin .eye-btn {
+  background: none;
+  border: none;
+  padding: 4px;
+  color: #64748b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.floo-signin .eye-btn:hover {
+  color: #0f172a;
+}
+
+.floo-signin .forgot {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #b45309;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.floo-signin .primary {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 50px;
+  border: 0;
+  border-radius: 14px;
+  background: #f59e0b;
+  color: #061833;
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 8px 20px -6px rgba(245, 158, 11, 0.5);
+  transition: background-color 0.2s, transform 0.15s;
+}
+
+.floo-signin .primary:hover:not(:disabled) {
+  background: #fbbf24;
+  transform: translateY(-1px);
+}
+
+.floo-signin .primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.floo-signin .primary svg {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.floo-signin .primary:hover:not(:disabled) svg {
+  transform: translateX(4px);
+}
+
+.floo-signin .primary:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -50%;
+  width: 35%;
+  transform: skew(-20deg);
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  animation: floo-sweep 4.5s 1.6s ease-in-out infinite;
+}
+
+.floo-signin .rise {
+  animation: floo-rise 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@media (max-width: 640px) {
+  .floo-signin .top, .floo-signin .foot {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
 }
