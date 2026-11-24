@@ -1301,7 +1301,10 @@ export default function PortalDashboard() {
               </div>
               <div className="flex gap-2.5">
                 <button
-                  onClick={() => window.print()}
+                  onClick={() => {
+                    window.scrollTo(0, 0);
+                    window.print();
+                  }}
                   className="inline-flex items-center gap-1.5 min-h-10 rounded-xl bg-amber-500 hover:bg-amber-400 text-[#061833] px-4 text-xs font-bold transition-all shadow-xs cursor-pointer"
                 >
                   <Printer className="w-3.5 h-3.5" />
@@ -1378,27 +1381,27 @@ export default function PortalDashboard() {
               )}
 
               {/* Certificate of Completion Heading */}
-              <div className="relative z-10 mt-4">
-                <h3 className="font-serif text-3xl font-extrabold text-[#061833] sm:text-4xl tracking-tight">
+              <div className="relative z-10 mt-4 text-center">
+                <h3 className="font-serif text-3xl font-extrabold text-[#061833] sm:text-4xl tracking-tight text-center">
                   Certificate of Completion
                 </h3>
               </div>
 
               {/* Recipient Details & Citation */}
-              <div className="relative z-10 mt-4">
-                <p className="text-[11px] text-slate-500 uppercase tracking-widest font-mono">
+              <div className="relative z-10 mt-4 text-center flex flex-col items-center">
+                <p className="text-[11px] text-slate-500 uppercase tracking-widest font-mono text-center">
                   This acknowledges that
                 </p>
-                <p className="mt-1 max-w-full break-words text-2xl font-extrabold text-[#061833] sm:text-3xl font-serif">
+                <p className="mt-1 max-w-full break-words text-2xl font-extrabold text-[#061833] sm:text-3xl font-serif text-center">
                   {data?.learner.name}
                 </p>
 
-                <p className="mt-3 max-w-xl text-xs sm:text-sm leading-relaxed text-slate-700 px-2">
+                <p className="mt-3 max-w-xl text-xs sm:text-sm leading-relaxed text-slate-700 px-2 text-center mx-auto">
                   has successfully completed the intensive six-week <strong>{activeTrack.title}</strong> fellowship program,
                   fulfilling all software engineering deliverables, peer code reviews, and production milestones.
                 </p>
 
-                <div className="mt-3 flex flex-wrap justify-center gap-x-6 gap-y-1 text-xs font-mono text-slate-600">
+                <div className="mt-3 flex flex-wrap justify-center gap-x-6 gap-y-1 text-xs font-mono text-slate-600 text-center">
                   <span>Completed: {activeEnrollment.completed_at ? date(activeEnrollment.completed_at) : "Verified"}</span>
                   <span>•</span>
                   <span>Enrollment: {activeEnrollment.enrollment_code}</span>
@@ -1516,7 +1519,8 @@ export default function PortalDashboard() {
             max-height: 194mm !important;
             margin: 0 auto !important;
             padding: 8mm 14mm 6mm 14mm !important;
-            border-radius: 0 !important;
+            border-radius: 16px !important;
+            overflow: hidden !important;
             box-shadow: none !important;
             display: flex !important;
             flex-direction: column !important;
