@@ -1280,7 +1280,7 @@ export default function PortalDashboard() {
       {/* High-Fidelity Certificate Preview Modal */}
       {preview && activeEnrollment && activeTrack && (
         <div
-          className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/75 backdrop-blur-md p-4 sm:p-8 flex items-center justify-center"
+          className="certificate-modal-overlay fixed inset-0 z-50 overflow-y-auto bg-slate-950/75 backdrop-blur-md p-4 sm:p-8 flex items-center justify-center"
           role="dialog"
           aria-modal="true"
           aria-labelledby="certificate-preview-title"
@@ -1288,7 +1288,7 @@ export default function PortalDashboard() {
             if (event.target === event.currentTarget) setPreview(null);
           }}
         >
-          <div className="my-auto w-full max-w-4xl rounded-3xl bg-white border border-slate-200 p-5 sm:p-8 shadow-2xl relative text-slate-900">
+          <div className="certificate-modal-card my-auto w-full max-w-4xl rounded-3xl bg-white border border-slate-200 p-5 sm:p-8 shadow-2xl relative text-slate-900">
             {/* Modal Controls Bar */}
             <div className="mb-6 flex flex-wrap items-start justify-between gap-3 print:hidden border-b border-slate-200 pb-4">
               <div>
@@ -1455,29 +1455,77 @@ export default function PortalDashboard() {
       {/* Print-specific style enforcement */}
       <style jsx global>{`
         @media print {
-          body * {
-            visibility: hidden !important;
+          @page {
+            size: A4 landscape;
+            margin: 0mm;
           }
-          .certificate-page,
-          .certificate-page * {
-            visibility: visible !important;
+          html, body {
+            width: 297mm !important;
+            height: 210mm !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            background: #ffffff !important;
+            overflow: hidden !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+          }
+          header,
+          main,
+          nav,
+          footer,
+          .print\:hidden {
+            display: none !important;
+          }
+          .certificate-modal-overlay {
+            position: absolute !important;
+            left: 0 !important;
+            top: 0 !important;
+            width: 297mm !important;
+            height: 210mm !important;
+            margin: 0 !important;
+            padding: 8mm !important;
+            box-sizing: border-box !important;
+            background: #ffffff !important;
+            backdrop-filter: none !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            overflow: hidden !important;
+            z-index: 9999 !important;
+          }
+          .certificate-modal-card {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            max-width: none !important;
+            width: 100% !important;
+            height: 100% !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
           }
           .certificate-page {
-            position: fixed !important;
-            inset: 0 !important;
-            width: 100vw !important;
-            height: 100vh !important;
-            max-width: none !important;
-            margin: 0 !important;
-            padding: 24px 36px !important;
+            box-sizing: border-box !important;
+            position: relative !important;
+            width: 281mm !important;
+            height: 194mm !important;
+            min-height: 194mm !important;
+            max-width: 281mm !important;
+            max-height: 194mm !important;
+            margin: 0 auto !important;
+            padding: 8mm 14mm 6mm 14mm !important;
             border-radius: 0 !important;
-            page-break-inside: avoid;
-            print-color-adjust: exact;
-            -webkit-print-color-adjust: exact;
-          }
-          @page {
-            size: landscape;
-            margin: 0;
+            box-shadow: none !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
+            page-break-inside: avoid !important;
+            page-break-after: avoid !important;
+            page-break-before: avoid !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
           }
         }
       `}</style>

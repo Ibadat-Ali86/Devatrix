@@ -346,15 +346,15 @@ export default function CertificateSample() {
               )}
 
               {/* Main Certificate Title Header */}
-              <div className="relative mt-4 sm:mt-5">
-                <h3 className={`font-black tracking-[0.08em] uppercase leading-tight ${
+              <div className="relative mt-4 sm:mt-5 text-center">
+                <h3 className={`font-black tracking-[0.08em] uppercase leading-tight text-center ${
                   premium 
                     ? "text-2xl sm:text-4xl lg:text-[40px] text-[#061833] drop-shadow-sm" 
                     : "text-2xl sm:text-4xl lg:text-[38px] text-[#0f2444]"
                 }`}>
                   CERTIFICATE
                 </h3>
-                <p className="mt-0.5 text-[10px] sm:text-xs md:text-sm font-bold tracking-[0.24em] text-slate-700 uppercase">
+                <p className="mt-0.5 text-[10px] sm:text-xs md:text-sm font-bold tracking-[0.24em] text-slate-700 uppercase text-center">
                   OF COMPLETION
                 </p>
                 {/* Horizontal Divider Line */}
@@ -364,12 +364,12 @@ export default function CertificateSample() {
               </div>
 
               {/* Presentation Text */}
-              <p className="relative mt-3 sm:mt-4 text-xs sm:text-sm font-medium tracking-wide text-slate-700">
+              <p className="relative mt-3 sm:mt-4 text-xs sm:text-sm font-medium tracking-wide text-slate-700 text-center">
                 This Certificate Is Proudly Presented To
               </p>
 
               {/* Recipient Name in Flowing Cursive Script (Matches reference image) */}
-              <p className={`relative my-1 sm:my-2 font-cursive select-none tracking-wide text-3xl sm:text-4xl md:text-5xl leading-tight ${
+              <p className={`relative my-1 sm:my-2 font-cursive select-none tracking-wide text-3xl sm:text-4xl md:text-5xl leading-tight text-center ${
                 premium 
                   ? "bg-gradient-to-r from-[#593902] via-[#a16207] to-[#451a03] bg-clip-text text-transparent font-normal drop-shadow-sm" 
                   : "text-slate-900 font-normal"
@@ -378,12 +378,12 @@ export default function CertificateSample() {
               </p>
 
               {/* Body Citation Paragraph */}
-              <p className="relative mx-auto max-w-lg text-[10px] sm:text-xs leading-relaxed text-slate-600 font-sans px-2">
+              <p className="relative mx-auto max-w-lg text-[10px] sm:text-xs leading-relaxed text-slate-600 font-sans px-2 text-center">
                 Was an active Participant at Devatrix Virtual Apprenticeship Program in Full Stack Web Engineering Internship with dedication and hard work. We really appreciate your efforts taken and wish you all the best for the further.
               </p>
 
               {/* Sprint Dates (Anchored in 2026 data as per system rules) */}
-              <p className="relative mt-1 text-[10px] sm:text-xs font-semibold text-slate-800">
+              <p className="relative mt-1 text-[10px] sm:text-xs font-semibold text-slate-800 text-center">
                 1st July 2026 to 15th August 2026
               </p>
 
