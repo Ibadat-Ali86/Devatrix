@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { LogOut } from "lucide-react";
 
-export default function SignOutButton() {
+export default function SignOutButton({ className }: { className?: string }) {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
+
   async function signOut() {
     if (pending) return;
     setPending(true);
@@ -21,5 +23,28 @@ export default function SignOutButton() {
       setPending(false);
     }
   }
-  return <div className="text-right"><button type="button" onClick={signOut} disabled={pending} className="rounded-lg border border-slate-400 px-4 py-2 text-sm font-semibold text-white hover:bg-white/10 disabled:opacity-60">{pending ? "Signing out..." : "Sign out"}</button>{error && <p role="alert" className="mt-2 text-xs text-red-200">{error}</p>}</div>;
+
+  return (
+    <div className="relative inline-block text-right">
+      <button
+        type="button"
+        onClick={signOut}
+        disabled={pending}
+        className={
+          className ||
+          "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-semibold text-slate-200 hover:text-white border border-white/15 transition-all disabled:opacity-60 cursor-pointer shadow-xs"
+        }
+      >
+        <LogOut className="w-3.5 h-3.5 text-slate-300" />
+        <span>{pending ? "Signing out..." : "Sign out"}</span>
+
+      </button>
+      {error && (
+        <p role="alert" className="absolute right-0 top-full mt-1 text-[11px] text-rose-400 whitespace-nowrap bg-rose-950/80 px-2 py-0.5 rounded border border-rose-500/30">
+          {error}
+        </p>
+      )}
+    </div>
+  );
 }
+
