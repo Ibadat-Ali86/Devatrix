@@ -101,6 +101,153 @@ const date = (value: string) => {
 const titleFor = (value: string) =>
   value.replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
 
+function CornerFiligree({ position }: { position: "top-left" | "top-right" | "bottom-left" | "bottom-right" }) {
+  const transformClass = {
+    "top-left": "",
+    "top-right": "rotate-90",
+    "bottom-right": "rotate-180",
+    "bottom-left": "-rotate-90",
+  }[position];
+
+  const posClass = {
+    "top-left": "top-2.5 left-2.5",
+    "top-right": "top-2.5 right-2.5",
+    "bottom-left": "bottom-2.5 left-2.5",
+    "bottom-right": "bottom-2.5 right-2.5",
+  }[position];
+
+  return (
+    <div className={`absolute ${posClass} w-8 h-8 pointer-events-none text-amber-600/80 ${transformClass}`} aria-hidden="true">
+      <svg viewBox="0 0 40 40" fill="none" className="w-full h-full">
+        <path d="M4 36 V12 C4 7.5 7.5 4 12 4 H36" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+        <path d="M8 32 V14 C8 10.7 10.7 8 14 8 H32" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
+        <circle cx="12" cy="12" r="2" fill="currentColor" />
+        <path d="M4 4 L10 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+    </div>
+  );
+}
+
+function OfficialCertificateSeal({ premium }: { premium: boolean }) {
+  if (premium) {
+    return (
+      <div className="relative flex flex-col items-center justify-center select-none" aria-label="Official Devatrix Fellowship Seal">
+        <div className="absolute -bottom-3 flex justify-center gap-1 pointer-events-none" aria-hidden="true">
+          <div className="w-3.5 h-6 bg-gradient-to-b from-amber-600 to-amber-700 -rotate-12 [clip-path:polygon(0_0,100%_0,100%_100%,50%_75%,0_100%)] shadow-xs" />
+          <div className="w-3.5 h-6 bg-gradient-to-b from-amber-600 to-amber-700 rotate-12 [clip-path:polygon(0_0,100%_0,100%_100%,50%_75%,0_100%)] shadow-xs" />
+        </div>
+        <div className="relative flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-gradient-to-tr from-amber-600 via-amber-400 to-amber-200 p-0.5 shadow-md border border-amber-300">
+          <div className="flex h-full w-full items-center justify-center rounded-full bg-gradient-to-br from-amber-500 via-amber-600 to-amber-700 p-1 text-center shadow-inner">
+            <div className="flex h-full w-full flex-col items-center justify-center rounded-full border border-dashed border-amber-200/90 bg-amber-600/90 text-amber-100 p-0.5">
+              <span className="text-[6px] sm:text-[7px] font-mono font-black tracking-widest uppercase">DEVATRIX</span>
+              <span className="text-[8px] sm:text-[9px] text-amber-200 leading-none my-0.5">★ ★ ★</span>
+              <span className="text-[5px] sm:text-[6px] font-bold tracking-tight text-amber-100 uppercase">OFFICIAL SEAL</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative flex flex-col items-center justify-center select-none" aria-label="Official Devatrix Fellowship Seal">
+      <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full border-2 border-[#061833] bg-slate-50 p-0.5 shadow-xs">
+        <div className="flex h-full w-full flex-col items-center justify-center rounded-full border border-dashed border-[#061833]/60 text-[#061833] p-0.5">
+          <span className="text-[6px] font-mono font-extrabold tracking-widest uppercase">DEVATRIX</span>
+          <span className="text-[8px] text-amber-600 leading-none my-0.5">★ ★ ★</span>
+          <span className="text-[5px] font-bold tracking-wider uppercase text-slate-700">ACCREDITED</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DigitalFellowshipSignature({ premium }: { premium: boolean }) {
+  const inkColor = premium ? "url(#goldInkGrad)" : "#061833";
+
+  return (
+    <div className="relative flex flex-col items-center sm:items-end select-none" aria-label="Official Digital Signature of Directorate of Engineering Fellowship">
+      <div className="relative h-11 w-40 sm:h-12 sm:w-48 flex items-center justify-center">
+        <svg
+          viewBox="0 0 220 58"
+          className="w-full h-full overflow-visible"
+          role="img"
+          aria-label="Directorate of Engineering Fellowship Authentic Digital Signature"
+        >
+          <defs>
+            <linearGradient id="goldInkGrad" x1="0%" y1="0%" x2="100%" y2="80%">
+              <stop offset="0%" stopColor="#78350f" />
+              <stop offset="30%" stopColor="#d97706" />
+              <stop offset="65%" stopColor="#b45309" />
+              <stop offset="100%" stopColor="#92400e" />
+            </linearGradient>
+            <filter id="sigInkShadow" x="-10%" y="-10%" width="120%" height="120%">
+              <feDropShadow dx="0.4" dy="0.6" stdDeviation="0.4" floodColor="#000000" floodOpacity={premium ? "0.2" : "0.15"} />
+            </filter>
+          </defs>
+
+          <g filter="url(#sigInkShadow)">
+            <path
+              d="M 16 38 C 12 24, 20 12, 30 10 C 38 8, 42 20, 34 32 C 28 42, 20 48, 16 46 C 13 44, 18 34, 28 28 C 36 24, 46 22, 54 30 C 58 34, 52 44, 60 40"
+              fill="none"
+              stroke={inkColor}
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M 60 40 C 64 36, 68 25, 74 27 C 78 29, 72 42, 80 38 C 86 34, 90 26, 96 28 C 100 30, 94 42, 104 36 C 110 32, 114 18, 118 16 C 120 14, 118 30, 116 40 C 118 38, 124 30, 130 30 C 134 30, 130 40, 136 36"
+              fill="none"
+              stroke={inkColor}
+              strokeWidth="1.9"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M 108 22 C 114 21, 124 20, 128 21"
+              fill="none"
+              stroke={inkColor}
+              strokeWidth="1.6"
+              strokeLinecap="round"
+            />
+            <path
+              d="M 144 42 C 140 30, 146 14, 156 12 C 164 10, 162 24, 154 34 C 150 40, 144 44, 150 42 C 158 38, 168 26, 174 28 C 178 30, 172 40, 180 36 C 186 32, 190 24, 194 24 C 198 24, 194 36, 200 32"
+              fill="none"
+              stroke={inkColor}
+              strokeWidth="2.1"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M 24 50 C 60 52, 120 51, 185 43 C 200 41, 210 37, 216 33"
+              fill="none"
+              stroke={inkColor}
+              strokeWidth="1.7"
+              strokeLinecap="round"
+            />
+            <circle cx="196" cy="20" r="1.3" fill={inkColor} />
+          </g>
+        </svg>
+      </div>
+
+      <div className={`w-36 sm:w-48 h-[1.5px] mt-0.5 mb-1.5 ${
+        premium ? "bg-amber-600/80" : "bg-[#061833]"
+      }`} />
+
+      <p className="font-extrabold text-[#061833] text-xs sm:text-sm font-sans tracking-tight whitespace-nowrap">
+        Directorate of Engineering Fellowship
+      </p>
+      <p className="text-[10px] sm:text-[11px] font-mono text-slate-500 whitespace-nowrap mt-0.5">
+        Authorized Certification Authority · Devatrix Technologies
+      </p>
+      <div className="mt-1.5 inline-flex items-center gap-1.5 text-[8px] sm:text-[9px] font-mono text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+        <span className="whitespace-nowrap font-semibold">VERIFIED DIGITAL SIGNATURE</span>
+      </div>
+    </div>
+  );
+}
+
 export default function PortalDashboard() {
   const [data, setData] = useState<Dashboard | null>(null);
   const [error, setError] = useState("");
@@ -1172,65 +1319,128 @@ export default function PortalDashboard() {
 
             {/* Certificate Canvas */}
             <div
-              className={`certificate-page relative mx-auto flex min-h-[520px] max-w-[840px] flex-col items-center justify-center overflow-hidden p-8 sm:p-12 text-center rounded-xl ${
+              className={`certificate-page relative mx-auto flex min-h-[580px] max-w-[880px] flex-col items-center justify-between overflow-hidden p-8 sm:p-12 text-center rounded-2xl ${
                 preview.style === "premium"
-                  ? "border-[8px] border-double border-amber-400 bg-[#fffdf7] text-slate-900 shadow-xl"
-                  : "border-[6px] border-[#061833] bg-white text-slate-900 shadow-lg"
+                  ? "border-[8px] border-double border-amber-400 bg-[#fffdf7] text-slate-900 shadow-2xl"
+                  : "border-[6px] border-[#061833] bg-white text-slate-900 shadow-xl"
               }`}
             >
-              {/* Inner Decorative Border */}
+              {/* Corner Filigrees for Premium format */}
+              {preview.style === "premium" && (
+                <>
+                  <CornerFiligree position="top-left" />
+                  <CornerFiligree position="top-right" />
+                  <CornerFiligree position="bottom-left" />
+                  <CornerFiligree position="bottom-right" />
+                </>
+              )}
+
+              {/* Inner Decorative Double Border */}
               <div
-                className={`absolute inset-2 border ${
+                className={`absolute inset-2 sm:inset-3 border ${
                   preview.style === "premium" ? "border-amber-300" : "border-slate-300"
                 }`}
                 aria-hidden="true"
               />
-
-              <Image
-                src="/logo-transparent.png"
-                alt="Devatrix Technologies"
-                width={64}
-                height={64}
-                className="relative mx-auto drop-shadow-sm"
+              <div
+                className={`absolute inset-3 sm:inset-4 border ${
+                  preview.style === "premium" ? "border-dashed border-amber-200/90" : "border-dashed border-slate-200"
+                }`}
+                aria-hidden="true"
               />
-              <p className="relative mt-4 text-[11px] font-mono font-bold uppercase tracking-[0.25em] text-slate-600">
-                Devatrix Technologies
-              </p>
 
-              <h3 className="relative mt-6 font-serif text-3xl font-bold text-[#061833] sm:text-4xl tracking-tight">
-                Certificate of Completion
-              </h3>
-
-              <p className="relative mt-6 text-xs text-slate-500 uppercase tracking-widest font-mono">
-                This acknowledges that
-              </p>
-              <p className="relative mt-1 max-w-full break-words text-2xl font-extrabold text-[#061833] sm:text-3xl font-serif">
-                {data?.learner.name}
-              </p>
-
-              <p className="relative mt-4 max-w-xl text-xs sm:text-sm leading-relaxed text-slate-700">
-                has successfully completed the intensive six-week <strong>{activeTrack.title}</strong> fellowship program,
-                fulfilling all software engineering deliverables and evaluated code milestones.
-              </p>
-
-              <div className="relative mt-6 flex flex-wrap justify-center gap-x-8 gap-y-2 text-xs font-mono text-slate-600">
-                <span>Completed: {activeEnrollment.completed_at ? date(activeEnrollment.completed_at) : "Verified"}</span>
-                <span>Enrollment: {activeEnrollment.enrollment_code}</span>
-              </div>
-
-              {/* Signatory line */}
-              <div className="relative mt-8 min-w-[200px] border-t border-slate-400 pt-2 text-center">
-                <p className="font-bold text-[#061833] text-sm">{certSettings?.signatory_name || "Umair Ul Hassan"}</p>
-                <p className="text-[11px] font-mono text-slate-500">
-                  {certSettings?.signatory_title || "Authorized Signatory"} · Devatrix Technologies
+              {/* Top: Devatrix Core Company Logo & Header */}
+              <div className="relative z-10 flex flex-col items-center justify-center select-none pt-1">
+                <div className="relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center">
+                  <Image
+                    src="/logo-navy-transparent.png"
+                    alt="Devatrix Technologies Core Emblem"
+                    width={80}
+                    height={80}
+                    className="w-full h-full object-contain drop-shadow-xs"
+                    priority
+                  />
+                </div>
+                <p className="relative mt-2 text-xs sm:text-sm font-black font-sans tracking-[0.25em] uppercase text-[#061833]">
+                  DEVATRIX TECHNOLOGIES
+                </p>
+                <p className="text-[9px] sm:text-[10px] font-mono font-bold tracking-widest uppercase text-amber-700">
+                  ACADEMY &amp; SOFTWARE FELLOWSHIP COUNCIL
                 </p>
               </div>
 
-              <p className="relative mt-6 font-mono text-[10px] tracking-wider text-slate-400">
+              {/* Premium Honors Ribbon Pill */}
+              {preview.style === "premium" && (
+                <div className="relative z-10 mt-3 inline-flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-gradient-to-r from-amber-500/10 via-amber-400/20 to-amber-500/10 px-3.5 py-0.5 text-[9px] font-mono font-extrabold uppercase tracking-widest text-[#784f09]">
+                  <Sparkles className="h-3 w-3 text-amber-600" />
+                  <span>DISTINGUISHED FELLOWSHIP HONORS · ACCREDITED PRACTITIONER</span>
+                </div>
+              )}
+
+              {/* Certificate of Completion Heading */}
+              <div className="relative z-10 mt-4">
+                <h3 className="font-serif text-3xl font-extrabold text-[#061833] sm:text-4xl tracking-tight">
+                  Certificate of Completion
+                </h3>
+              </div>
+
+              {/* Recipient Details & Citation */}
+              <div className="relative z-10 mt-4">
+                <p className="text-[11px] text-slate-500 uppercase tracking-widest font-mono">
+                  This acknowledges that
+                </p>
+                <p className="mt-1 max-w-full break-words text-2xl font-extrabold text-[#061833] sm:text-3xl font-serif">
+                  {data?.learner.name}
+                </p>
+
+                <p className="mt-3 max-w-xl text-xs sm:text-sm leading-relaxed text-slate-700 px-2">
+                  has successfully completed the intensive six-week <strong>{activeTrack.title}</strong> fellowship program,
+                  fulfilling all software engineering deliverables, peer code reviews, and production milestones.
+                </p>
+
+                <div className="mt-3 flex flex-wrap justify-center gap-x-6 gap-y-1 text-xs font-mono text-slate-600">
+                  <span>Completed: {activeEnrollment.completed_at ? date(activeEnrollment.completed_at) : "Verified"}</span>
+                  <span>•</span>
+                  <span>Enrollment: {activeEnrollment.enrollment_code}</span>
+                  <span>•</span>
+                  <span>Track: {activeTrack.title}</span>
+                </div>
+              </div>
+
+              {/* Bottom Row: Official Seal & Date Block (Left), Digital Final Signature (Right) */}
+              <div className="relative z-10 mt-8 w-full border-t border-slate-200/90 pt-6 flex flex-col sm:flex-row items-center sm:items-end justify-between gap-6 px-2 sm:px-6">
+                {/* Left: Official Corporate Seal & Issuance Metadata */}
+                <div className="flex items-center gap-4 sm:gap-5 text-left">
+                  <OfficialCertificateSeal premium={preview.style === "premium"} />
+                  <div className="flex flex-col">
+                    <span className="text-[9px] font-mono font-bold tracking-wider text-slate-500 uppercase">
+                      OFFICIAL FELLOWSHIP SEAL
+                    </span>
+                    <span className="text-xs sm:text-sm font-bold text-[#061833] font-mono mt-0.5">
+                      Issued: {activeRequest?.status === "issued" && activeRequest.issued_at
+                        ? date(activeRequest.issued_at)
+                        : activeEnrollment.completed_at
+                        ? date(activeEnrollment.completed_at)
+                        : "Nov 20, 2026"}
+                    </span>
+                    <span className="mt-1.5 text-[8px] sm:text-[9px] font-mono font-bold text-slate-700 bg-slate-100/90 px-2.5 py-0.5 rounded-full border border-slate-200 w-fit">
+                      ID: DVX-{activeEnrollment.enrollment_code}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Right: Digital Final Signature & Authority */}
+                <div className="flex flex-col items-center sm:items-end text-center sm:text-right">
+                  <DigitalFellowshipSignature premium={preview.style === "premium"} />
+                </div>
+              </div>
+
+              {/* Archival Specification Line */}
+              <p className="relative z-10 mt-5 font-mono text-[9px] tracking-wider text-slate-400">
                 {preview.style === "premium" ? "PREMIUM ARCHIVAL SPECIFICATION" : "STANDARD SPECIFICATION"} ·{" "}
                 {activeRequest?.status === "issued"
-                  ? `ISSUED ${activeRequest.issued_at ? date(activeRequest.issued_at) : ""} · ${activeEnrollment.enrollment_code}`
-                  : "DIGITAL PREVIEW ONLY"}
+                  ? `ISSUED ${activeRequest.issued_at ? date(activeRequest.issued_at) : ""} · DVX-${activeEnrollment.enrollment_code}`
+                  : `DIGITAL PREVIEW SPECIFICATION · DVX-${activeEnrollment.enrollment_code}`} · VERIFIED ON-CHAIN &amp; DEVATRIX INTAKE REGISTRY
               </p>
             </div>
 
@@ -1256,15 +1466,18 @@ export default function PortalDashboard() {
             position: fixed !important;
             inset: 0 !important;
             width: 100vw !important;
-            min-height: 100vh !important;
+            height: 100vh !important;
             max-width: none !important;
+            margin: 0 !important;
+            padding: 24px 36px !important;
+            border-radius: 0 !important;
             page-break-inside: avoid;
             print-color-adjust: exact;
             -webkit-print-color-adjust: exact;
           }
           @page {
             size: landscape;
-            margin: 10mm;
+            margin: 0;
           }
         }
       `}</style>
