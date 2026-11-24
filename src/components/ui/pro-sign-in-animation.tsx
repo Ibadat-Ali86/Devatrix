@@ -43,8 +43,7 @@ export function ProSignInAnimation({
         return;
       }
 
-      router.replace(onSuccessRedirect);
-      router.refresh();
+      window.location.href = onSuccessRedirect;
     } catch {
       setError("Unable to connect to authorization server. Please verify your connection.");
       setPending(false);
