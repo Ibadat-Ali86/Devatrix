@@ -10,11 +10,14 @@ import {
   Briefcase, 
   MapPin, 
   ArrowRight, 
-  Clock, 
   CheckCircle2, 
-  Sparkles,
-  HeartHandshake,
-  Laptop,
+  Cpu, 
+  Clock, 
+  Sparkles, 
+  Code2, 
+  ShieldCheck, 
+  TrendingUp,
+  Layers,
   GraduationCap
 } from "lucide-react";
 
@@ -49,249 +52,202 @@ const careersSchema = [
 export default function CareersPage() {
   const roles = [
     {
-      title: "Full Stack Developer",
-      team: "Web & Product Engineering",
-      locations: ["Lahore, PK (Hybrid)", "Remote"],
-      type: "Full-Time",
-      experience: "2 to 5 Years",
-      desc: "Build and ship scalable full-stack web applications and SaaS products using React, Next.js, TypeScript, Node.js, and relational databases with clean APIs and responsive interfaces.",
-      tags: ["React", "Next.js", "TypeScript", "Node.js", "PostgreSQL"],
-    },
-    {
-      title: "AI Engineer",
-      team: "AI Solutions Pod",
-      locations: ["Lahore, PK (Hybrid)", "Remote"],
-      type: "Full-Time",
-      experience: "2 to 5 Years",
-      desc: "Design and deploy production AI applications, LLM integrations, retrieval-augmented generation (RAG) pipelines, evaluation harnesses, and intelligent workflow automation.",
-      tags: ["Python", "FastAPI", "LLMs", "RAG", "AI Agents"],
-    },
-    {
-      title: "Lead Cloud Platform & DevOps Engineer",
-      team: "Cloud Reliability & Platform",
+      title: "Senior Distributed Systems Engineer",
+      team: "Core Platform & Infrastructure",
       locations: ["Lahore, PK (Hybrid)", "Remote"],
       type: "Full-Time",
       experience: "5+ Years (Senior / Lead Architect)",
-      desc: "Manage multi-region AWS and Azure environments, design automated Terraform IaC modules, and ensure 99.99% cluster reliability.",
-      tags: ["AWS", "Azure", "Terraform", "Kubernetes", "CI/CD"],
-    },
-  ];
-
-  const perks = [
-    {
-      icon: HeartHandshake,
-      title: "Comprehensive Health Coverage",
-      desc: "Complete medical and hospitalization coverage for you and your dependents.",
+      desc: "Architect and build high-throughput microservices in Go and Rust handling large-scale message streams with sub-20ms p99 latencies.",
+      tags: ["Go", "Rust", "Kafka", "Kubernetes", "gRPC"],
     },
     {
-      icon: Laptop,
-      title: "Top-Tier Hardware",
-      desc: "Equipped with high-performance Apple Silicon MacBook Pro workstations.",
+      title: "Principal AI & Machine Learning Architect",
+      team: "AI Solutions Pod",
+      locations: ["Lahore, PK (Hybrid)", "Remote"],
+      type: "Full-Time",
+      experience: "5+ Years (Senior / Lead Architect)",
+      desc: "Design and implement custom enterprise LLM workflows, private retrieval-augmented generation (RAG) pipelines, and intelligent process automation.",
+      tags: ["Python", "FastAPI", "Vector Search", "LLMs", "LangChain"],
     },
     {
-      icon: Sparkles,
-      title: "Continuous Professional Growth",
-      desc: "Subsidized cloud certifications (AWS/Azure/GCP), technical courses, and resources.",
+      title: "Senior Full-Stack Next.js Engineer",
+      team: "Enterprise Web Products",
+      locations: ["Lahore, PK (Hybrid)", "Remote"],
+      type: "Full-Time",
+      experience: "3 to 5 Years (Mid-Level Engineer)",
+      desc: "Build mission-critical web applications with Next.js, React 19, and TypeScript, delivering instant page loads, clean UI architectures, and robust state management.",
+      tags: ["React 19", "Next.js", "TypeScript", "Tailwind CSS", "Node.js"],
     },
     {
-      icon: Clock,
-      title: "Healthy Work-Life Balance",
-      desc: "Flexible hybrid working model with remote-first autonomy and paid time off.",
+      title: "Lead Cloud Platform & DevOps Engineer",
+      team: "Cloud & Reliability",
+      locations: ["Lahore, PK (Hybrid)", "Remote"],
+      type: "Full-Time",
+      experience: "4 to 7 Years (Lead Level)",
+      desc: "Own infrastructure automation across AWS and GCP using Terraform, maintain high-availability Kubernetes clusters, and establish GitOps CI/CD pipelines.",
+      tags: ["AWS", "GCP", "Terraform", "Kubernetes", "Docker", "CI/CD"],
     },
   ];
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
+    <div className="dx-public min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
       <JsonLd data={careersSchema} />
       <Navbar />
 
       <main className="flex-1 pt-14 sm:pt-20">
         
         {/* Enterprise Hero Banner (#061833) */}
-        <section className="relative py-20 sm:py-24 bg-[#061833] text-white overflow-hidden border-b border-white/10">
+        <section data-navbar-theme="dark" className="relative py-20 sm:py-24 bg-[#061833] text-white overflow-hidden border-b border-white/10">
           <div className="absolute top-0 right-1/4 w-[500px] h-[300px] bg-brand-500/15 rounded-full blur-[140px] pointer-events-none"></div>
           <div className="absolute bottom-0 left-1/4 w-[400px] h-[250px] bg-blue-600/15 rounded-full blur-[120px] pointer-events-none"></div>
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-4">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-mono font-medium text-slate-300">
-              <Briefcase className="w-3.5 h-3.5 text-brand-500" />
-              <span>CAREERS & TALENT NETWORK • LAHORE & REMOTE</span>
-            </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight">
-              Build Impactful Software. <br />
-              <span className="text-brand-500">Grow With Leaders.</span>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <span className="text-xs font-mono font-bold uppercase tracking-widest text-brand-400 bg-brand-500/10 px-3.5 py-1.5 rounded-full border border-brand-500/20 inline-block mb-4">
+              JOIN THE DEVATRIX ENGINEERING CORPS
+            </span>
+            <h1 className="text-3xl sm:text-5xl font-extrabold font-sans tracking-tight leading-tight max-w-4xl mx-auto mb-6">
+              Build Production-Critical Systems. <br className="hidden sm:inline" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-300 via-brand-400 to-amber-200">
+                Work With Top 1% Engineering Talent.
+              </span>
             </h1>
-            <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal">
-              Join an engineering-first culture where craftsmanship and architecture rigor are recognized, celebrated, and rewarded.
+            <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
+              We design and ship mission-critical software for global enterprises and high-growth scaleups. We maintain high standards, zero operational fluff, and provide competitive global compensation.
             </p>
-            <div className="pt-2 flex flex-wrap justify-center gap-4">
-              <Link
-                href="/careers/apply"
-                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-brand-500 hover:bg-brand-600 text-obsidian-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-brand-500/25"
-              >
-                <span>Submit Job Application</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              <a
-                href="#openings"
-                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-white/10 hover:bg-white/15 text-white border border-white/20 font-semibold text-xs tracking-wider transition-all"
-              >
-                <span>View Featured Roles</span>
-              </a>
-            </div>
           </div>
         </section>
 
-        {/* Culture & Perks Section */}
-        <section className="py-20 bg-slate-50 border-b border-slate-200">
+        {/* Culture & Engineering Standards */}
+        <section className="py-16 sm:py-20 bg-slate-50 border-b border-slate-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-2xl mx-auto mb-14">
-              <span className="text-xs font-mono font-bold uppercase tracking-widest text-brand-600 block mb-2">
-                BENEFITS & CULTURE
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 font-sans">
-                Why Engineers Thrive at Devatrix
-              </h2>
-            </div>
-
-            {/* Perks Grid - 2 columns on mobile, 4 on desktop */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-6">
-              {perks.map((perk) => {
-                const Icon = perk.icon;
-                return (
-                  <div
-                    key={perk.title}
-                    className="p-3.5 sm:p-6 rounded-xl sm:rounded-2xl bg-white border border-slate-200 hover:border-brand-500/40 hover:shadow-lg transition-all space-y-2 sm:space-y-3"
-                  >
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-brand-50 border border-brand-200 flex items-center justify-center p-1.5 sm:p-2 text-brand-600">
-                      <Icon className="w-full h-full" />
-                    </div>
-                    <h3 className="text-xs sm:text-lg font-bold text-slate-900 font-sans leading-tight">{perk.title}</h3>
-                    <p className="text-xs sm:text-xs text-slate-600 leading-relaxed font-normal">{perk.desc}</p>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        {/* Open Positions List */}
-        <section id="openings" className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
-            <div>
-              <span className="text-xs font-mono font-bold uppercase tracking-widest text-brand-600 block mb-2">
-                FEATURED OPENINGS
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 font-sans">
-                Active Roles ({roles.length})
-              </h2>
-            </div>
-            <div className="mt-4 md:mt-0 text-xs font-mono text-slate-500 font-medium">
-              Competitive compensation • Health benefits • Flexible hybrid & remote setup
-            </div>
-          </div>
-
-          {/* Student & Graduate Internship Callout */}
-          <div className="mb-10 p-6 rounded-2xl bg-brand-50/70 border border-brand-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="space-y-1">
-              <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-brand-800 block">
-                STUDENTS & FRESH GRADUATES
-              </span>
-              <h4 className="text-base font-bold text-slate-900 font-sans">
-                Looking for 6-Week Virtual Internships?
-              </h4>
-              <p className="text-xs text-slate-600">
-                Explore our dedicated 6-week mentorship sprints across Web, AI, Backend, Flutter, React Native, Data Science, and Data Analytics.
-              </p>
-            </div>
-            <Link
-              href="/internships"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-brand-500 hover:bg-brand-600 text-obsidian-950 font-bold text-xs uppercase tracking-wider transition-all shrink-0"
-            >
-              <span>Explore Internships</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-
-          <div className="space-y-6">
-            {roles.map((role) => (
-              <div
-                key={role.title}
-                className="p-8 rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-500/40 hover:bg-white hover:shadow-xl transition-all flex flex-col lg:flex-row lg:items-center justify-between gap-6 group"
-              >
-                <div className="space-y-3 max-w-3xl">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-xs font-bold px-2.5 py-0.5 rounded-md bg-brand-50 text-brand-800 border border-brand-200 font-sans">
-                      {role.team}
-                    </span>
-                    <span className="text-xs font-medium px-2.5 py-0.5 rounded-md bg-white text-slate-700 border border-slate-200 font-sans">
-                      {role.type}
-                    </span>
-                    <span className="text-xs text-slate-500 font-medium font-sans">
-                      {role.locations.join(" • ")}
-                    </span>
-                    <span className="text-xs font-mono text-brand-700 bg-brand-50/80 px-2 py-0.5 rounded">
-                      {role.experience}
-                    </span>
-                  </div>
-
-                  <h3 className="text-xl font-bold text-slate-900 group-hover:text-brand-600 font-sans transition-colors">
-                    {role.title}
-                  </h3>
-
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                    {role.desc}
-                  </p>
-
-                  <div className="flex flex-wrap gap-1.5 pt-2">
-                    {role.tags.map((t) => (
-                      <span
-                        key={t}
-                        className="text-[11px] font-mono px-2.5 py-0.5 rounded bg-white border border-slate-200 text-slate-700"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+              <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm">
+                <div className="w-12 h-12 rounded-xl bg-brand-50 border border-brand-100 flex items-center justify-center mb-5">
+                  <Code2 className="w-6 h-6 text-brand-600" />
                 </div>
-
-                <div className="shrink-0">
-                  <Link
-                    href={`/careers/apply?role=${encodeURIComponent(role.title)}`}
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-brand-500 hover:bg-brand-600 text-obsidian-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-brand-500/20"
-                  >
-                    <span>Apply for this Role</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-                </div>
+                <h2 className="text-lg font-bold text-slate-900 font-sans mb-2">High Engineering Autonomy</h2>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  Engineers own their system architectures end-to-end. No unnecessary middle management or endless status meetings — just pure technical focus.
+                </p>
               </div>
-            ))}
-          </div>
 
-          {/* Open Talent Pool Banner for Anyone Applying Without Open Post */}
-          <div className="mt-12 p-8 sm:p-10 rounded-3xl bg-[#061833] text-white border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div className="space-y-2 max-w-2xl">
-              <span className="text-xs font-mono font-bold uppercase tracking-wider text-brand-400">
-                OPEN TALENT INTAKE
-              </span>
-              <h3 className="text-2xl font-black font-sans text-white">
-                Don't See Your Exact Role Open? Apply Anyway.
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                We are always seeking exceptional engineers and architects. Submit your resume, previous experience, and salary expectations to our active talent registry.
-              </p>
+              <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm">
+                <div className="w-12 h-12 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center mb-5">
+                  <ShieldCheck className="w-6 h-6 text-amber-600" />
+                </div>
+                <h2 className="text-lg font-bold text-slate-900 font-sans mb-2">Rigorous Code Quality</h2>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  Strict static analysis, mandatory unit testing, zero vulnerabilities, and clean, documented architecture. We build systems designed to run reliably for decades.
+                </p>
+              </div>
+
+              <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm">
+                <div className="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center mb-5">
+                  <TrendingUp className="w-6 h-6 text-emerald-600" />
+                </div>
+                <h2 className="text-lg font-bold text-slate-900 font-sans mb-2">Tier-1 Market Compensation</h2>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  We reward technical excellence with top-percentile salary benchmarks, performance-based bonuses, and comprehensive health and wellness coverage.
+                </p>
+              </div>
             </div>
-            <Link
-              href="/careers/apply"
-              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-brand-500 hover:bg-brand-600 text-obsidian-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-brand-500/25 shrink-0"
-            >
-              <span>Submit General Application</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
           </div>
         </section>
 
-        {/* Executive Consultation CTA */}
+        {/* Open Engineering Roles */}
+        <section className="py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12">
+              <div>
+                <span className="text-xs font-mono font-bold uppercase tracking-widest text-brand-600 bg-brand-50 px-3 py-1 rounded-full border border-brand-200 inline-block mb-3">
+                  CURRENT OPENINGS
+                </span>
+                <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 font-sans tracking-tight">
+                  Open Positions
+                </h2>
+              </div>
+              <p className="text-xs sm:text-sm text-slate-500 mt-2 sm:mt-0">
+                All roles available for Lahore campus (hybrid) or remote throughout Pakistan.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              {roles.map((role, idx) => (
+                <div 
+                  key={idx}
+                  className="p-6 sm:p-8 rounded-2xl border border-slate-200 bg-slate-50/50 hover:bg-white hover:border-brand-300 hover:shadow-lg transition-all group"
+                >
+                  <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                    <div className="space-y-3">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="text-xs font-mono text-brand-700 bg-brand-50 px-2.5 py-0.5 rounded border border-brand-200">
+                          {role.team}
+                        </span>
+                        <span className="text-xs font-mono text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded">
+                          {role.type}
+                        </span>
+                        <span className="text-xs font-mono text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded">
+                          {role.experience}
+                        </span>
+                      </div>
+                      <h3 className="text-xl sm:text-2xl font-bold text-slate-900 font-sans group-hover:text-brand-700 transition-colors">
+                        {role.title}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-slate-600 max-w-3xl leading-relaxed">
+                        {role.desc}
+                      </p>
+                      <div className="flex flex-wrap gap-1.5 pt-2">
+                        {role.tags.map((tag, tIdx) => (
+                          <span key={tIdx} className="text-[11px] font-mono bg-white border border-slate-200 px-2 py-0.5 rounded text-slate-700">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row lg:flex-col items-start lg:items-end justify-between gap-4 shrink-0">
+                      <div className="space-y-1 text-left lg:text-right">
+                        {role.locations.map((loc, lIdx) => (
+                          <div key={lIdx} className="flex items-center gap-1.5 text-xs text-slate-500 lg:justify-end">
+                            <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                            <span>{loc}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <Link
+                        href={`/careers/apply?role=${encodeURIComponent(role.title)}`}
+                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-slate-900 text-white font-bold text-xs uppercase tracking-wider group-hover:bg-brand-600 transition-colors shadow-sm"
+                      >
+                        <span>Apply for Role</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* General Open Application Callout */}
+            <div className="mt-8 p-6 sm:p-8 rounded-2xl border border-dashed border-slate-300 bg-white text-center">
+              <h3 className="text-base sm:text-lg font-bold text-slate-900 font-sans mb-2">
+                Don&apos;t see your exact engineering domain listed?
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto mb-4 leading-relaxed">
+                We are continually scouting exceptional backend, frontend, systems, security, and AI talent. Send an open application with your portfolio and GitHub profile.
+              </p>
+              <Link
+                href="/careers/apply?role=General%20%2F%20Future%20Engineering%20Roles"
+                className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl border border-slate-300 hover:border-slate-900 text-slate-900 font-bold text-xs uppercase tracking-wider transition-colors"
+              >
+                <span>Submit General Application</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* Global Executive CTA */}
         <ExecutiveCTA />
 
       </main>

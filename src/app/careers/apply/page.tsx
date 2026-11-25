@@ -17,10 +17,18 @@ import {
 } from "lucide-react";
 
 const roleOptions = [
-  "Full Stack Developer",
-  "AI Engineer",
-  "Lead Cloud Platform & DevOps Engineer",
   "General / Future Engineering Roles",
+  "Senior Distributed Systems Engineer",
+  "Principal AI & Machine Learning Architect",
+  "Senior Full-Stack Next.js Engineer",
+  "Lead Cloud Platform & DevOps Engineer",
+  "Mobile App Engineer (React Native / Flutter)",
+  "Backend & Database Engineer (Node.js / Python / Go)",
+  "Frontend React / Next.js Specialist",
+  "Data Scientist / Predictive Modeler",
+  "Data Analyst / Business Intelligence",
+  "QA / Test Automation Engineer",
+  "Other Specialization"
 ];
 
 function CareerApplyFormContent() {
@@ -487,7 +495,7 @@ function CareerApplyFormContent() {
 
 export default function CareerApplyPage() {
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
+    <div className="dx-public min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
       <Navbar />
       <main className="flex-1 pt-14 sm:pt-20">
         <Suspense fallback={<div className="py-24 text-center text-xs font-mono text-slate-500">Loading Application Form...</div>}>

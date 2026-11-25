@@ -37,7 +37,7 @@ const verifySchema = [
 
 export default function VerifyPage() {
   return (
-    <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans">
+    <div className="dx-public min-h-screen bg-white text-slate-900 flex flex-col font-sans">
       <JsonLd data={verifySchema} />
       <Navbar />
 

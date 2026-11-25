@@ -152,7 +152,7 @@ function ApplyFormContent() {
       <div className="text-center mb-10">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-50 border border-brand-200 text-xs font-mono font-medium text-brand-800 mb-3">
           <GraduationCap className="w-3.5 h-3.5 text-brand-600" />
-          <span>BATCH 2026 COHORT • 6 WEEKS VIRTUAL SPRINT</span>
+          <span>BATCH 2027 COHORT • 6 WEEKS VIRTUAL SPRINT</span>
         </div>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 font-sans tracking-tight">
           Apply for Devatrix 6-Week Internship
@@ -318,7 +318,7 @@ function ApplyFormContent() {
                 <input
                   type="text"
                   required
-                  placeholder="FAST (CS 2026)"
+                  placeholder="FAST (CS 2027)"
                   value={formData.university}
                   onChange={(e) => setFormData({ ...formData, university: e.target.value })}
                   className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 sm:px-4 sm:py-3 text-slate-900 focus:outline-none focus:border-brand-500 focus:bg-white transition-colors text-xs sm:text-sm"
@@ -468,7 +468,7 @@ function ApplyFormContent() {
 
 export default function InternshipApplyPage() {
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
+    <div className="dx-public min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
       <Navbar />
       <main className="flex-1 pt-14 sm:pt-20">
         <Suspense fallback={<div className="py-24 text-center text-xs font-mono text-slate-500">Loading Application Form...</div>}>
