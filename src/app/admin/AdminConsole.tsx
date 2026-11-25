@@ -248,7 +248,7 @@ export default function AdminConsole({ email }: { email: string }) {
   const selectedKind = section === "career" ? "career" : "internship";
 
   return (
-    <div className="min-h-screen bg-[#f3f6fa] text-slate-900">
+    <div className="dx-workspace min-h-screen bg-[#f3f6fa] text-slate-900">
       <div className="mx-auto flex min-h-screen max-w-[1600px]">
         <aside className="hidden w-64 shrink-0 flex-col border-r border-white/10 bg-[#071a36] text-white lg:flex">
           <div className="flex h-20 items-center gap-3 border-b border-white/10 px-6">

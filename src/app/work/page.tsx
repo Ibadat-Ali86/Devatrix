@@ -4,20 +4,8 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ExecutiveCTA from "@/components/ExecutiveCTA";
-import JsonLd from "@/components/JsonLd";
 import { getPublishedSiteContent } from "@/lib/content/server";
-import { buildBreadcrumbJsonLd, buildPageMetadata, SITE_URL } from "@/lib/seo/metadata";
-import { 
-  Activity, 
-  ArrowRight, 
-  CheckCircle2, 
-  Code2, 
-  ShieldCheck, 
-  TrendingUp,
-  Server
-} from "lucide-react";
-
-export const dynamic = "force-dynamic";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Case Studies & Engineering Portfolio",
@@ -33,19 +21,18 @@ export const metadata: Metadata = buildPageMetadata({
   ],
 });
 
-const workSchema = [
-  buildBreadcrumbJsonLd([
-    { name: "Home", path: "/" },
-    { name: "Case Studies", path: "/work" },
-  ]),
-  {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    name: "Devatrix Technologies Case Studies & Engineering Portfolio",
-    url: `${SITE_URL}/work`,
-    isPartOf: { "@id": `${SITE_URL}/#website` },
-  },
-];
+
+import { 
+  Activity, 
+  ArrowRight, 
+  CheckCircle2, 
+  Code2, 
+  ShieldCheck, 
+  TrendingUp,
+  Server
+} from "lucide-react";
+
+export const dynamic = "force-dynamic";
 
 export default async function WorkPage() {
   const content = await getPublishedSiteContent();
@@ -99,14 +86,13 @@ export default async function WorkPage() {
   });
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
-      <JsonLd data={workSchema} />
+    <div className="dx-public min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
       <Navbar />
 
       <main className="flex-1 pt-14 sm:pt-20">
         
         {/* Enterprise Hero Banner (#061833) */}
-        <section className="relative py-20 bg-[#061833] text-white overflow-hidden border-b border-white/10">
+        <section data-navbar-theme="dark" className="relative py-20 bg-[#061833] text-white overflow-hidden border-b border-white/10">
           <div className="absolute top-0 right-1/4 w-[500px] h-[300px] bg-brand-500/15 rounded-full blur-[140px] pointer-events-none"></div>
           <div className="absolute bottom-0 left-1/4 w-[400px] h-[250px] bg-blue-600/15 rounded-full blur-[120px] pointer-events-none"></div>
 

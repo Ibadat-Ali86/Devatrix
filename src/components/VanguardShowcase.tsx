@@ -74,7 +74,7 @@ export default function VanguardShowcase() {
                 href="/vanguard"
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-brand-500 text-obsidian-950 font-mono text-xs font-bold uppercase tracking-wider hover:brightness-105 shadow-md shadow-brand-500/20 transition-all"
               >
-                <span>Apply For Vanguard 2026</span>
+                <span>Apply For Vanguard 2027</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
@@ -92,7 +92,7 @@ export default function VanguardShowcase() {
               <span className="text-slate-700 font-bold uppercase tracking-wider">
                 Vanguard Campus Network
               </span>
-              <span className="text-brand-700 font-bold">Cohort 2026</span>
+              <span className="text-brand-700 font-bold">Cohort 2027</span>
             </div>
 
             <div className="space-y-3">

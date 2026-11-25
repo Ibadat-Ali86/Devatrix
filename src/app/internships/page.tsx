@@ -70,12 +70,12 @@ export default function InternshipsPage() {
   const tracks: Track[] = [
     {
       id: "web-fullstack",
-      title: "Full-Stack Web Development",
+      title: "Frontend & Full-Stack Web Engineering",
       category: "Web & Full-Stack",
-      badge: "Next.js, React & PostgreSQL",
+      badge: "Next.js & React 19",
       icon: Code2,
-      desc: "Build and deploy a production full-stack web application using React 19, Next.js App Router, TypeScript, REST APIs, database persistence, and authentication.",
-      skills: ["React 19", "Next.js App Router", "TypeScript", "Tailwind CSS", "REST APIs", "PostgreSQL / Supabase", "Auth & Deployment"],
+      desc: "Learn to build high-performance web applications using modern React 19, Next.js App Router, TypeScript, and Tailwind CSS with real API integrations.",
+      skills: ["React 19", "Next.js 14+", "TypeScript", "Tailwind CSS", "REST & GraphQL APIs"],
       duration: "6 Weeks (Intensive Virtual Sprint)",
       commitment: "6 to 8 Hours / Week (Flexible)",
       prerequisites: [
@@ -84,18 +84,15 @@ export default function InternshipsPage() {
         "Understanding of Git version control and clean code principles"
       ],
       deliverables: [
-        { week: "Week 1", title: "React & TypeScript Foundations", desc: "Architect modular, strictly typed React components with clear props, hooks, and state boundaries; set up Git workflow and linting standards." },
-        { week: "Week 2", title: "Responsive Design System & Navigation", desc: "Build reusable UI primitives with Tailwind CSS and accessible responsive navigation validated across mobile, tablet, and desktop viewports." },
-        { week: "Week 3", title: "Next.js App Router & Data Architecture", desc: "Implement dynamic App Router routes, server/client component boundaries, and REST API data loading with loading, empty, and error states." },
-        { week: "Week 4", title: "Forms, Validation & Backend APIs", desc: "Create full-stack API route handlers with schema validation, resilient form flows, optimistic UX feedback, and structured error handling." },
-        { week: "Week 5", title: "Database Persistence & Authentication", desc: "Connect a relational database (PostgreSQL/Supabase), design normalized tables, and enforce server-side authentication and role-based access control." },
-        { week: "Week 6", title: "Production Deployment, Capstone & Handover", desc: "Ship the live full-stack SaaS MVP to Vercel with safe environment configuration, performance checks, architecture docs, and technical review." }
+        { week: "Weeks 1–2", title: "Component System & Responsive Layout", desc: "Build a production-grade UI design system with Tailwind CSS and responsive navigation." },
+        { week: "Weeks 3–4", title: "State Architecture & REST API Hooks", desc: "Integrate asynchronous data fetching, dynamic pagination, and robust client-side validation." },
+        { week: "Weeks 5–6", title: "Full-Stack SaaS MVP with Auth & DB", desc: "Deploy a live production full-stack application with database persistence and public URL." }
       ],
       outcomes: [
-        "A live, deployed full-stack web application with database persistence and authentication",
-        "Hands-on experience with React 19, Next.js App Router, TypeScript, and REST API design",
-        "A clean GitHub repository with setup guide, architecture notes, and testing checklist",
-        "Completion recognition based on the published program requirements"
+        "Verified Devatrix Certificate of Completion",
+        "Distinguished 'Top Performer' Gold Badge for High Achievers",
+        "Official Letter of Recommendation (LOR) for Top Performers",
+        "Direct fast-track interview for junior developer roles"
       ]
     },
     {
@@ -222,10 +219,10 @@ export default function InternshipsPage() {
       id: "react-native",
       title: "React Native Mobile App Development",
       category: "Mobile Apps",
-      badge: "iOS & Android (Expo & TypeScript)",
+      badge: "iOS & Android (Expo & CLI)",
       icon: Smartphone,
-      desc: "Engineer cross-platform iOS and Android applications using React Native, TypeScript, Expo, modern state management, offline storage, and release builds.",
-      skills: ["React Native", "TypeScript", "Expo", "React Navigation", "Redux Toolkit / Zustand", "REST APIs", "AsyncStorage & Push"],
+      desc: "Develop high-performance cross-platform mobile apps for iOS and Android using React Native, TypeScript, Expo, and modern state management.",
+      skills: ["React Native", "TypeScript", "Expo", "Redux Toolkit / Zustand", "REST APIs", "AsyncStorage"],
       duration: "6 Weeks (Intensive Virtual Sprint)",
       commitment: "6 to 8 Hours / Week (Flexible)",
       prerequisites: [
@@ -234,28 +231,25 @@ export default function InternshipsPage() {
         "A physical smartphone (iOS/Android) with Expo Go or local emulator"
       ],
       deliverables: [
-        { week: "Week 1", title: "React Native, TypeScript & Expo Foundations", desc: "Configure Expo and TypeScript, build typed mobile UI components, and verify live rendering on a physical device or iOS/Android emulator." },
-        { week: "Week 2", title: "Mobile Layouts & Stack/Tab Navigation", desc: "Design responsive mobile screens using Flexbox, safe-area handling, gesture-friendly controls, and React Navigation (stacks, tabs, and modals)." },
-        { week: "Week 3", title: "State Management & REST API Integration", desc: "Implement predictable app state with Zustand or Redux Toolkit, fetch remote REST data, and handle loading, pagination, empty, and error states." },
-        { week: "Week 4", title: "Offline Persistence & Resilient Error Handling", desc: "Integrate local persistence with AsyncStorage or SQLite, cache critical views for offline continuity, and recover cleanly from network interruptions." },
-        { week: "Week 5", title: "Device Capabilities & Release Preparation", desc: "Add native device capabilities (camera, location, permissions, or push notifications), validate platform behavior, and configure EAS build profiles." },
-        { week: "Week 6", title: "Mobile Capstone, APK Build & Handover", desc: "Deliver an end-to-end installable Android APK, clean GitHub repository, demo walkthrough, and documentation of setup and known limitations." }
+        { week: "Weeks 1–2", title: "Mobile UI Layout & Stack Navigation", desc: "Build responsive mobile screens with React Navigation (tabs, stacks) and custom UI styling." },
+        { week: "Weeks 3–4", title: "State Management & REST API Hooks", desc: "Integrate dynamic API calls, data caching, offline persistence, and error boundaries." },
+        { week: "Weeks 5–6", title: "Complete Production App & APK Build", desc: "Build an end-to-end mobile application with device permissions, push notifications, and release APK generation." }
       ],
       outcomes: [
-        "An installable cross-platform mobile application (Android APK) built with React Native & Expo",
-        "Hands-on practice with navigation, global state, REST APIs, offline storage, and device APIs",
-        "A clean GitHub repository with architecture notes, setup steps, and release configuration",
-        "Completion recognition based on the published program requirements"
+        "Verified Devatrix Certificate of Completion",
+        "Distinguished 'Top Performer' Gold Badge for High Achievers",
+        "Installable Android APK and clean GitHub repository",
+        "Direct consideration for junior mobile engineer openings"
       ]
     },
     {
       id: "flutter",
       title: "Flutter Mobile App Development",
       category: "Mobile Apps",
-      badge: "Dart, Material 3 & Firebase",
+      badge: "Dart & Material UI",
       icon: Layers,
-      desc: "Build natively compiled cross-platform mobile apps from a single codebase using Flutter, Dart, Provider or BLoC state architecture, REST APIs, and Firebase.",
-      skills: ["Flutter", "Dart", "Provider / BLoC", "REST APIs", "Firebase Auth & Firestore", "Hive / SQLite", "Material 3 UI"],
+      desc: "Build beautiful, natively compiled multi-platform applications from a single codebase using Flutter, Dart, Provider/Bloc, and Firebase.",
+      skills: ["Flutter", "Dart", "Provider / Bloc", "Firebase Auth & Firestore", "REST APIs", "Material & Cupertino UI"],
       duration: "6 Weeks (Intensive Virtual Sprint)",
       commitment: "6 to 8 Hours / Week (Flexible)",
       prerequisites: [
@@ -264,18 +258,15 @@ export default function InternshipsPage() {
         "Flutter SDK installed with Android Studio or VS Code"
       ],
       deliverables: [
-        { week: "Week 1", title: "Dart & Flutter Widget Foundations", desc: "Master null-safe Dart fundamentals, configure the Flutter SDK, and build composable stateless and stateful widget trees with clean separation." },
-        { week: "Week 2", title: "Responsive Layouts, Navigation & Custom Theme", desc: "Craft adaptive Material 3 / Cupertino screens with custom theming, dark/light tokens, smooth animations, and named or GoRouter navigation." },
-        { week: "Week 3", title: "State Management & REST API Integration", desc: "Structure business logic using Provider or BLoC, connect typed HTTP/Dio REST services, and handle loading, retry, and error states cleanly." },
-        { week: "Week 4", title: "Firebase Auth & Cloud Service Integration", desc: "Connect Firebase Authentication and Cloud Firestore (or an approved backend), manage real-time streams, and enforce safe user data boundaries." },
-        { week: "Week 5", title: "Local Persistence, Testing & Release Signing", desc: "Implement offline caching with Hive or SQLite, write widget/unit checks for key flows, and configure signed release builds with safe secret handling." },
-        { week: "Week 6", title: "Cross-Platform Capstone, APK Build & Handover", desc: "Present the finished Flutter application with signed release APK, documented Dart architecture, setup instructions, and technical review." }
+        { week: "Weeks 1–2", title: "Widget Architecture & Custom Theme", desc: "Craft pixel-perfect Flutter UI layouts with smooth animations, custom themes, and navigation." },
+        { week: "Weeks 3–4", title: "State Management & API / Firebase Sync", desc: "Manage application state with Provider/Bloc, connect to REST endpoints or Firebase Firestore." },
+        { week: "Weeks 5–6", title: "Production Cross-Platform App & Release Build", desc: "Implement local caching with Hive/SQLite and generate signed APK releases." }
       ],
       outcomes: [
-        "A cross-platform Flutter application delivered with a signed Android APK release build",
-        "Hands-on practice with Dart, Provider/BLoC state management, REST APIs, and Firebase",
-        "A clean GitHub repository with modular Dart architecture and handover documentation",
-        "Completion recognition based on the published program requirements"
+        "Verified Devatrix Certificate of Completion",
+        "Distinguished 'Top Performer' Gold Badge for High Achievers",
+        "Production mobile portfolio asset showcasing clean Dart architecture",
+        "Priority interview pipeline for Flutter developer roles"
       ]
     },
     {
@@ -402,26 +393,26 @@ export default function InternshipsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
+    <div className="dx-public min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-brand-500 selection:text-obsidian-950">
       <Navbar />
 
-      <main className="flex-1 pt-14 sm:pt-20">
+      <main className="flex-1 pt-16 sm:pt-24">
         {cmsContent?.announcement && <aside className="flex items-center justify-center gap-2 bg-amber-400 px-4 py-3 text-center text-sm font-semibold text-[#071a36]"><Sparkles className="h-4 w-4 shrink-0" aria-hidden="true"/><span>{cmsContent.announcement.title}{cmsContent.announcement.summary ? ` — ${cmsContent.announcement.summary}` : ""}</span></aside>}
         
         {/* Hero Section (#061833) */}
-        <section className="relative py-20 sm:py-24 bg-[#061833] text-white overflow-hidden border-b border-white/10">
+        <section data-navbar-theme="dark" className="relative py-20 sm:py-28 bg-[#061833] text-white overflow-hidden border-b border-white/10">
           <div className="absolute top-0 right-1/4 w-[500px] h-[300px] bg-brand-500/15 rounded-full blur-[140px] pointer-events-none"></div>
           <div className="absolute bottom-0 left-1/4 w-[400px] h-[250px] bg-blue-600/15 rounded-full blur-[120px] pointer-events-none"></div>
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-6">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-mono font-medium text-slate-300">
-              <GraduationCap className="w-3.5 h-3.5 text-brand-400" />
-              <span>DEVATRIX ACCELERATOR • BATCH 2026 APPLICATIONS OPEN</span>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-xs font-semibold text-amber-300">
+              <GraduationCap className="w-3.5 h-3.5 text-amber-400" />
+              <span>DEVATRIX ACCELERATOR • BATCH 2027 APPLICATIONS OPEN</span>
             </div>
             
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight font-sans">
               Software Engineering Internships. <br />
-              <span className="text-brand-500">Fast-Track Your Tech Career.</span>
+              <span className="font-editorial italic font-normal text-amber-400">Fast-Track Your Tech Career.</span>
             </h1>
 
             <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal">
@@ -473,7 +464,7 @@ export default function InternshipsPage() {
               </h2>
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-6">
               {highlights.map((item) => (
                 <div
                   key={item.title}
@@ -513,7 +504,7 @@ export default function InternshipsPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-6">
               {steps.map((st) => (
                 <div
                   key={st.step}
@@ -569,7 +560,7 @@ export default function InternshipsPage() {
           </div>
 
           {/* Track Cards Grid - Exactly 3 columns on all screens (3 on top, 3 on bottom) */}
-          <div className="grid grid-cols-3 gap-2 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-6">
             {filteredTracks.map((t) => {
               const Icon = t.icon;
               return (
@@ -579,7 +570,7 @@ export default function InternshipsPage() {
                 >
                   <div>
                     <div className="flex items-center justify-between mb-2 sm:mb-4">
-                      <span className="text-[8px] sm:text-xs font-mono font-bold text-brand-700 bg-brand-50 px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-md border border-brand-200 truncate max-w-[80%]">
+                      <span className="text-xs sm:text-xs font-mono font-bold text-brand-700 bg-brand-50 px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-md border border-brand-200 truncate max-w-[80%]">
                         {t.badge}
                       </span>
                       <Icon className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-brand-600 shrink-0" />
@@ -588,11 +579,11 @@ export default function InternshipsPage() {
                     <h3 className="text-[11px] sm:text-xl font-bold text-slate-900 mb-1 sm:mb-2 font-sans leading-tight line-clamp-2">
                       {t.title}
                     </h3>
-                    <p className="text-[9px] sm:text-sm text-slate-600 leading-relaxed mb-2 sm:mb-6 font-normal line-clamp-2 sm:line-clamp-none">
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-2 sm:mb-6 font-normal line-clamp-2 sm:line-clamp-none">
                       {t.desc}
                     </p>
 
-                    <div className="space-y-1 sm:space-y-2 mb-2 sm:mb-6 pt-1.5 sm:pt-4 border-t border-slate-200 text-[8px] sm:text-xs text-slate-600">
+                    <div className="space-y-1 sm:space-y-2 mb-2 sm:mb-6 pt-1.5 sm:pt-4 border-t border-slate-200 text-xs sm:text-xs text-slate-600">
                       <div className="flex items-center justify-between font-mono">
                         <span className="text-slate-500">Duration:</span>
                         <span className="font-semibold text-slate-800">6 Weeks</span>
@@ -623,14 +614,14 @@ export default function InternshipsPage() {
                   <div className="pt-2 sm:pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-stretch sm:items-center gap-1 sm:gap-3">
                     <button
                       onClick={() => setModalTrack(t)}
-                      className="flex-1 py-1 sm:py-2.5 px-1 sm:px-3 rounded-lg sm:rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-200 text-[8px] sm:text-xs font-bold transition-colors flex items-center justify-center gap-1 shadow-sm"
+                      className="flex-1 py-1 sm:py-2.5 px-1 sm:px-3 rounded-lg sm:rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-200 text-xs sm:text-xs font-bold transition-colors flex items-center justify-center gap-1 shadow-sm"
                     >
                       <Info className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-brand-600 shrink-0" />
                       <span className="truncate">Syllabus</span>
                     </button>
                     <Link
                       href={`/internships/apply?track=${encodeURIComponent(t.title)}`}
-                      className="flex-1 py-1 sm:py-2.5 px-1 sm:px-3 rounded-lg sm:rounded-xl bg-brand-500 hover:bg-brand-600 text-obsidian-950 text-[8px] sm:text-xs font-bold transition-colors flex items-center justify-center gap-1 shadow-md shadow-brand-500/20"
+                      className="flex-1 py-1 sm:py-2.5 px-1 sm:px-3 rounded-lg sm:rounded-xl bg-brand-500 hover:bg-brand-600 text-obsidian-950 text-xs sm:text-xs font-bold transition-colors flex items-center justify-center gap-1 shadow-md shadow-brand-500/20"
                     >
                       <span className="truncate">Apply</span>
                       <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" />
@@ -645,7 +636,7 @@ export default function InternshipsPage() {
           <div className="mt-14 p-8 sm:p-10 rounded-3xl bg-[#061833] text-white border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-2 max-w-2xl">
               <span className="text-xs font-mono font-bold uppercase tracking-wider text-brand-400">
-                BATCH 2026 INTAKE
+                BATCH 2027 INTAKE
               </span>
               <h3 className="text-2xl font-black font-sans text-white">
                 Ready to Accelerate Your Engineering Career?
