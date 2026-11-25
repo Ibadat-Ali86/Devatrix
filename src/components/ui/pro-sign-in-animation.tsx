@@ -135,7 +135,7 @@ export function ProSignInAnimation({
             Welcome back.
           </h1>
           <p className="text-xs sm:text-sm text-slate-600 mb-6 leading-relaxed">
-            Sign in to access your track curriculum, milestone PRs &amp; verified credentials.
+            Sign in to access your track curriculum, milestone PRs &amp; completion letter requests.
           </p>
 
           {/* Functional Authentication Form (Authorized Internees Only - No Google, No GitHub) */}

@@ -5,29 +5,23 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
-  Award,
+  BookOpen,
   Check,
   CheckCircle2,
   CircleAlert,
   Clock,
   Clock3,
   ExternalLink,
+  FileCheck,
   Github,
   Layers,
   LoaderCircle,
-  Printer,
+  Lock,
+  Mail,
   RefreshCw,
   Send,
   ShieldCheck,
   Sparkles,
-  Trophy,
-  X,
-  BookOpen,
-  Calendar,
-  AlertCircle,
-  FileCheck,
-  ChevronRight,
-  ChevronDown,
 } from "lucide-react";
 import SignOutButton from "./SignOutButton";
 import BrandLoader from "@/components/BrandLoader";
@@ -60,13 +54,11 @@ type Milestone = {
   submitted_at: string | null;
 };
 
-type CertificateRequest = {
+type LetterRequest = {
   id: string;
   enrollment_id: string;
-  certificate_type: "simple" | "premium";
   status: string;
-  fee_amount: number | null;
-  currency: string | null;
+  note: string | null;
   requested_at: string;
   issued_at: string | null;
 };
@@ -77,17 +69,9 @@ type Dashboard = {
   learner: { email: string; name: string };
   enrollments: Enrollment[];
   milestones: Milestone[];
-  certificateRequests: CertificateRequest[];
+  letterRequests: LetterRequest[];
   applications: Array<{ id: string; track: string; status: string; created_at: string }>;
   tracks: Track[];
-  certificateSettings: {
-    simple_fee: number | null;
-    premium_fee: number | null;
-    currency: string | null;
-    payment_instructions: string;
-    signatory_name: string;
-    signatory_title: string;
-  } | null;
 };
 
 const dateFormat = new Intl.DateTimeFormat(undefined, { dateStyle: "medium" });
@@ -101,151 +85,14 @@ const date = (value: string) => {
 const titleFor = (value: string) =>
   value.replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
 
-function CornerFiligree({ position }: { position: "top-left" | "top-right" | "bottom-left" | "bottom-right" }) {
-  const transformClass = {
-    "top-left": "",
-    "top-right": "rotate-90",
-    "bottom-right": "rotate-180",
-    "bottom-left": "-rotate-90",
-  }[position];
+const LETTER_STATUS_PRIORITY = ["requested", "issued", "paid", "payment_pending", "rejected"];
 
-  const posClass = {
-    "top-left": "top-2.5 left-2.5",
-    "top-right": "top-2.5 right-2.5",
-    "bottom-left": "bottom-2.5 left-2.5",
-    "bottom-right": "bottom-2.5 right-2.5",
-  }[position];
-
-  return (
-    <div className={`absolute ${posClass} w-8 h-8 pointer-events-none text-amber-600/80 ${transformClass}`} aria-hidden="true">
-      <svg viewBox="0 0 40 40" fill="none" className="w-full h-full">
-        <path d="M4 36 V12 C4 7.5 7.5 4 12 4 H36" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-        <path d="M8 32 V14 C8 10.7 10.7 8 14 8 H32" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
-        <circle cx="12" cy="12" r="2" fill="currentColor" />
-        <path d="M4 4 L10 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      </svg>
-    </div>
-  );
-}
-
-function OfficialCertificateSeal({ premium }: { premium: boolean }) {
-  if (premium) {
-    return (
-      <div className="relative flex flex-col items-center justify-center select-none" aria-label="Official Devatrix Fellowship Seal">
-        <div className="absolute -bottom-3 flex justify-center gap-1 pointer-events-none" aria-hidden="true">
-          <div className="w-3.5 h-6 bg-gradient-to-b from-amber-600 to-amber-700 -rotate-12 [clip-path:polygon(0_0,100%_0,100%_100%,50%_75%,0_100%)] shadow-xs" />
-          <div className="w-3.5 h-6 bg-gradient-to-b from-amber-600 to-amber-700 rotate-12 [clip-path:polygon(0_0,100%_0,100%_100%,50%_75%,0_100%)] shadow-xs" />
-        </div>
-        <div className="relative flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-gradient-to-tr from-amber-600 via-amber-400 to-amber-200 p-0.5 shadow-md border border-amber-300">
-          <div className="flex h-full w-full items-center justify-center rounded-full bg-gradient-to-br from-amber-500 via-amber-600 to-amber-700 p-1 text-center shadow-inner">
-            <div className="flex h-full w-full flex-col items-center justify-center rounded-full border border-dashed border-amber-200/90 bg-amber-600/90 text-amber-100 p-0.5">
-              <span className="text-[6px] sm:text-[7px] font-mono font-black tracking-widest uppercase">DEVATRIX</span>
-              <span className="text-[8px] sm:text-[9px] text-amber-200 leading-none my-0.5">★ ★ ★</span>
-              <span className="text-[5px] sm:text-[6px] font-bold tracking-tight text-amber-100 uppercase">OFFICIAL SEAL</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+function pickPrimaryLetterRequest(requests: LetterRequest[]): LetterRequest | undefined {
+  for (const status of LETTER_STATUS_PRIORITY) {
+    const match = requests.find((item) => item.status === status);
+    if (match) return match;
   }
-
-  return (
-    <div className="relative flex flex-col items-center justify-center select-none" aria-label="Official Devatrix Fellowship Seal">
-      <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full border-2 border-[#061833] bg-slate-50 p-0.5 shadow-xs">
-        <div className="flex h-full w-full flex-col items-center justify-center rounded-full border border-dashed border-[#061833]/60 text-[#061833] p-0.5">
-          <span className="text-[6px] font-mono font-extrabold tracking-widest uppercase">DEVATRIX</span>
-          <span className="text-[8px] text-amber-600 leading-none my-0.5">★ ★ ★</span>
-          <span className="text-[5px] font-bold tracking-wider uppercase text-slate-700">ACCREDITED</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function DigitalFellowshipSignature({ premium }: { premium: boolean }) {
-  const inkColor = premium ? "url(#goldInkGrad)" : "#061833";
-
-  return (
-    <div className="relative flex flex-col items-center sm:items-end select-none" aria-label="Official Digital Signature of Directorate of Engineering Fellowship">
-      <div className="relative h-11 w-40 sm:h-12 sm:w-48 flex items-center justify-center">
-        <svg
-          viewBox="0 0 220 58"
-          className="w-full h-full overflow-visible"
-          role="img"
-          aria-label="Directorate of Engineering Fellowship Authentic Digital Signature"
-        >
-          <defs>
-            <linearGradient id="goldInkGrad" x1="0%" y1="0%" x2="100%" y2="80%">
-              <stop offset="0%" stopColor="#78350f" />
-              <stop offset="30%" stopColor="#d97706" />
-              <stop offset="65%" stopColor="#b45309" />
-              <stop offset="100%" stopColor="#92400e" />
-            </linearGradient>
-            <filter id="sigInkShadow" x="-10%" y="-10%" width="120%" height="120%">
-              <feDropShadow dx="0.4" dy="0.6" stdDeviation="0.4" floodColor="#000000" floodOpacity={premium ? "0.2" : "0.15"} />
-            </filter>
-          </defs>
-
-          <g filter="url(#sigInkShadow)">
-            <path
-              d="M 16 38 C 12 24, 20 12, 30 10 C 38 8, 42 20, 34 32 C 28 42, 20 48, 16 46 C 13 44, 18 34, 28 28 C 36 24, 46 22, 54 30 C 58 34, 52 44, 60 40"
-              fill="none"
-              stroke={inkColor}
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M 60 40 C 64 36, 68 25, 74 27 C 78 29, 72 42, 80 38 C 86 34, 90 26, 96 28 C 100 30, 94 42, 104 36 C 110 32, 114 18, 118 16 C 120 14, 118 30, 116 40 C 118 38, 124 30, 130 30 C 134 30, 130 40, 136 36"
-              fill="none"
-              stroke={inkColor}
-              strokeWidth="1.9"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M 108 22 C 114 21, 124 20, 128 21"
-              fill="none"
-              stroke={inkColor}
-              strokeWidth="1.6"
-              strokeLinecap="round"
-            />
-            <path
-              d="M 144 42 C 140 30, 146 14, 156 12 C 164 10, 162 24, 154 34 C 150 40, 144 44, 150 42 C 158 38, 168 26, 174 28 C 178 30, 172 40, 180 36 C 186 32, 190 24, 194 24 C 198 24, 194 36, 200 32"
-              fill="none"
-              stroke={inkColor}
-              strokeWidth="2.1"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M 24 50 C 60 52, 120 51, 185 43 C 200 41, 210 37, 216 33"
-              fill="none"
-              stroke={inkColor}
-              strokeWidth="1.7"
-              strokeLinecap="round"
-            />
-            <circle cx="196" cy="20" r="1.3" fill={inkColor} />
-          </g>
-        </svg>
-      </div>
-
-      <div className={`w-36 sm:w-48 h-[1.5px] mt-0.5 mb-1.5 ${
-        premium ? "bg-amber-600/80" : "bg-[#061833]"
-      }`} />
-
-      <p className="font-extrabold text-[#061833] text-xs sm:text-sm font-sans tracking-tight whitespace-nowrap">
-        Directorate of Engineering Fellowship
-      </p>
-      <p className="text-[10px] sm:text-[11px] font-mono text-slate-500 whitespace-nowrap mt-0.5">
-        Authorized Certification Authority · Devatrix Technologies
-      </p>
-      <div className="mt-1.5 inline-flex items-center gap-1.5 text-[8px] sm:text-[9px] font-mono text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
-        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-        <span className="whitespace-nowrap font-semibold">VERIFIED DIGITAL SIGNATURE</span>
-      </div>
-    </div>
-  );
+  return requests[0];
 }
 
 export default function PortalDashboard() {
@@ -257,7 +104,7 @@ export default function PortalDashboard() {
   const [view, setView] = useState<"programs" | "applications" | "explore">("programs");
   const [selectedEnrollmentId, setSelectedEnrollmentId] = useState<string | "all">("all");
   const [openMilestone, setOpenMilestone] = useState<string | null>(null);
-  const [preview, setPreview] = useState<{ enrollmentId: string; style: "simple" | "premium" } | null>(null);
+  const [letterNotes, setLetterNotes] = useState<Record<string, string>>({});
   const [submission, setSubmission] = useState({ url: "", notes: "" });
   const [repositoryValidation, setRepositoryValidation] = useState<{
     state: "idle" | "checking" | "public" | "error";
@@ -308,8 +155,8 @@ export default function PortalDashboard() {
   const activeTrackSlugs = useMemo(() => new Set((data?.enrollments ?? []).map((row) => row.track_slug)), [data]);
   const milestonesFor = (enrollmentId: string) =>
     (data?.milestones ?? []).filter((item) => item.enrollment_id === enrollmentId).sort((a, b) => a.week_number - b.week_number);
-  const requestsFor = (enrollmentId: string) =>
-    (data?.certificateRequests ?? []).filter((item) => item.enrollment_id === enrollmentId);
+  const letterRequestsFor = (enrollmentId: string) =>
+    (data?.letterRequests ?? []).filter((item) => item.enrollment_id === enrollmentId);
   const trackFor = (row: Enrollment) => (Array.isArray(row.site_content) ? row.site_content[0] : row.site_content);
   const completedCount = (id: string) => milestonesFor(id).filter((item) => item.status === "completed").length;
   const totalApproved = useMemo(() => (data?.milestones ?? []).filter((m) => m.status === "completed").length, [data]);
@@ -392,11 +239,6 @@ export default function PortalDashboard() {
     }
   }
 
-  const activeEnrollment = preview ? data?.enrollments.find((item) => item.id === preview.enrollmentId) : undefined;
-  const activeTrack = activeEnrollment ? trackFor(activeEnrollment) : undefined;
-  const certSettings = data?.certificateSettings;
-  const activeRequest = preview && data ? requestsFor(preview.enrollmentId).find((item) => item.certificate_type === preview.style) : undefined;
-
   const displayedEnrollments = useMemo(() => {
     if (!data?.enrollments) return [];
     if (selectedEnrollmentId === "all") return data.enrollments;
@@ -472,7 +314,7 @@ export default function PortalDashboard() {
               {data ? `Welcome, ${data.learner.name}` : "Learner Workspace"}
             </h1>
             <p className="mt-2 text-sm sm:text-base text-slate-600 leading-relaxed max-w-2xl">
-              Track your sprint deliverables, submit production pull requests, and unlock accredited completion credentials.
+              Track your sprint deliverables, submit production pull requests, and request your official completion letter upon graduation.
             </p>
           </div>
 
@@ -526,7 +368,7 @@ export default function PortalDashboard() {
             <BrandLoader context="application" />
             <div className="space-y-1 mt-2">
               <p className="text-sm font-bold text-[#061833]">Synchronizing Fellowship Workspace</p>
-              <p className="text-xs text-slate-500 font-mono">Fetching active tracks, weekly milestone reviews &amp; credentials…</p>
+              <p className="text-xs text-slate-500 font-mono">Fetching active tracks, weekly milestone reviews &amp; completion requests…</p>
             </div>
           </div>
         ) : (
@@ -726,7 +568,7 @@ export default function PortalDashboard() {
                         const steps = milestonesFor(enrollment.id);
                         const done = completedCount(enrollment.id);
                         const percentage = Math.round((done / 6) * 100);
-                        const certificateRequests = requestsFor(enrollment.id);
+                        const letterRequest = pickPrimaryLetterRequest(letterRequestsFor(enrollment.id));
                         const isTrackComplete = enrollment.status === "completed" || done === 6;
 
                         return (
@@ -777,7 +619,7 @@ export default function PortalDashboard() {
                               </div>
                             </div>
 
-                            {/* Main Body: Milestones + Certificate Studio */}
+                            {/* Main Body: Milestones + Completion Letter Request */}
                             <div className="grid lg:grid-cols-[minmax(0,1fr)_340px]">
                               {/* 6-Week Interactive Milestones Roadmap */}
                               <div className="p-6 sm:p-8">
@@ -1029,20 +871,20 @@ export default function PortalDashboard() {
                                 </ol>
                               </div>
 
-                              {/* Right Column: Certificate & Credential Studio */}
+                              {/* Right Column: Completion Letter Request */}
                               <aside
                                 className="border-t border-slate-200 bg-slate-50/70 p-6 sm:p-8 lg:border-l lg:border-t-0 flex flex-col justify-between"
-                                aria-label="Certificate studio"
+                                aria-label="Completion letter request"
                               >
                                 <div>
                                   <div className="flex items-start gap-3.5">
                                     <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-amber-100 border border-amber-200 text-amber-800 shadow-xs">
-                                      <Award className="h-6 w-6" />
+                                      <FileCheck className="h-6 w-6" />
                                     </div>
                                     <div>
-                                      <h3 className="font-bold text-[#061833] text-base">Verified Certificate</h3>
+                                      <h3 className="font-bold text-[#061833] text-base">Completion Letter</h3>
                                       <p className="mt-0.5 text-xs text-slate-600 leading-relaxed">
-                                        Earned upon approval of all six weekly sprint deliverables.
+                                        Official internship completion letter issued by the Devatrix admin team.
                                       </p>
                                     </div>
                                   </div>
@@ -1052,83 +894,108 @@ export default function PortalDashboard() {
                                     <div className="mt-6 space-y-4">
                                       <div className="rounded-2xl border border-emerald-200 bg-emerald-50/80 p-4">
                                         <div className="flex items-center gap-2 text-xs font-bold text-emerald-800">
-                                          <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-                                          <span>Curriculum 100% Verified</span>
+                                          <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
+                                          <span>Internship 100% Completed</span>
                                         </div>
                                         <p className="mt-1 text-xs text-emerald-900 leading-relaxed">
-                                          All milestones approved with honors. You may preview and request your formal credential.
+                                          All six weekly deliverables are approved. Request your completion letter from the admin team below.
                                         </p>
                                       </div>
 
-                                      {(["simple", "premium"] as const).map((style) => {
-                                        const req = certificateRequests.find((item) => item.certificate_type === style);
-                                        const fee = style === "simple" ? certSettings?.simple_fee : certSettings?.premium_fee;
-
-                                        return (
-                                          <div
-                                            key={style}
-                                            className="rounded-2xl border border-slate-200 bg-white p-4 hover:border-amber-300 transition-colors shadow-xs"
-                                          >
-                                            <div className="flex items-start justify-between gap-2">
-                                              <div>
-                                                <p className="font-bold capitalize text-[#061833] text-sm">
-                                                  {style} Presentation
-                                                </p>
-                                                <p className="mt-0.5 text-xs font-mono text-amber-800 font-semibold">
-                                                  {fee === null || fee === undefined
-                                                    ? "Fee unset"
-                                                    : `${certSettings?.currency ?? "PKR"} ${Number(fee).toFixed(2)}`}
-                                                </p>
-                                              </div>
-                                              {req && (
-                                                <span
-                                                  className={`text-right text-[11px] font-mono font-bold capitalize px-2.5 py-0.5 rounded-full ${
-                                                    req.status === "issued"
-                                                      ? "bg-emerald-100 text-emerald-800 border border-emerald-200"
-                                                      : "bg-blue-100 text-blue-800"
-                                                  }`}
-                                                >
-                                                  {titleFor(req.status)}
-                                                </span>
-                                              )}
+                                      {!letterRequest || letterRequest.status === "rejected" ? (
+                                        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-xs space-y-3">
+                                          {letterRequest?.status === "rejected" && (
+                                            <div className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-800 leading-relaxed">
+                                              Your previous request was declined. Update your note if needed and submit a new request to the admin team.
                                             </div>
+                                          )}
 
-                                            <div className="mt-3 flex gap-2">
-                                              <button
-                                                onClick={() => setPreview({ enrollmentId: enrollment.id, style })}
-                                                className="min-h-9 flex-1 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-[#061833] transition-colors cursor-pointer"
-                                              >
-                                                Preview
-                                              </button>
-                                              {(!req || req.status === "rejected") && (
-                                                <button
-                                                  onClick={() =>
-                                                    void post(
-                                                      "/api/portal/certificates",
-                                                      { enrollmentId: enrollment.id, certificateType: style },
-                                                      "Certificate request recorded. Follow payment instructions shown by the team."
-                                                    )
-                                                  }
-                                                  disabled={fee === null || fee === undefined || Boolean(busy)}
-                                                  className="min-h-9 flex-1 rounded-xl bg-amber-500 hover:bg-amber-400 text-[#061833] text-xs font-bold transition-colors disabled:cursor-not-allowed disabled:opacity-40 cursor-pointer"
-                                                >
-                                                  Request
-                                                </button>
-                                              )}
-                                            </div>
+                                          <div>
+                                            <label
+                                              htmlFor={`letter-note-${enrollment.id}`}
+                                              className="block text-[11px] font-mono font-bold uppercase tracking-wider text-slate-700 mb-1.5"
+                                            >
+                                              Note for Admin Team (Optional)
+                                            </label>
+                                            <textarea
+                                              id={`letter-note-${enrollment.id}`}
+                                              rows={2}
+                                              maxLength={120}
+                                              value={letterNotes[enrollment.id] ?? ""}
+                                              onChange={(event) =>
+                                                setLetterNotes((old) => ({ ...old, [enrollment.id]: event.target.value }))
+                                              }
+                                              placeholder="Recipient attention line, university details, or email note…"
+                                              className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 placeholder-slate-400 outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-200"
+                                            />
                                           </div>
-                                        );
-                                      })}
-                                      <p className="text-[11px] text-slate-500 leading-relaxed">
-                                        Premium format includes gold seal styling and archival credentials. Merit honors are earned strictly through reviewed performance.
-                                      </p>
+
+                                          <button
+                                            type="button"
+                                            onClick={() =>
+                                              void post(
+                                                "/api/portal/letter-requests",
+                                                {
+                                                  enrollmentId: enrollment.id,
+                                                  note: (letterNotes[enrollment.id] ?? "").trim(),
+                                                },
+                                                "Your completion letter request has been sent to the Devatrix admin team."
+                                              )
+                                            }
+                                            disabled={Boolean(busy)}
+                                            className="inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-[#061833] text-xs font-bold transition-all shadow-xs disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
+                                          >
+                                            <Send className="h-3.5 w-3.5" />
+                                            <span>
+                                              {busy === "/api/portal/letter-requests"
+                                                ? "Sending Request…"
+                                                : "Request Completion Letter"}
+                                            </span>
+                                          </button>
+                                        </div>
+                                      ) : letterRequest.status === "issued" ? (
+                                        <div className="rounded-2xl border border-emerald-200 bg-white p-4 shadow-xs space-y-2">
+                                          <div className="flex items-start justify-between gap-2">
+                                            <p className="font-bold text-[#061833] text-sm">Completion Letter Issued</p>
+                                            <span className="shrink-0 whitespace-nowrap text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
+                                              Issued
+                                            </span>
+                                          </div>
+                                          <p className="text-xs font-mono text-slate-500">
+                                            Issued {letterRequest.issued_at ? date(letterRequest.issued_at) : "Verified"}
+                                          </p>
+                                          <p className="text-xs text-slate-600 leading-relaxed">
+                                            Your official internship completion letter has been issued by the Devatrix admin team and sent to your registered email.
+                                          </p>
+                                        </div>
+                                      ) : (
+                                        <div className="rounded-2xl border border-blue-200 bg-blue-50/50 p-4 shadow-xs space-y-2">
+                                          <div className="flex items-start justify-between gap-2">
+                                            <p className="font-bold text-[#061833] text-sm">Request Submitted</p>
+                                            <span className="shrink-0 whitespace-nowrap text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 border border-blue-200">
+                                              {letterRequest.status === "paid" ? "Approved · Issuing" : "Pending Admin"}
+                                            </span>
+                                          </div>
+                                          <p className="text-xs font-mono text-slate-500">
+                                            Requested {date(letterRequest.requested_at)}
+                                          </p>
+                                          {letterRequest.note && (
+                                            <p className="rounded-lg bg-white/80 border border-blue-100 px-2.5 py-1.5 text-xs text-slate-700">
+                                              <strong>Your note:</strong> {letterRequest.note}
+                                            </p>
+                                          )}
+                                          <p className="text-xs text-slate-600 leading-relaxed">
+                                            Your completion letter request is queued with the Devatrix admin team for review and delivery to your registered email.
+                                          </p>
+                                        </div>
+                                      )}
                                     </div>
                                   ) : (
                                     <div className="mt-6 rounded-2xl border border-dashed border-slate-300 bg-white p-5 text-center shadow-xs">
-                                      <Trophy className="w-8 h-8 mx-auto text-slate-400 mb-2" />
-                                      <p className="text-xs font-semibold text-[#061833]">Certificate Locked</p>
+                                      <Lock className="w-7 h-7 mx-auto text-slate-400 mb-2" />
+                                      <p className="text-xs font-semibold text-[#061833]">Completion Letter Locked</p>
                                       <p className="mt-1 text-xs text-slate-600 leading-relaxed">
-                                        Complete all 6 weekly milestones with reviewer approval to unlock your verified certificate preview.
+                                        Complete all 6 weekly milestones with reviewer approval to unlock your completion letter request to Admin.
                                       </p>
                                       <div className="mt-3 text-[11px] font-mono text-amber-800 font-semibold">
                                         {6 - done} remaining for completion
@@ -1138,8 +1005,8 @@ export default function PortalDashboard() {
                                 </div>
 
                                 <div className="mt-6 pt-4 border-t border-slate-200 flex items-center gap-2 text-[11px] text-slate-500">
-                                  <ShieldCheck className="h-4 w-4 text-emerald-600 shrink-0" />
-                                  <span>Digitally verified by Devatrix Technologies</span>
+                                  <Mail className="h-4 w-4 text-emerald-600 shrink-0" />
+                                  <span>Processed &amp; issued directly by Devatrix Admin</span>
                                 </div>
                               </aside>
                             </div>
@@ -1210,7 +1077,7 @@ export default function PortalDashboard() {
                       Explore Engineering Tracks
                     </h2>
                     <p className="mt-1 max-w-2xl text-sm leading-relaxed text-slate-600">
-                      Enroll in additional tracks using your current verified account. Each track provides an independent schedule, curriculum, and credential.
+                      Enroll in additional tracks using your current verified account. Each track provides an independent schedule, curriculum, and completion review.
                     </p>
                   </div>
 
@@ -1268,7 +1135,7 @@ export default function PortalDashboard() {
               <div className="mt-10 flex flex-wrap items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-xs text-slate-600 shadow-xs">
                 <ShieldCheck className="h-4 w-4 shrink-0 text-emerald-600" />
                 <span>
-                  All sprint submissions and credential previews are strictly private to this authenticated account.
+                  All sprint submissions and completion letter requests are strictly private to this authenticated account.
                   Enrollment codes identify cohort records; they are not credentials.
                 </span>
               </div>
@@ -1276,263 +1143,6 @@ export default function PortalDashboard() {
           )
         )}
       </main>
-
-      {/* High-Fidelity Certificate Preview Modal */}
-      {preview && activeEnrollment && activeTrack && (
-        <div
-          className="certificate-modal-overlay fixed inset-0 z-50 overflow-y-auto bg-slate-950/75 backdrop-blur-md p-4 sm:p-8 flex items-center justify-center"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="certificate-preview-title"
-          onMouseDown={(event) => {
-            if (event.target === event.currentTarget) setPreview(null);
-          }}
-        >
-          <div className="certificate-modal-card my-auto w-full max-w-4xl rounded-3xl bg-white border border-slate-200 p-5 sm:p-8 shadow-2xl relative text-slate-900">
-            {/* Modal Controls Bar */}
-            <div className="mb-6 flex flex-wrap items-start justify-between gap-3 print:hidden border-b border-slate-200 pb-4">
-              <div>
-                <p className="text-xs font-mono font-bold uppercase tracking-wider text-amber-800">
-                  Verified Credential Preview
-                </p>
-                <h2 id="certificate-preview-title" className="mt-1 text-xl font-bold text-[#061833] font-sans">
-                  {preview.style === "premium" ? "Premium Archival Presentation" : "Simple Presentation"}
-                </h2>
-              </div>
-              <div className="flex gap-2.5">
-                <button
-                  onClick={() => {
-                    window.scrollTo(0, 0);
-                    window.print();
-                  }}
-                  className="inline-flex items-center gap-1.5 min-h-10 rounded-xl bg-amber-500 hover:bg-amber-400 text-[#061833] px-4 text-xs font-bold transition-all shadow-xs cursor-pointer"
-                >
-                  <Printer className="w-3.5 h-3.5" />
-                  <span>Print / Save PDF</span>
-                </button>
-                <button
-                  onClick={() => setPreview(null)}
-                  className="inline-flex items-center justify-center min-h-10 w-10 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 transition-colors cursor-pointer"
-                  aria-label="Close modal"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            {/* Certificate Canvas */}
-            <div
-              className={`certificate-page relative mx-auto flex min-h-[580px] max-w-[880px] flex-col items-center justify-between overflow-hidden p-8 sm:p-12 text-center rounded-2xl ${
-                preview.style === "premium"
-                  ? "border-[8px] border-double border-amber-400 bg-[#fffdf7] text-slate-900 shadow-2xl"
-                  : "border-[6px] border-[#061833] bg-white text-slate-900 shadow-xl"
-              }`}
-            >
-              {/* Corner Filigrees for Premium format */}
-              {preview.style === "premium" && (
-                <>
-                  <CornerFiligree position="top-left" />
-                  <CornerFiligree position="top-right" />
-                  <CornerFiligree position="bottom-left" />
-                  <CornerFiligree position="bottom-right" />
-                </>
-              )}
-
-              {/* Inner Decorative Double Border */}
-              <div
-                className={`absolute inset-2 sm:inset-3 border ${
-                  preview.style === "premium" ? "border-amber-300" : "border-slate-300"
-                }`}
-                aria-hidden="true"
-              />
-              <div
-                className={`absolute inset-3 sm:inset-4 border ${
-                  preview.style === "premium" ? "border-dashed border-amber-200/90" : "border-dashed border-slate-200"
-                }`}
-                aria-hidden="true"
-              />
-
-              {/* Top: Devatrix Core Company Logo & Header */}
-              <div className="relative z-10 flex flex-col items-center justify-center select-none pt-1">
-                <div className="relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center">
-                  <Image
-                    src="/logo-navy-transparent.png"
-                    alt="Devatrix Technologies Core Emblem"
-                    width={80}
-                    height={80}
-                    className="w-full h-full object-contain drop-shadow-xs"
-                    priority
-                  />
-                </div>
-                <p className="relative mt-2 text-xs sm:text-sm font-black font-sans tracking-[0.25em] uppercase text-[#061833]">
-                  DEVATRIX TECHNOLOGIES
-                </p>
-                <p className="text-[9px] sm:text-[10px] font-mono font-bold tracking-widest uppercase text-amber-700">
-                  ACADEMY &amp; SOFTWARE FELLOWSHIP COUNCIL
-                </p>
-              </div>
-
-              {/* Premium Honors Ribbon Pill */}
-              {preview.style === "premium" && (
-                <div className="relative z-10 mt-3 inline-flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-gradient-to-r from-amber-500/10 via-amber-400/20 to-amber-500/10 px-3.5 py-0.5 text-[9px] font-mono font-extrabold uppercase tracking-widest text-[#784f09]">
-                  <Sparkles className="h-3 w-3 text-amber-600" />
-                  <span>DISTINGUISHED FELLOWSHIP HONORS · ACCREDITED PRACTITIONER</span>
-                </div>
-              )}
-
-              {/* Certificate of Completion Heading */}
-              <div className="relative z-10 mt-4 text-center">
-                <h3 className="font-serif text-3xl font-extrabold text-[#061833] sm:text-4xl tracking-tight text-center">
-                  Certificate of Completion
-                </h3>
-              </div>
-
-              {/* Recipient Details & Citation */}
-              <div className="relative z-10 mt-4 text-center flex flex-col items-center">
-                <p className="text-[11px] text-slate-500 uppercase tracking-widest font-mono text-center">
-                  This acknowledges that
-                </p>
-                <p className="mt-1 max-w-full break-words text-2xl font-extrabold text-[#061833] sm:text-3xl font-serif text-center">
-                  {data?.learner.name}
-                </p>
-
-                <p className="mt-3 max-w-xl text-xs sm:text-sm leading-relaxed text-slate-700 px-2 text-center mx-auto">
-                  has successfully completed the intensive six-week <strong>{activeTrack.title}</strong> fellowship program,
-                  fulfilling all software engineering deliverables, peer code reviews, and production milestones.
-                </p>
-
-                <div className="mt-3 flex flex-wrap justify-center gap-x-6 gap-y-1 text-xs font-mono text-slate-600 text-center">
-                  <span>Completed: {activeEnrollment.completed_at ? date(activeEnrollment.completed_at) : "Verified"}</span>
-                  <span>•</span>
-                  <span>Enrollment: {activeEnrollment.enrollment_code}</span>
-                  <span>•</span>
-                  <span>Track: {activeTrack.title}</span>
-                </div>
-              </div>
-
-              {/* Bottom Row: Official Seal & Date Block (Left), Digital Final Signature (Right) */}
-              <div className="relative z-10 mt-8 w-full border-t border-slate-200/90 pt-6 flex flex-col sm:flex-row items-center sm:items-end justify-between gap-6 px-2 sm:px-6">
-                {/* Left: Official Corporate Seal & Issuance Metadata */}
-                <div className="flex items-center gap-4 sm:gap-5 text-left">
-                  <OfficialCertificateSeal premium={preview.style === "premium"} />
-                  <div className="flex flex-col">
-                    <span className="text-[9px] font-mono font-bold tracking-wider text-slate-500 uppercase">
-                      OFFICIAL FELLOWSHIP SEAL
-                    </span>
-                    <span className="text-xs sm:text-sm font-bold text-[#061833] font-mono mt-0.5">
-                      Issued: {activeRequest?.status === "issued" && activeRequest.issued_at
-                        ? date(activeRequest.issued_at)
-                        : activeEnrollment.completed_at
-                        ? date(activeEnrollment.completed_at)
-                        : "Nov 20, 2026"}
-                    </span>
-                    <span className="mt-1.5 text-[8px] sm:text-[9px] font-mono font-bold text-slate-700 bg-slate-100/90 px-2.5 py-0.5 rounded-full border border-slate-200 w-fit">
-                      ID: DVX-{activeEnrollment.enrollment_code}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Right: Digital Final Signature & Authority */}
-                <div className="flex flex-col items-center sm:items-end text-center sm:text-right">
-                  <DigitalFellowshipSignature premium={preview.style === "premium"} />
-                </div>
-              </div>
-
-              {/* Archival Specification Line */}
-              <p className="relative z-10 mt-5 font-mono text-[9px] tracking-wider text-slate-400">
-                {preview.style === "premium" ? "PREMIUM ARCHIVAL SPECIFICATION" : "STANDARD SPECIFICATION"} ·{" "}
-                {activeRequest?.status === "issued"
-                  ? `ISSUED ${activeRequest.issued_at ? date(activeRequest.issued_at) : ""} · DVX-${activeEnrollment.enrollment_code}`
-                  : `DIGITAL PREVIEW SPECIFICATION · DVX-${activeEnrollment.enrollment_code}`} · VERIFIED ON-CHAIN &amp; DEVATRIX INTAKE REGISTRY
-              </p>
-            </div>
-
-            {/* Print Note */}
-            <p className="mx-auto mt-4 max-w-[840px] text-center text-xs text-slate-500 print:hidden font-mono">
-              Use "Print / Save PDF" to generate high-resolution credential prints. Honors distinctions are verified on-chain and through our intake registry.
-            </p>
-          </div>
-        </div>
-      )}
-
-      {/* Print-specific style enforcement */}
-      <style jsx global>{`
-        @media print {
-          @page {
-            size: A4 landscape;
-            margin: 0mm;
-          }
-          html, body {
-            width: 297mm !important;
-            height: 210mm !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            background: #ffffff !important;
-            overflow: hidden !important;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-          }
-          header,
-          main,
-          nav,
-          footer,
-          .print\:hidden {
-            display: none !important;
-          }
-          .certificate-modal-overlay {
-            position: absolute !important;
-            left: 0 !important;
-            top: 0 !important;
-            width: 297mm !important;
-            height: 210mm !important;
-            margin: 0 !important;
-            padding: 8mm !important;
-            box-sizing: border-box !important;
-            background: #ffffff !important;
-            backdrop-filter: none !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            overflow: hidden !important;
-            z-index: 9999 !important;
-          }
-          .certificate-modal-card {
-            background: transparent !important;
-            border: none !important;
-            box-shadow: none !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            max-width: none !important;
-            width: 100% !important;
-            height: 100% !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-          }
-          .certificate-page {
-            box-sizing: border-box !important;
-            position: relative !important;
-            width: 281mm !important;
-            height: 194mm !important;
-            min-height: 194mm !important;
-            max-width: 281mm !important;
-            max-height: 194mm !important;
-            margin: 0 auto !important;
-            padding: 8mm 14mm 6mm 14mm !important;
-            border-radius: 16px !important;
-            overflow: hidden !important;
-            box-shadow: none !important;
-            display: flex !important;
-            flex-direction: column !important;
-            justify-content: space-between !important;
-            page-break-inside: avoid !important;
-            page-break-after: avoid !important;
-            page-break-before: avoid !important;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-          }
-        }
-      `}</style>
     </div>
   );
 }
