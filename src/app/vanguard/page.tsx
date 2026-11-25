@@ -24,7 +24,7 @@ export default function VanguardPage() {
     name: "",
     email: "",
     university: "FAST-NUCES",
-    graduationYear: "2026",
+    graduationYear: "2027",
     github: "",
     specialization: "Distributed Systems & Go",
   });
@@ -53,7 +53,7 @@ export default function VanguardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans">
+    <div className="dx-public min-h-screen bg-white text-slate-900 flex flex-col font-sans">
       <Navbar />
 
       <main className="flex-1 pt-14 sm:pt-24">
@@ -65,7 +65,7 @@ export default function VanguardPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-4">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-cyber-cyan/30 text-xs font-mono text-cyber-cyan">
               <GraduationCap className="w-3.5 h-3.5" />
-              <span>DEVATRIX VANGUARD™ COHORT 2026</span>
+              <span>DEVATRIX VANGUARD™ COHORT 2027</span>
             </div>
             <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tight">
               The Elite Engineering Residency <br />
@@ -115,10 +115,10 @@ export default function VanguardPage() {
                 APPLICATIONS OPEN
               </span>
               <h2 className="text-3xl font-extrabold text-slate-900 font-mono">
-                Apply for Vanguard Cohort 2026
+                Apply for Vanguard Cohort 2027
               </h2>
               <p className="mt-2 text-xs sm:text-sm text-slate-600">
-                Eligible students must be graduating in 2025 or 2026 from recognized Computer Science or Software Engineering faculties.
+                Eligible students must be graduating in 2026 or 2027 from recognized Computer Science or Software Engineering faculties.
               </p>
             </div>
 

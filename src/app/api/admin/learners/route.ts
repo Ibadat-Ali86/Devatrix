@@ -103,29 +103,50 @@ export async function POST(request: NextRequest) {
     return privateNoStore(NextResponse.json({ success: true }));
   }
 
-  if (body.action === "update_certificate") {
+  if (body.action === "update_certificate" || body.action === "update_letter_request") {
     const id = body.requestId;
     const operation = body.operation;
     const reference = typeof body.paymentReference === "string" ? body.paymentReference.trim() : "";
     if (typeof id !== "string" || !/^[0-9a-f-]{36}$/i.test(id) || !["verify_payment", "issue", "reject"].includes(String(operation)) || reference.length > 120) {
-      return privateNoStore(NextResponse.json({ error: "Choose a valid certificate action." }, { status: 400 }));
+      return privateNoStore(NextResponse.json({ error: "Choose a valid request action." }, { status: 400 }));
     }
-    const { data: cert, error: certError } = await db.from("certificate_requests").select("id, enrollment_id, status").eq("id", id).maybeSingle();
-    if (certError) return privateNoStore(NextResponse.json({ error: "The certificate request could not be loaded." }, { status: 503 }));
-    if (!cert) return privateNoStore(NextResponse.json({ error: "Certificate request not found." }, { status: 404 }));
+    const { data: cert, error: certError } = await db
+      .from("certificate_requests")
+      .select("id, enrollment_id, status, payment_verified_at, payment_verified_by")
+      .eq("id", id)
+      .maybeSingle();
+    if (certError) return privateNoStore(NextResponse.json({ error: "The request could not be loaded." }, { status: 503 }));
+    if (!cert) return privateNoStore(NextResponse.json({ error: "Completion request not found." }, { status: 404 }));
     const next = operation === "verify_payment" ? "paid" : operation === "issue" ? "issued" : "rejected";
-    const allowed = operation === "verify_payment" ? cert.status === "payment_pending" : operation === "issue" ? cert.status === "paid" : ["requested", "payment_pending"].includes(cert.status);
-    if (!allowed) return privateNoStore(NextResponse.json({ error: "This certificate request is not in a state for that action." }, { status: 409 }));
-    if (operation === "issue") {
+    const allowed =
+      operation === "verify_payment"
+        ? cert.status === "payment_pending"
+        : operation === "issue"
+        ? ["requested", "paid"].includes(cert.status)
+        : ["requested", "payment_pending"].includes(cert.status);
+    if (!allowed) return privateNoStore(NextResponse.json({ error: "This request is not in a state for that action." }, { status: 409 }));
+    if (operation === "issue" && cert.status === "paid") {
       const { data: certificateSettings, error: settingsError } = await db.from("certificate_settings").select("signatory_name").eq("singleton", true).maybeSingle();
       if (settingsError || !certificateSettings?.signatory_name?.trim()) return privateNoStore(NextResponse.json({ error: "Add the approved signatory name in certificate settings before issuing a certificate." }, { status: 409 }));
     }
     const changes: Record<string, unknown> = { status: next, updated_at: now };
     if (operation === "verify_payment") Object.assign(changes, { payment_verified_at: now, payment_verified_by: auth.user.id, payment_reference: reference || null });
-    if (operation === "issue") Object.assign(changes, { issued_at: now, issued_by: auth.user.id });
-    if (operation === "reject") Object.assign(changes, { payment_verified_at: null, payment_verified_by: null, issued_at: null, issued_by: null });
+    if (operation === "issue") {
+      Object.assign(changes, {
+        issued_at: now,
+        issued_by: auth.user.id,
+        // WHY: DB check constraint requires payment_verified_at whenever status is in ('paid', 'issued').
+        payment_verified_at: cert.payment_verified_at ?? now,
+        payment_verified_by: cert.payment_verified_by ?? auth.user.id,
+      });
+      if (reference) changes.payment_reference = reference;
+    }
+    if (operation === "reject") {
+      Object.assign(changes, { payment_verified_at: null, payment_verified_by: null, issued_at: null, issued_by: null });
+      if (reference) changes.payment_reference = reference;
+    }
     const updated = await db.from("certificate_requests").update(changes).eq("id", id);
-    if (updated.error) return privateNoStore(NextResponse.json({ error: "We couldn’t update the certificate request." }, { status: 503 }));
+    if (updated.error) return privateNoStore(NextResponse.json({ error: "We couldn’t update the completion request." }, { status: 503 }));
     return privateNoStore(NextResponse.json({ success: true }));
   }
 

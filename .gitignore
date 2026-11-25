@@ -39,3 +39,8 @@ data/cohort-settings.json
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local tool artifacts
+graphify-out/
+supabase/.temp/
+

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -8,122 +8,189 @@ import { Menu, X, ArrowRight } from "lucide-react";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMobileMenuOpen(false);
+    };
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) setMobileMenuOpen(false);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const navLinks = [
     { name: "Services", href: "/services" },
-    { name: "Solutions", href: "/services#solutions" },
     { name: "Case Studies", href: "/work" },
-    { name: "About Us", href: "/about" },
-    { name: "Careers", href: "/careers" },
-    { name: "Internships", href: "/internships", highlight: true },
+    { name: "Estimator", href: "/estimator" },
+    { name: "About", href: "/about" },
+    { name: "Internships", href: "/internships", highlight: "Cohort '27" },
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[#061833] border-b border-white/10 shadow-md">
-      <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-14 sm:h-20">
-          
-          {/* Brand Logo Lockup */}
-          <Link href="/" className="flex items-center gap-2.5 sm:gap-3.5 group">
-            <div className="relative w-8 h-8 sm:w-11 sm:h-11 flex items-center justify-center shrink-0">
-              <Image
-                src="/logo-transparent.png"
-                alt="Devatrix Logo"
-                width={44}
-                height={44}
-                className="w-full h-full object-contain drop-shadow"
-                priority
-              />
-            </div>
-            <div className="flex flex-col justify-center">
-              <span className="text-base sm:text-2xl font-black tracking-tight text-white font-sans leading-none">
-                Devatrix
-              </span>
-              <span className="text-[7.5px] sm:text-[10px] tracking-widest uppercase text-slate-300 font-semibold mt-0.5 sm:mt-1 font-sans">
-                Technologies
-              </span>
-            </div>
+    <header className="fixed top-3 sm:top-5 left-0 right-0 z-50 px-3 sm:px-6 pointer-events-none transition-all duration-300">
+      <div 
+        className={`pointer-events-auto max-w-6xl mx-auto flex items-center justify-between px-4 sm:px-6 py-2.5 rounded-full transition-all duration-300 bg-[#061833]/95 text-white border border-slate-700/80 shadow-[0_20px_50px_-8px_rgba(2,10,24,0.65)] ring-1 ring-white/10 backdrop-blur-2xl ${
+          scrolled ? "py-2 shadow-2xl border-white/20 bg-[#061833]/98" : ""
+        }`}
+      >
+        {/* Brand Logo Lockup */}
+        <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0">
+          <div className="relative w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-xl bg-slate-950 border border-slate-800 p-1.5 transition-transform group-hover:scale-105 shadow-sm">
+            <Image
+              src="/logo-transparent.png"
+              alt="Devatrix"
+              width={36}
+              height={36}
+              className="w-full h-full object-contain"
+              priority
+            />
+          </div>
+          <div className="flex flex-col justify-center">
+            <span className="text-base sm:text-lg font-extrabold tracking-tight leading-none text-white">
+              Devatrix
+            </span>
+            <span className="text-[10px] tracking-wider uppercase font-bold mt-0.5 font-mono text-amber-400">
+              Technologies
+            </span>
+          </div>
+        </Link>
+
+        {/* Desktop Navigation Links */}
+        <nav className="hidden lg:flex items-center gap-1 xl:gap-1.5">
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link
+                key={link.name}
+                href={link.href}
+                aria-current={isActive ? "page" : undefined}
+                className={`relative px-3.5 py-1.5 text-xs sm:text-sm font-semibold rounded-full transition-all flex items-center gap-1.5 ${
+                  isActive
+                    ? "text-amber-400 bg-white/10 font-bold shadow-xs"
+                    : link.highlight
+                    ? "text-amber-200 hover:text-white hover:bg-white/10"
+                    : "text-slate-300 hover:text-white hover:bg-white/10"
+                }`}
+              >
+                <span>{link.name}</span>
+                {link.highlight && (
+                  <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full font-bold bg-amber-500/25 text-amber-300 border border-amber-400/40">
+                    {link.highlight}
+                  </span>
+                )}
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Action Controls */}
+        <div className="hidden lg:flex items-center gap-2 xl:gap-3">
+          {/* Learner Portal Sign-in */}
+          <Link
+            href="/portal/sign-in"
+            className="px-4 py-2 text-xs font-bold rounded-full transition shadow-xs text-slate-200 hover:text-white border border-slate-700 hover:border-slate-500 bg-white/5 hover:bg-white/10"
+          >
+            Learner Portal
           </Link>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-4 xl:gap-7">
-            {navLinks.map((link) => {
-              const isActive = pathname === link.href;
-              return (
+          {/* Scope Project / Estimator Button */}
+          <Link
+            href="/estimator"
+            className="dx-btn-primary px-5 py-2 text-xs font-extrabold tracking-wide uppercase transition shadow-md shadow-amber-500/25 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-full flex items-center gap-1.5"
+          >
+            <span>Scope Project</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        {/* Mobile Menu Toggle Button */}
+        <div className="flex lg:hidden items-center gap-2">
+          <Link
+            href="/estimator"
+            className="dx-btn-primary px-3 py-1.5 text-xs font-bold uppercase tracking-wider bg-amber-500 text-slate-950 rounded-full"
+          >
+            <span>Scope</span>
+          </Link>
+
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-700 bg-slate-900/90 text-slate-200 hover:text-white hover:bg-slate-800 transition"
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileMenuOpen}
+          >
+            {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Floating Mobile Drawer & Backdrop */}
+      {mobileMenuOpen && (
+        <>
+          <div 
+            className="fixed inset-0 bg-slate-950/40 backdrop-blur-xs z-[-1] pointer-events-auto lg:hidden"
+            onClick={() => setMobileMenuOpen(false)}
+            aria-hidden="true"
+          />
+          <div className="pointer-events-auto max-w-sm sm:max-w-md mx-auto mt-2 p-4 rounded-3xl backdrop-blur-2xl shadow-2xl transition-all animate-in fade-in slide-in-from-top-4 duration-200 lg:hidden bg-[#061833]/98 border border-slate-700 text-white">
+            <div className="space-y-1">
+              {navLinks.map((link) => (
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`text-sm font-semibold transition-colors font-sans flex items-center gap-1.5 ${
-                    isActive
-                      ? "text-brand-400"
-                      : link.highlight 
-                        ? "text-brand-300 hover:text-brand-200"
-                        : "text-slate-200 hover:text-white"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`flex items-center justify-between px-4 py-2.5 rounded-2xl text-sm font-semibold transition ${
+                    pathname === link.href
+                      ? "bg-white/10 text-amber-400 font-bold"
+                      : "text-slate-300 hover:bg-white/5"
                   }`}
                 >
                   <span>{link.name}</span>
                   {link.highlight && (
-                    <span className="text-xs font-mono uppercase px-1.5 py-0.5 rounded-full bg-brand-500/20 text-brand-300 border border-brand-500/30">
-                      Apply
+                    <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full font-bold bg-amber-500/25 text-amber-300 border border-amber-400/40">
+                      {link.highlight}
                     </span>
                   )}
                 </Link>
-              );
-            })}
-          </nav>
+              ))}
+            </div>
 
-          {/* Clean Enterprise Action CTA */}
-          <div className="hidden lg:flex items-center">
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 px-4 xl:px-6 py-2.5 rounded-full bg-brand-500 hover:bg-brand-600 text-obsidian-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-brand-500/20 hover:shadow-brand-500/30 hover:brightness-105 font-sans"
-            >
-              <span>Contact Us</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+            <div className="pt-3 mt-3 border-t border-slate-800 flex flex-col gap-2">
+              <Link
+                href="/portal/sign-in"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center justify-center min-h-10 px-4 rounded-full border border-slate-700 text-slate-200 hover:bg-white/5 text-xs font-bold transition"
+              >
+                Learner Portal Sign-in
+              </Link>
+              <Link
+                href="/estimator"
+                onClick={() => setMobileMenuOpen(false)}
+                className="dx-btn-primary flex items-center justify-center min-h-11 px-4 text-xs font-extrabold uppercase tracking-wider bg-amber-500 text-slate-950 rounded-full gap-2"
+              >
+                <span>Launch Project Estimator</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
           </div>
-
-          {/* Mobile Menu Button */}
-          <div className="flex lg:hidden items-center">
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-lg bg-white/5 text-slate-200 hover:text-white"
-              aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-              aria-expanded={mobileMenuOpen}
-              aria-controls="mobile-navigation"
-            >
-              {mobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
-            </button>
-          </div>
-
-        </div>
-      </div>
-
-      {/* Mobile Drawer */}
-      {mobileMenuOpen && (
-        <div id="mobile-navigation" className="lg:hidden max-h-[calc(100dvh-3.5rem)] overflow-y-auto bg-[#061833] border-b border-white/10 px-6 pt-3 pb-6 space-y-3">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              onClick={() => setMobileMenuOpen(false)}
-              className="block py-2.5 text-base font-semibold text-slate-200 hover:text-brand-400 font-sans"
-            >
-              {link.name}
-            </Link>
-          ))}
-          <div className="pt-4 border-t border-white/10">
-            <Link
-              href="/contact"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-2 w-full py-3 rounded-full bg-brand-500 text-obsidian-950 font-bold text-xs uppercase font-sans"
-            >
-              <span>Contact Us</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
+        </>
       )}
     </header>
   );

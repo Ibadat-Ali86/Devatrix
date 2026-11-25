@@ -2,156 +2,156 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowRight, Sparkles, ChevronRight, CheckCircle2, Code2, Cpu, Globe2, ShieldCheck } from "lucide-react";
+import { 
+  ArrowRight, 
+  ChevronRight, 
+  CheckCircle2, 
+  Play,
+  Star,
+  Layers
+} from "lucide-react";
+import { motion } from "motion/react";
+import Hero3DTestimonials from "@/components/Hero3DTestimonials";
 
 export default function EnterpriseHero({ copy }: { copy?: { title: string; highlight: string; summary: string } }) {
-  const techStack = [
-    { name: "SaaS & MVP Platforms", tag: "Rapid Product Launch" },
-    { name: "Custom AI Chatbots", tag: "Intelligent RAG Agents" },
-    { name: "AI & Data Science", tag: "Predictive Analytics" },
-    { name: "Enterprise Cloud", tag: "AWS, Azure & Docker" },
-    { name: "High-Velocity APIs", tag: "Scalable Microservices" },
-    { name: "Web & Mobile Apps", tag: "iOS, Android & Next.js" },
-  ];
-
   return (
-    <section className="relative min-h-0 sm:min-h-screen flex flex-col justify-start sm:justify-between pt-16 sm:pt-28 pb-0 bg-[#061833] text-white overflow-hidden">
+    <section data-navbar-theme="light" className="relative pt-28 sm:pt-36 pb-12 sm:pb-16 bg-[#FAF9F6] text-slate-900 overflow-hidden">
       
-      {/* Ambient Lighting & Geometric Curve (Systems Limited inspired) */}
-      <div className="hero-visual-layer absolute top-0 right-0 w-[55%] sm:w-full lg:w-2/3 h-full pointer-events-none overflow-hidden">
-        {/* Ambient Gradient Glows - Confined to upper-right corner on mobile */}
-        <div className="absolute -top-12 -right-12 sm:-top-32 sm:-right-32 w-[180px] h-[180px] sm:w-[600px] sm:h-[600px] bg-brand-500/25 sm:bg-brand-500/15 rounded-full blur-[60px] sm:blur-[140px]"></div>
-        <div className="absolute top-1/4 right-0 sm:top-1/3 sm:right-1/4 w-[160px] h-[160px] sm:w-[500px] sm:h-[500px] bg-blue-600/25 sm:bg-blue-600/15 rounded-full blur-[60px] sm:blur-[160px]"></div>
+      {/* Background Decorative Grid Lines (Refined Editorial Style) */}
+      <div 
+        className="absolute inset-0 opacity-[0.35] pointer-events-none"
+        style={{
+          backgroundImage: "radial-gradient(#CBD5E1 1px, transparent 1px)",
+          backgroundSize: "28px 28px"
+        }}
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
         
-        {/* Elegant Abstract 3D Ribbon / Flow */}
-        <svg 
-          className="hero-orbit-art absolute inset-0 w-full h-full opacity-70 sm:opacity-60"
-          aria-hidden="true"
-          focusable="false"
-          viewBox="0 0 800 800" 
-          fill="none" 
-          preserveAspectRatio="xMaxYMid meet"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g opacity="0.85">
-            <path className="hero-orbit-line hero-orbit-line--amber-blue"
-              d="M300 100 C 500 200, 700 100, 750 400 C 800 650, 500 750, 350 700 C 200 650, 150 450, 300 350 C 450 250, 650 350, 700 500" 
-              stroke="url(#gradient-amber-blue)" 
-              strokeWidth="2.5" 
-              strokeDasharray="6 8"
-            />
-            <path className="hero-orbit-line hero-orbit-line--gold"
-              d="M350 150 C 550 250, 720 180, 760 450 C 790 680, 520 770, 390 720 C 240 670, 200 500, 340 400 C 480 300, 680 400, 720 550" 
-              stroke="url(#gradient-gold)" 
-              strokeWidth="1.5" 
-              opacity="0.6"
-            />
-            <path className="hero-orbit-line hero-orbit-line--blue"
-              d="M400 200 C 580 300, 750 250, 780 500 C 800 700, 550 800, 420 750 C 280 700, 250 550, 380 450 C 520 350, 700 450, 740 600" 
-              stroke="url(#gradient-blue)" 
-              strokeWidth="1" 
-              opacity="0.4"
-            />
-          </g>
-          <defs>
-            <linearGradient id="gradient-amber-blue" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#F59E0B" />
-              <stop offset="50%" stopColor="#2563EB" />
-              <stop offset="100%" stopColor="#F59E0B" />
-            </linearGradient>
-            <linearGradient id="gradient-gold" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#F59E0B" />
-              <stop offset="100%" stopColor="#FDE68A" />
-            </linearGradient>
-            <linearGradient id="gradient-blue" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#2563EB" />
-              <stop offset="100%" stopColor="#38BDF8" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
-
-      {/* Main Hero Content - Locked to left on both mobile and laptop, leaving the right side empty */}
-      <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 relative z-10 w-full my-0 sm:my-auto pt-2 pb-2.5 sm:py-4">
-        <div className="w-[60%] sm:w-full max-w-[60%] sm:max-w-2xl lg:max-w-3xl space-y-2 sm:space-y-5">
+        {/* ========================================================================= */}
+        {/* HERO ROW: Left Value Proposition & Right 3D Perspective Testimonials Hook */}
+        {/* ========================================================================= */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
           
-          {/* Tagline Pill */}
-          <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-0.5 sm:py-1.5 rounded-full bg-white/5 border border-white/10 text-[7px] sm:text-xs font-mono font-medium text-slate-300 backdrop-blur-sm">
-            <span className="w-1.5 h-1.5 rounded-full bg-brand-500 animate-pulse"></span>
-            <span className="truncate">ENGINEERING DIGITAL EXCELLENCE SINCE 2022</span>
-          </div>
-
-          {/* Primary Headline (Exact Brand Theme) */}
-          <h1 className="text-[17px] sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.18] font-sans">
-            {copy?.title ?? <>Software Solutions <br />That Create</>} <span className="text-brand-500">{copy?.highlight ?? "Real Value"}</span>
-          </h1>
-
-          {/* Subheadline */}
-          <p className="text-[8.5px] sm:text-base text-slate-300 leading-snug sm:leading-relaxed font-normal font-sans">
-            {copy?.summary ?? "A modern engineering studio delivering custom web, mobile, cloud architectures, and practical AI solutions with an uncompromising focus on quality, reliability, and client success."}
-          </p>
-
-          {/* Dual CTAs */}
-          <div className="pt-0.5 sm:pt-2 flex flex-row items-center gap-1.5 sm:gap-3.5">
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-1 sm:gap-2 px-2.5 sm:px-7 py-1.5 sm:py-3.5 rounded-full bg-brand-500 hover:bg-brand-600 text-obsidian-950 font-bold text-[8.5px] sm:text-sm tracking-wide uppercase transition-all shadow-md shadow-brand-500/25 hover:shadow-brand-500/40 hover:brightness-105 font-sans group shrink-0"
+          {/* LEFT COLUMN: Headings, Badge, CTAs, Trust Proof */}
+          <div className="lg:col-span-6 space-y-6 text-left">
+            
+            {/* Eyebrow Hook Badge: Software House & Architecture */}
+            <div
+              className="animate-hero-reveal inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-rose-50 border border-rose-200/80 text-rose-600 text-xs font-bold tracking-wide shadow-xs"
+              style={{ animationDelay: "60ms" }}
             >
-              <span>Get in Touch</span>
-              <ArrowRight className="w-2.5 h-2.5 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
+              <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+              <span className="font-mono text-[11px] uppercase tracking-wider font-extrabold">
+                ENTERPRISE SOFTWARE HOUSE &amp; INDUSTRIAL ARCHITECTURE
+              </span>
+            </div>
 
-            <Link
-              href="/services"
-              className="inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-7 py-1.5 sm:py-3.5 rounded-full bg-white/5 hover:bg-white/10 text-white border border-white/15 hover:border-white/30 font-semibold text-[8.5px] sm:text-sm tracking-wide transition-all backdrop-blur-sm font-sans shrink-0"
+            {/* Editorial Headline */}
+            <h1
+              className="animate-hero-reveal text-3xl sm:text-5xl lg:text-[3.65rem] font-black tracking-tight text-slate-950 leading-[1.12]"
+              style={{ animationDelay: "140ms" }}
             >
-              <span>Our Services</span>
-              <ChevronRight className="w-2.5 h-2.5 sm:w-4 sm:h-4 text-slate-400" />
-            </Link>
-          </div>
+              {copy ? (
+                <>
+                  {copy.title} <br />
+                  <span className="font-editorial italic font-normal text-amber-600">
+                    {copy.highlight}
+                  </span>
+                </>
+              ) : (
+                <>
+                  Flexible &amp; Scalable. <br />
+                  <span>Modern Software Solutions</span> <br />
+                  <span className="font-editorial italic font-normal text-amber-600">
+                    Engineered for Real Impact.
+                  </span>
+                </>
+              )}
+            </h1>
 
-          {/* Key Value Pillars - 90+ Projects Delivered */}
-          <div className="pt-2 sm:pt-5 grid grid-cols-3 gap-1.5 sm:gap-6 border-t border-white/10 w-full max-w-lg">
-            <div>
-              <div className="text-xs sm:text-2xl font-extrabold text-white font-sans">100%</div>
-              <div className="text-[6.5px] sm:text-xs text-slate-400 mt-0.5 font-sans leading-tight">Client IP Ownership</div>
-            </div>
-            <div>
-              <div className="text-xs sm:text-2xl font-extrabold text-brand-500 font-sans">90+</div>
-              <div className="text-[6.5px] sm:text-xs text-slate-400 mt-0.5 font-sans leading-tight">Projects Delivered</div>
-            </div>
-            <div>
-              <div className="text-xs sm:text-2xl font-extrabold text-blue-400 font-sans">Agile</div>
-              <div className="text-[6.5px] sm:text-xs text-slate-400 mt-0.5 font-sans leading-tight">Milestone Sprints</div>
-            </div>
-          </div>
+            {/* Subtitle */}
+            <p
+              className="animate-hero-reveal text-base sm:text-lg text-slate-600 leading-relaxed font-normal max-w-xl"
+              style={{ animationDelay: "220ms" }}
+            >
+              {copy?.summary ?? "A modern engineering studio delivering custom web, mobile, cloud architectures, and practical AI solutions with an uncompromising focus on quality, reliability, and client success."}
+            </p>
 
-        </div>
-      </div>
-
-      {/* Integrated Capabilities & Solutions Bar - Exactly 6 cards across in one row on all screen sizes */}
-      <div className="relative z-10 w-full pt-2 pb-3 sm:pt-4 sm:pb-5 border-t border-white/10 mt-3 sm:mt-auto bg-black/35 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-          <p className="text-[8px] sm:text-[11px] font-mono uppercase tracking-widest text-slate-400 text-center mb-1.5 sm:mb-3 font-semibold">
-            ENGINEERED WITH MODERN TECHNOLOGIES & BEST PRACTICES
-          </p>
-
-          <div className="grid grid-cols-6 gap-1 sm:gap-3 items-stretch">
-            {techStack.map((tech) => (
-              <div 
-                key={tech.name}
-                className="h-[48px] sm:h-[74px] flex flex-col justify-center text-center px-0.5 sm:px-2.5 py-1 sm:py-2 rounded-lg sm:rounded-xl bg-white/[0.03] border border-white/10 hover:border-brand-500/40 hover:bg-white/[0.06] transition-all group shadow-sm"
+            {/* CTAs */}
+            <div
+              className="animate-hero-reveal pt-2 flex flex-wrap items-center gap-4"
+              style={{ animationDelay: "300ms" }}
+            >
+              <Link
+                href="/estimator"
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[#061833] text-white hover:bg-slate-900 text-sm font-bold tracking-wide transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 group"
               >
-                <div className="text-[7.5px] sm:text-[13px] font-bold text-slate-200 group-hover:text-brand-400 transition-colors font-sans truncate w-full leading-tight">
-                  {tech.name}
+                <span>Scope Your Project</span>
+                <ArrowRight className="w-4 h-4 text-amber-400 group-hover:translate-x-1 transition-transform" />
+              </Link>
+
+              <Link
+                href="/services"
+                className="inline-flex items-center gap-3 text-slate-800 hover:text-slate-950 font-bold text-sm tracking-wide group transition-colors"
+              >
+                <span className="w-11 h-11 rounded-full bg-rose-500 text-white flex items-center justify-center shadow-md shadow-rose-500/30 group-hover:scale-105 transition-transform">
+                  <Play className="w-4 h-4 fill-white ml-0.5" />
+                </span>
+                <span>Explore Solutions</span>
+              </Link>
+            </div>
+
+            {/* Trust Proof Metrics */}
+            <div
+              className="animate-hero-reveal pt-4 border-t border-slate-200/80 flex flex-wrap items-center gap-6 sm:gap-8 text-xs sm:text-sm text-slate-600"
+              style={{ animationDelay: "380ms" }}
+            >
+              <div className="flex items-center gap-3">
+                <div className="flex -space-x-2">
+                  <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-amber-500 text-slate-950 font-bold text-[10px] ring-2 ring-white">HU</span>
+                  <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-blue-600 text-white font-bold text-[10px] ring-2 ring-white">FA</span>
+                  <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-emerald-600 text-white font-bold text-[10px] ring-2 ring-white">NU</span>
+                  <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-purple-600 text-white font-bold text-[10px] ring-2 ring-white">IT</span>
                 </div>
-                <div className="text-[6.5px] sm:text-[10px] text-slate-400 font-mono mt-0.5 truncate w-full">
-                  {tech.tag}
+                <div>
+                  <div className="font-bold text-slate-900 text-xs sm:text-sm flex items-center gap-1.5">
+                    <span className="text-amber-500 flex">
+                      <Star className="w-3.5 h-3.5 fill-amber-500" />
+                    </span>
+                    4.92 / 5.0 Rating · Trusted Engineering Partner
+                  </div>
+                  <div className="text-[11px] text-slate-500">Delivering across US, EMEA &amp; APAC timezones</div>
                 </div>
               </div>
-            ))}
+
+              <div className="flex items-center gap-2 text-xs font-mono text-slate-700 border-l border-slate-200 pl-6">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>100% Day-One IP Ownership</span>
+              </div>
+            </div>
+
           </div>
+
+          {/* RIGHT COLUMN: 3D Perspective Animated Verified Testimonials Marquee */}
+          <div
+            className="animate-hero-reveal lg:col-span-6 relative w-full max-w-full flex items-center justify-center overflow-hidden"
+            style={{ animationDelay: "180ms" }}
+          >
+            
+            {/* Subtle Concentric Radar Grid Rings Behind 3D Stage */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="w-[280px] sm:w-[420px] lg:w-[480px] h-[280px] sm:h-[420px] lg:h-[480px] rounded-full border border-slate-300/60 opacity-60"></div>
+              <div className="absolute w-[200px] sm:w-[300px] lg:w-[360px] h-[200px] sm:h-[300px] lg:h-[360px] rounded-full border border-dashed border-slate-300/70"></div>
+            </div>
+
+            {/* 3D Testimonials Showcase */}
+            <Hero3DTestimonials />
+
+          </div>
+
         </div>
+
       </div>
 
     </section>

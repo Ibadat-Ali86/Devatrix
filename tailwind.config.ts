@@ -35,15 +35,28 @@ const config: Config = {
           emerald: "#10B981",
           violet: "#8B5CF6",
         },
+        background: "var(--background, #FAF9F6)",
+        foreground: "var(--foreground, #142238)",
+        primary: {
+          DEFAULT: "#F59E0B",
+          foreground: "#061833",
+        },
+        muted: {
+          DEFAULT: "#e2e8f0",
+          foreground: "#64748b",
+        },
       },
       fontFamily: {
-        sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
+        sans: ["var(--font-plus-jakarta)", "var(--font-geist-sans)", "system-ui", "sans-serif"],
+        serif: ["var(--font-newsreader)", "Newsreader", "Playfair Display", "Georgia", "serif"],
         mono: ["var(--font-geist-mono)", "monospace"],
       },
       animation: {
         "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         "float-slow": "float 6s ease-in-out infinite",
         "glow-slow": "glow 5s ease-in-out infinite alternate",
+        marquee: "marquee var(--duration, 40s) linear infinite",
+        "marquee-vertical": "marquee-vertical var(--duration, 40s) linear infinite",
       },
       keyframes: {
         float: {
@@ -53,6 +66,14 @@ const config: Config = {
         glow: {
           "0%": { opacity: "0.4", filter: "drop-shadow(0 0 15px rgba(245, 158, 11, 0.2))" },
           "100%": { opacity: "0.8", filter: "drop-shadow(0 0 35px rgba(245, 158, 11, 0.5))" },
+        },
+        marquee: {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(calc(-100% - var(--gap, 1rem)))" },
+        },
+        "marquee-vertical": {
+          from: { transform: "translateY(0)" },
+          to: { transform: "translateY(calc(-100% - var(--gap, 1rem)))" },
         },
       },
     },
